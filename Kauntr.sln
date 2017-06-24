@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kauntr.Ui.Web", "Kauntr.Ui.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kauntr.Core", "Kauntr.Core\Kauntr.Core.csproj", "{36604277-DD9C-49D1-84C8-CD23E78D282A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kauntr.Tests", "Kauntr.Tests\Kauntr.Tests.csproj", "{8A95E478-CC50-4513-AFBA-5B2BD681D2D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{36604277-DD9C-49D1-84C8-CD23E78D282A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36604277-DD9C-49D1-84C8-CD23E78D282A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36604277-DD9C-49D1-84C8-CD23E78D282A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A95E478-CC50-4513-AFBA-5B2BD681D2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A95E478-CC50-4513-AFBA-5B2BD681D2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A95E478-CC50-4513-AFBA-5B2BD681D2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A95E478-CC50-4513-AFBA-5B2BD681D2D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
