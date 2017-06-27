@@ -1,0 +1,43 @@
+﻿#wrapper {
+    position: absolute;
+    top: 50%;
+    margin-top: -300px;
+    left: 0;
+    width: 100%;
+}
+
+#error-message {
+    font-size: 55px;
+    line-height: 74px;
+    font-weight: bold;
+}
+
+#error-code {
+    font-size: 144px;
+    line-height: 189px;
+    letter-spacing: -2px;
+}
+
+@media handheld, only screen and (max-width: 767px) {
+    #error-message {
+        font-size: 43px;
+        line-height: 59px;
+    }
+
+    #error-code {
+        font-size: 89px;
+        line-height: 118px;
+    }
+}
+
+@media handheld, only screen and (max-width: 500px) {
+    #error-message {
+        font-size: 34px;
+        line-height: 48px;
+    }
+
+    #error-code {
+        font-size: 70px;
+        line-height: 94px;
+    }
+}

@@ -1,0 +1,283 @@
+﻿/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* CSS CORE 
+   font-size/line-height based on a golden ratio calculation    
+*/
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    background-color: #F4F5F5;
+    color: #3B3B3B;
+    -webkit-appearance: none;
+    text-align: center;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: bold;
+    text-rendering: optimizelegibility;
+    letter-spacing: -1px;
+}
+
+h1, h2, .large-text {
+    font-size: 55px;
+    line-height: 74px;
+    letter-spacing: -2px;
+}
+
+h3, h4 {
+    font-size: 23px;
+    line-height: 37px;
+    text-transform: lowercase;
+}
+
+h5 {
+    font-size: 18px;
+    line-height: 29px;
+}
+
+b {
+    font-weight: bold;
+}
+
+.underlined-link {
+    border-bottom: 1px dotted;
+}
+
+.small-text {
+    font-size: 11px;
+    line-height: 18px;
+}
+
+@media handheld, only screen and (max-width: 767px) {
+
+}
+
+@media handheld, only screen and (max-width: 480px) {
+
+}
+
+img {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+a {
+    color: #3b3b3b;
+    text-decoration: none;
+    outline: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #FF6600;
+    cursor: pointer;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+i {
+    font-style: italic;
+}
+
+::selection {
+    background: #FFCC00;
+}
+
+::-moz-selection {
+    background: #FFCC00;
+}
+
+
+/* CSS FORM CORE */
+label {
+    font-weight: bold;
+}
+
+fieldset {
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+    border: 1px solid #ccc;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: -0.2em;
+    margin-bottom: 1em;
+}
+
+fieldset, #IE8#HACK {
+    padding-top: 1.4em;
+}
+
+legend, #IE8#HACK {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+input[type=text], input[type=email], input[type=password], input.text, input.title, textarea {
+    outline: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    width: 400px;
+    font-weight: bold;
+    font-size: 34px;
+    padding: 14px 7px;
+    border: 3px solid #bbb;
+    text-align: center;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus {
+    border-color: #666;
+    background-color: #fff;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+select {
+    background-color: #fff;
+    border-width: 2px;
+    border-style: solid;
+}
+
+input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
+    margin: 0.5em 0;
+    padding: 14px 7px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input.text, input.title {
+    padding: 13px 7px;
+}
+
+input.title {
+    font-size: 1.5em;
+}
+
+textarea {
+    width: 300px;
+    height: 70px;
+    padding: 5px;
+}
+
+form.inline p {
+    margin-bottom: 0;
+}
+
+.button {
+    background: #888;
+    border: none;
+    text-transform: lowercase;
+    color: #F4F5F5;
+    font-weight: bold;
+    margin: 7px 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-appearance: none;
+}
+
+.button:hover {
+    background: #FF6600;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    background-color: #888;
+}
+
+.button-main {
+    font-size: 37px;
+    line-height: 59px;
+    letter-spacing: -2px;
+    padding: 7px 35px;
+}
+
+.button-mini {
+    font-size: 14px;
+    padding: 11px 25px;
+}
+
+.success-message {
+    background-color: #5DA30C;
+    color: #fff;
+    width: 406px;
+    padding: 9px;
+}
+
+
+/* CSS3 Transitions */
+a, .button {
+    -o-transition: color .2s ease-out, background .5s ease-in;
+    -ms-transition: color .2s ease-out, background .5s ease-in;
+    -moz-transition: color .2s ease-out, background .5s ease-in;
+    -webkit-transition: color .2s ease-out, background .2s ease-out;
+    transition: color .2s ease-out, background .2s ease-out;
+}
+
+/* Validations */
+.field-validation-error {
+    color: #f00;
+}
+
+.validation-summary-errors ul li {
+    background-color: #f00;
+    color: #fff;
+    padding: 7px;
+}

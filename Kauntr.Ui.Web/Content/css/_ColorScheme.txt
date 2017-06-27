@@ -1,0 +1,8 @@
+﻿#000000 - Black
+#FF6600 - Orange
+#CC6600 - Dark Orange
+#3B3B3B - Dark Gray
+#F4F5F5 - Light Gray (for background)
+#888888 - Light Gray (for less important text)
+#FFCC00 - Yellow (for text-selection highlight)
+#CACACA - Gray for borders (cool)

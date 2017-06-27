@@ -1,6 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
 
+import Header from "./Header";
+
 export class App extends React.Component<any, any> {
     componentWillMount() {
         console.log("Will load the user state from the server");
@@ -11,8 +13,10 @@ export class App extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <div>This is going to be the menu</div>
-                {this.props.children}
+                <Header />
+                <div id="container" className="container">
+                    {this.props.children}
+                </div>
             </div>
         );
     }

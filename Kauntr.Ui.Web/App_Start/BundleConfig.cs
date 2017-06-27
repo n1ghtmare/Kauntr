@@ -10,9 +10,13 @@ namespace Kauntr.Ui.Web {
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css/styles").Include(
+                "~/Content/css/font-awesome.css",
+                "~/Content/css/base.css",
+                "~/Content/css/grid1140/ie.css",
+                "~/Content/css/grid1140/1140.css",
+                "~/Content/css/animate-custom.css",
+                "~/Content/css/site.css"));
         }
     }
 }

@@ -1,0 +1,442 @@
+﻿/* ============================== */
+/* ! Layout for desktop version   */
+/* ============================== */
+
+/* ### Basic Layout ### */
+
+input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
+    text-align: center;
+}
+
+#header {
+    color: #f5f5f5;
+    background-color: #3b3b3b;
+    font-size: 34px;
+    line-height: 48px;
+    letter-spacing: -2px;
+    text-transform: lowercase;
+    font-weight: bold;
+    position: fixed;
+    width: 100%;
+    display: block;
+    margin-bottom: 30px;
+    z-index: 999;
+}
+
+#header-logo {
+    text-align: center;
+    white-space: nowrap;
+}
+
+#header-menu > li {
+    float: right;
+    margin-left: 15px;
+
+}
+
+#header-menu > li a {
+    display: block;
+    padding: 0 5px;
+    color: #f5f5f5;
+}
+
+#header-menu > li a:hover {
+    color: #FF6600;
+}
+
+.sub-menu {
+    margin: 0px;
+    display: none;
+}
+
+#content {
+    padding-top: 70px;
+    text-align: center;
+}
+
+.main-section {
+    font-size: 43px;
+    line-height: 59px;
+    letter-spacing: -2px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* ### Notifications ### */
+#notifications-indicator {
+    background: #f00;
+    padding-right: 10px !important;
+}
+
+#notifications-indicator:hover {
+    background: #3b3b3b;
+}
+
+#notifications, #notifications-live {
+    text-transform: none;
+    background-color: #FFCC00;
+    color: #3b3b3b;
+}
+
+#notifications-live {
+    min-height: 30px;
+    padding: 0 15px;
+}
+
+
+/* ### Index ### */
+#btn-scrollup {
+    display: none;
+    opacity: 0.3;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+#btn-scrollup:hover {
+    opacity: 1;
+}
+
+input.text-mid {
+    width: 450px;
+}
+
+input.text-main {
+    font-size: 43px;
+    font-weight: bold;
+    padding: 14px 7px;
+}
+
+input.text-main-desc {
+    width: 500px;
+}
+
+input.text-main-mid {
+    width: 110px;
+}
+
+input.text-main-dur {
+    width: 150px;
+}
+
+input.text-main-small {
+    width: 100px;
+}
+
+select.dropdown-main {
+    font-size: 43px;
+    font-weight: bold;
+    padding: 13px;
+    border: 3px solid #bbb;
+}
+
+#countdown-new {
+    margin: 50px 0;
+    display: none;
+}
+
+#countdown-total {
+    margin: 55px 0;
+}
+
+#countdown-pagination {
+    margin-bottom: 30px;
+}
+
+#countdown-pagination ul li {
+    display: inline;
+    font-size: 55px;
+    padding: 0px 15px;
+}
+
+.page-active a {
+    color: #ff6600 !important;
+}
+
+#countdown-collection {
+    margin: 50px 0;
+}
+
+#countdown-date {
+    display: none;
+}
+
+.text-small {
+    font-size: 14px;
+    line-height: 27px;
+    letter-spacing: 0px;
+    font-weight: normal;
+}
+
+.text-medium {
+    font-size: 27px;
+    line-height: 40px;
+    letter-spacing: -1px;
+
+}
+
+.countdown {
+    font-size: 43px;
+    line-height: 59px;
+    letter-spacing: -2px;
+    font-weight: bold;
+    margin-bottom: 90px;
+}
+
+.countdown-vote a {
+    padding: 0 30px;
+    border-bottom: 0px;
+    font-size: 27px;
+    margin: 0 15px;
+}
+
+.vote-up:hover {
+    color: #339900;
+}
+
+.vote-down:hover {
+    color: #f00;
+}
+
+.voted {
+    color: #ff6600;
+}
+
+.voted:hover {
+    color: #ff6600;
+}
+
+.auth-message {
+    display: none;
+}
+
+.comments-sandbox {
+    max-width: 700px;
+    margin: 0 auto;
+    display: none;
+}
+
+.lame {
+    opacity: 0.7;
+    z-index: -999px !important;
+}
+
+.unpopular {
+    opacity: 0.5;
+}
+
+.rubbish {
+    opacity: 0.3;
+}
+
+/*
+    Comments
+--------------------------------------
+*/
+
+.comment {
+    border-bottom: 1px dotted #bbb;
+    padding: 15px 11px;
+    background: #efefef;
+}
+
+.comment-text {
+    margin-bottom: 15px;
+}
+
+.comment-score {
+    font-weight: bold;
+}
+
+.comment-flag {
+    display: none;
+    margin-left: 5px;
+}
+
+.comment-vote a {
+    margin: 0 15px;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.comment-diamonds {
+    margin-bottom: 15px;
+}
+
+.text-comment {
+    font-size: 15px;
+    line-height: 24px;
+    width: 97%;
+    overflow: auto;
+    resize: vertical;
+}
+
+/*
+---------------------------------------
+*/
+
+
+
+/*
+    Search
+---------------------------------------
+*/
+.search-query {
+    border: none !important;
+    color: #3B3B3B;
+    position: static;
+    display: block;
+    width: 100% !important;
+    padding: 7px 0 !important;
+    top: 0 !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    -webkit-appearance:none;
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -ms-border-radius: 0 !important;
+    border-radius: 0 !important;
+    font-size: 55px !important;
+    letter-spacing: -3px !important;
+}
+
+/*
+---------------------------------------
+*/
+
+
+/*
+    Global Validation
+--------------------------------------
+*/
+input.input-validation-error {
+    border-color: #f00;
+}
+
+textarea.input-validation-error {
+    border-color: #f00;
+}
+
+/*
+---------------------------------------
+*/
+
+@media handheld, only screen and (max-width: 767px) {
+    #content {
+        padding-top: 110px;
+    }
+
+    #header {
+        text-align: center;
+    }
+
+    #header-logo {
+        text-align: center;
+    }
+
+    #header-menu {
+        display: table;
+        margin: 0 auto;
+        z-index: 9999;
+    }
+
+    #header-menu > li {
+        margin: 0 3px;
+    }
+
+    #countdown-new {
+        margin: 50px 0;
+        display: none;
+    }
+
+    #countdown-collection {
+        margin: 50px 0;
+    }
+
+    #countdown-date {
+        display: none;
+    }
+
+    .text-small {
+        font-size: 13px;
+        line-height: 27px;
+    }
+
+    .countdown {
+        font-size: 34px;
+        line-height: 47px;
+    }
+
+    .main-section {
+        font-size: 34px;
+        line-height: 47px;
+    }
+
+    button.button-main {
+        font-size: 34px;
+        line-height: 47px;
+    }
+
+    select.dropdown-main {
+        font-size: 34px;
+    }
+
+    input.text-main {
+        font-size: 34px;
+    }
+
+    input.input-validation-error {
+        border-color: #f00;
+    }
+}
+
+@media handheld, only screen and (max-width: 500px) {
+    input[type=text], input[type=email], input[type=password], input.text, input.title, textarea {
+        width: 90%;
+    }
+
+    select {
+        width: 95%;
+    }
+
+    #content {
+        padding-top: 200px;
+    }
+
+    .countdown {
+        margin: 70px 10px;
+    }
+
+    #header {
+        position: absolute;
+    }
+
+    #header-menu {
+        display: inline;
+    }
+
+    #header-menu > li {
+        float: none;
+        margin: 0 3px;
+    }
+
+    #header-menu > li a {
+        display: block;
+        padding: 0 5px;
+        color: #f5f5f5;
+    }
+}
+
+/* ========================================== */
+/* ! Provide higher res assets for iPhone 4   */
+/* ========================================== */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+
+}
