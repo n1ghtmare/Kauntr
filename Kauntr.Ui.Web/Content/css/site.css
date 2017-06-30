@@ -45,12 +45,12 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 }
 
 .sub-menu {
-    margin: 0px;
+    margin: 0;
     display: none;
 }
 
-#content {
-    padding-top: 70px;
+.main-content {
+    padding-top: 110px;
     text-align: center;
 }
 
@@ -64,6 +64,25 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .hidden {
     display: none;
 }
+
+
+
+/* ### Loader ### */
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.loader-message {
+    padding: 15px 0;
+}
+
 
 
 /* ### Notifications ### */

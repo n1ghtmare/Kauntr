@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as classNames from "classnames";
 
 import {
     invalidateSharedContext,
@@ -11,6 +10,7 @@ import AppState from "../interfaces/AppState";
 import SharedContextState from "../interfaces/SharedContextState";
 
 import Header from "./Header";
+import LoadingIndicator from "./LoadingIndicator";
 
 export class App extends React.Component<SharedContextState, any> {
     componentWillMount() {
@@ -19,14 +19,14 @@ export class App extends React.Component<SharedContextState, any> {
         dispatch(fetchSharedContextIfNeeded());
     }
 
-    renderContent() {
+    renderContent(): any {
         if (this.props.isLoadingData) {
             return null;
         }
         return (
             <div className="animated fadeIn">
                 <Header />
-                <div id="container" className="container">
+                <div className="container main-content">
                     {this.props.children}
                 </div>
             </div>
@@ -36,9 +36,7 @@ export class App extends React.Component<SharedContextState, any> {
     render() {
         return (
             <div>
-                <div className={classNames({ "hidden": !this.props.isLoadingData })}>
-                    Loading data, please wait ...
-                </div>
+                <LoadingIndicator isActive={this.props.isLoadingData} />
                 {this.renderContent()}
             </div>
         );

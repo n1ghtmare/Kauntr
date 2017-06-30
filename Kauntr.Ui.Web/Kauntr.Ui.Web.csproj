@@ -185,6 +185,11 @@
     <Content Include="Content\images\KauntrLogo4.png" />
     <Content Include="Content\images\KauntrLogo5.png" />
     <Content Include="Content\images\KauntrLogo6.png" />
+    <Content Include="Content\images\loader-pendulum-o.gif" />
+    <Content Include="Content\images\loader-pendulum-t.gif" />
+    <Content Include="Content\images\loader-pendulum.gif" />
+    <Content Include="Content\images\loader-square-o.gif" />
+    <Content Include="Content\images\loader-square.gif" />
     <Content Include="dev-server.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
