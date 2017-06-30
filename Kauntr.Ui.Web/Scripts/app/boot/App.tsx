@@ -10,6 +10,9 @@ import { Provider } from "react-redux";
 
 import rootReducer from "../reducers/Root";
 
+// TODO - Hookup the PrivateRoute
+import PrivateRoute from "./PrivateRoute";
+
 import App from "../components/App";
 import CountdownList from "../components/CountdownList";
 import CountdownDetails from "../components/CountdownDetails";
@@ -25,19 +28,6 @@ const createStoreWithMiddleware = applyMiddleware(
     createLogger
 )(createStore);
 const store = createStoreWithMiddleware(rootReducer);
-
-// TODO - Hookup to redux and test with the state passed from the store -> isAuthenticated? (use for routes that need to be private)
-class PrivateRoute extends React.Component<any, any> {
-    render() {
-        return (
-            <Route {...this.props} render={props => (
-                this.props.isAuthenticated
-                    ? <this.props.component {...props} />
-                    : <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-            )} />
-        );
-    }
-}
 
 const RouterLayout = () => (
     <Provider store={store}>

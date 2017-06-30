@@ -9,12 +9,23 @@ namespace Kauntr.Ui.Web.Controllers {
             // simulate work
             await Task.Delay(3000);
 
-            var model = new SharedContextViewModel {
+            SharedContextViewModel model = GetSharedContextViewModel(token);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public SharedContextViewModel GetSharedContextViewModel(int token) {
+            if (!HttpContext.User.Identity.IsAuthenticated) {
+                return new SharedContextViewModel {
+                    Token = token
+                };
+            }
+
+            // TODO - Fetch from db with actual data
+            return new SharedContextViewModel {
                 CurrentUserId = 123,
                 NotificationsCount = 10000,
                 Token = token
             };
-            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }
