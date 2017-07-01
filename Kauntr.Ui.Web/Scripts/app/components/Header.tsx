@@ -1,8 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Link } from "react-router";
+import { connect } from "react-redux";
 import * as classNames from "classnames";
 
-export default class Header extends React.Component<any, any> {
+import AppState from "../interfaces/AppState";
+import SharedContextState from "../interfaces/SharedContextState";
+
+export class Header extends React.Component<SharedContextState, any> {
     constructor() {
         super();
 
@@ -28,7 +33,7 @@ export default class Header extends React.Component<any, any> {
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
-        if(this.state.isInSearchMode && !prevState.isInSearchMode) {
+        if (this.state.isInSearchMode && !prevState.isInSearchMode) {
             this.searchInput.focus();
         }
     }
@@ -37,45 +42,42 @@ export default class Header extends React.Component<any, any> {
 
     private handleSearchClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        this.setState({isInSearchMode: !this.state.isInSearchMode, searchQuery: ""});
+        this.setState({ isInSearchMode: !this.state.isInSearchMode, searchQuery: "" });
     }
 
     render() {
+        let isAuthenticated: boolean = this.props.currentUserId !== null;
         return (
             <div id="header">
-                <div className={classNames({"hidden": !this.state.isInSearchMode})}>
-                    <input type="text" className="search-query" value={this.state.searchQuery} onChange={(e) => this.setState({searchQuery: e.target.value})} ref={(input) => this.searchInput = input } />
+                <div className={classNames({ "hidden": !this.state.isInSearchMode })}>
+                    <input type="text" className="search-query" value={this.state.searchQuery} onChange={(e) => this.setState({ searchQuery: e.target.value })} ref={(input) => this.searchInput = input} />
                 </div>
-                <div id="notifications-live" className="text-small">
+                {/*<div id="notifications-live" className="text-small">
                     <a className="underlined-link" href="#">Dimitar Dimitrov and 15 others commented on your countdown</a> - about a minute ago <a id="notifications-live-close-link" className="pull-right" href="#"><i className="fa fa-times"></i></a>
-                </div>
+                </div>*/}
                 <div className="container">
                     <div className="row">
                         <div className="threecol">
-                            <div id="header-logo">kauntr // @title</div>
+                            <div id="header-logo">kauntr // {this.props.title}</div>
                         </div>
                         <div className="ninecol last">
                             <ul id="header-menu">
-                                <li>
-                                    <a id="notifications-indicator" href="#">12</a>
-                                </li>
-                                <li>
-                                    <a href="#" onClick={this.handleSearchClick}>search</a>
-                                </li>
-                                <li><a href="#">login</a></li>
-                                <li>
+                                <li><Link to="/notifications" className="notifications-indicator">13</Link></li>
+                                <li><a href="#" onClick={this.handleSearchClick}>search</a></li>
+                                <li><Link to="/login">login</Link></li>
+                                <li className={classNames({"hidden": !isAuthenticated})}>
                                     <a className="has-sub-menu" href="#">account</a>
                                     <ul className="sub-menu">
-                                        <li><a href="#">settings</a></li>
-                                        <li><a id="logoff-link" href="#">logoff</a></li>
+                                        <li><Link to="/account">settings</Link></li>
+                                        <li><Link to="/account/logoff">logoff</Link></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a className="has-sub-menu" href="#">countdowns</a>
                                     <ul className="sub-menu">
-                                        <li><a href="#">Latest</a></li>
-                                        <li><a href="#">Trending</a></li>
-                                        <li><a href="#">Mine</a></li>
+                                        <li><Link to="/countdowns/latest">Latest</Link></li>
+                                        <li><Link to="/countdowns/trending">Trending</Link></li>
+                                        <li className={classNames({"hidden": !isAuthenticated})}><Link to="/countdowns/mine">Mine</Link></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -86,3 +88,9 @@ export default class Header extends React.Component<any, any> {
         );
     }
 }
+
+function mapStateToProps(state: AppState, ownProps: any): SharedContextState {
+    return state.sharedContext;
+};
+
+export default connect(mapStateToProps)(Header);

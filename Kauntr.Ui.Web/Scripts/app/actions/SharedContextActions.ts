@@ -6,7 +6,8 @@ import {
     INVALIDATE_SHARED_CONTEXT,
     LOAD_SHARED_CONTEXT,
     LOAD_SHARED_CONTEXT_SUCCESS,
-    LOAD_SHARED_CONTEXT_FAILURE
+    LOAD_SHARED_CONTEXT_FAILURE,
+    UPDATE_SHARED_CONTEXT_TITLE
 } from "../constants/ActionTypes";
 
 export function invalidateSharedContext() {
@@ -62,5 +63,12 @@ function loadSharedContextFailure(error: string) {
     return {
         type: LOAD_SHARED_CONTEXT_FAILURE,
         error
+    };
+}
+
+export function updateSharedContextTitle(title: string) {
+    return {
+        type: UPDATE_SHARED_CONTEXT_TITLE,
+        title
     };
 }

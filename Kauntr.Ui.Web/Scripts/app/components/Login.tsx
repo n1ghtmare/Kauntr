@@ -1,6 +1,18 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
-export default class Login extends React.Component<any, any> {
+import {
+    updateSharedContextTitle
+} from "../actions/SharedContextActions";
+
+import AppState from "../interfaces/AppState";
+import SharedContextState from "../interfaces/SharedContextState";
+
+export class Login extends React.Component<any, any> {
+    componentDidMount() {
+        this.props.dispatch(updateSharedContextTitle("login"));
+    }
+
     render() {
         return (
             <div>
@@ -9,3 +21,5 @@ export default class Login extends React.Component<any, any> {
         );
     }
 }
+
+export default connect()(Login);

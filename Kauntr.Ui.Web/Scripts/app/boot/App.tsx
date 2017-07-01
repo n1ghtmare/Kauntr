@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
+import { Router, Route, Redirect, hashHistory } from "react-router";
 
 import { createStore, applyMiddleware } from "redux";
 
@@ -10,8 +10,6 @@ import { Provider } from "react-redux";
 
 import rootReducer from "../reducers/Root";
 
-import { PrivateRoute } from "./PrivateRoute";
-
 import App from "../components/App";
 import CountdownList from "../components/CountdownList";
 import CountdownDetails from "../components/CountdownDetails";
@@ -20,6 +18,7 @@ import Login from "../components/Login";
 import Account from "../components/Account";
 import AccountDetails from "../components/AccountDetails";
 import NotificationList from "../components/NotificationList";
+import AuthorizationContainer from "../components/AuthorizationContainer";
 
 // Redux Setup
 const createStoreWithMiddleware = applyMiddleware(
@@ -28,27 +27,25 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
-const RouterLayout = () => (
+const routes = (
     <Provider store={store}>
-        <App>
-            <Switch>
+        <Router history={hashHistory}>
+            <Route component={App}>
+                <Route component={AuthorizationContainer}>
+                    <Route component={CountdownList} path="/countdowns/mine" />
+                    <Route component={CountdownForm} path="/countdown/create" />
+                    <Route component={Account} path="/account" />
+                    <Route component={NotificationList} path="/notifications" />
+                </Route>
+                <Redirect from="/" to="countdowns/trending" />
                 <Route component={CountdownList} path="/countdowns/:category" />
                 <Route component={CountdownDetails} path="/countdown/:id" />
-                <PrivateRoute component={CountdownForm} path="/countdown/create" />
                 <Route component={Login} path="/login" />
-                <PrivateRoute component={Account} path="/account" />
                 <Route component={AccountDetails} path="/account/:id" />
-                <PrivateRoute component={NotificationList} path="/notifications" />
-                <Redirect from="/" to="countdown" />
-            </Switch>
-        </App>
-    </Provider>
-);
 
-const routes = (
-    <HashRouter>
-        <RouterLayout />
-    </HashRouter>
+            </Route>
+        </Router>
+    </Provider>
 );
 
 ReactDOM.render(routes, document.getElementById("app-container"));

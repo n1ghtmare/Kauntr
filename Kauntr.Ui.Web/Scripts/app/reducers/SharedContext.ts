@@ -4,7 +4,8 @@ import {
     INVALIDATE_SHARED_CONTEXT,
     LOAD_SHARED_CONTEXT,
     LOAD_SHARED_CONTEXT_SUCCESS,
-    LOAD_SHARED_CONTEXT_FAILURE
+    LOAD_SHARED_CONTEXT_FAILURE,
+    UPDATE_SHARED_CONTEXT_TITLE
 } from "../constants/ActionTypes";
 
 interface SharedContextAction {
@@ -12,13 +13,15 @@ interface SharedContextAction {
     token?: number;
     json?: any;
     error?: string;
+    title?: string;
 }
 
 export const initialState: SharedContextState = {
     isLoadingData: false,
     isInvalidated: true,
     currentUserId: null,
-    notificationsCount: null
+    notificationsCount: null,
+    title: null
 };
 
 export default function sharedContext(state = initialState, action: SharedContextAction) {
@@ -49,6 +52,11 @@ export default function sharedContext(state = initialState, action: SharedContex
                 isInvalidated: true,
                 isLoadingData: false,
                 error: action.error
+            };
+        case UPDATE_SHARED_CONTEXT_TITLE:
+            return {
+                ...state,
+                title: action.title
             };
         default:
             return state;

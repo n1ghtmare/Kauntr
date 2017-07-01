@@ -1,5 +1,5 @@
 import * as React from "react";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 
 import {
     invalidateSharedContext,
@@ -17,6 +17,17 @@ export class App extends React.Component<SharedContextState, any> {
         let { dispatch } = this.props;
         dispatch(invalidateSharedContext());
         dispatch(fetchSharedContextIfNeeded());
+    }
+
+    componentDidUpdate(prevProps: SharedContextState) {
+        const isLoggingOut = prevProps.currentUserId !== null && this.props.currentUserId === null;
+        const isLoggingIn = prevProps.currentUserId === null && this.props.currentUserId !== null;
+
+        if (isLoggingIn) {
+            // navigate to returnUrl and clear returnUrl in store
+        } else if (isLoggingOut) {
+            // do any kind of cleanup or post-logout redirection here
+        }
     }
 
     renderContent(): any {

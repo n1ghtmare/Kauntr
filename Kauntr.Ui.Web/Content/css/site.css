@@ -86,12 +86,12 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 /* ### Notifications ### */
-#notifications-indicator {
+.notifications-indicator {
     background: #f00;
     padding-right: 10px !important;
 }
 
-#notifications-indicator:hover {
+.notifications-indicator:hover {
     background: #3b3b3b;
 }
 
