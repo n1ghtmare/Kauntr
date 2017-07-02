@@ -1,5 +1,5 @@
 import * as React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import {
     updateSharedContextTitle
@@ -15,8 +15,14 @@ export class Login extends React.Component<any, any> {
 
     render() {
         return (
-            <div>
-                This is the Login Component
+            <div className="main-section">
+                <div>
+                    <div>Awesome, you're almost there</div>
+                    <div>login using your email</div>
+                    <div className="text-small">(yeah, we don't use passwords)</div>
+                    <input type="text" className="text-main text-main-desc" placeholder="email" />
+                </div>
+                <button className="button button-main">Login</button>
             </div>
         );
     }

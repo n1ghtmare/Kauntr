@@ -52,9 +52,6 @@ export class Header extends React.Component<SharedContextState, any> {
                 <div className={classNames({ "hidden": !this.state.isInSearchMode })}>
                     <input type="text" className="search-query" value={this.state.searchQuery} onChange={(e) => this.setState({ searchQuery: e.target.value })} ref={(input) => this.searchInput = input} />
                 </div>
-                {/*<div id="notifications-live" className="text-small">
-                    <a className="underlined-link" href="#">Dimitar Dimitrov and 15 others commented on your countdown</a> - about a minute ago <a id="notifications-live-close-link" className="pull-right" href="#"><i className="fa fa-times"></i></a>
-                </div>*/}
                 <div className="container">
                     <div className="row">
                         <div className="threecol">
