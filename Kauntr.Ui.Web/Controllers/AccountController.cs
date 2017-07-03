@@ -12,10 +12,12 @@ namespace Kauntr.Ui.Web.Controllers {
     public class AccountController : Controller {
         private readonly IAccountRepository _accountRepository;
         private readonly IAuthenticationTokenRepository _authenticationTokenRepository;
+        private readonly IHttpContextWrapper _httpContextWrapper;
 
-        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository) {
+        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IHttpContextWrapper httpContextWrapper) {
             _accountRepository = accountRepository;
             _authenticationTokenRepository = authenticationTokenRepository;
+            _httpContextWrapper = httpContextWrapper;
         }
 
         public ActionResult Index() {
@@ -33,30 +35,28 @@ namespace Kauntr.Ui.Web.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model) {
-            if (!HttpContext.User.Identity.IsAuthenticated && ModelState.IsValid) {
-                Account account = await _accountRepository.GetByEmailAsync(model.Email);
-
-                if (account == null) {
-                    await RegisterAccountAsync(model);
-                }
-                await CreateAuthenticationTokenAsync(account);
+            if (!_httpContextWrapper.CurrentUserIsAuthenticated && ModelState.IsValid) {
+                Account account = await _accountRepository.GetByEmailAsync(model.Email) ?? await RegisterAccountAsync(model);
+                AuthenticationToken authenticationToken = await CreateAuthenticationTokenAsync(account);
 
                 // TODO - Email the user here ...
+
                 return new EmptyResult();
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
-        private async Task RegisterAccountAsync(LoginViewModel model) {
+        private async Task<Account> RegisterAccountAsync(LoginViewModel model) {
             var account = new Account {
                 Email = model.Email,
                 CreatedOn = DateTime.UtcNow,
                 IsAutoSetup = true
             };
             await _accountRepository.CreateAsync(account);
+            return account;
         }
 
-        private async Task CreateAuthenticationTokenAsync(Account account) {
+        private async Task<AuthenticationToken> CreateAuthenticationTokenAsync(Account account) {
             var authenticationToken = new AuthenticationToken {
                 AccountId = account.Id,
                 Token = GenerateRandomCryptoToken(),
@@ -65,6 +65,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 IsUsed = false
             };
             await _authenticationTokenRepository.CreateAsync(authenticationToken);
+            return authenticationToken;
         }
 
         private static string GenerateRandomCryptoToken() {
