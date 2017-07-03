@@ -12,12 +12,12 @@ namespace Kauntr.Ui.Web.Controllers {
     public class AccountController : Controller {
         private readonly IAccountRepository _accountRepository;
         private readonly IAuthenticationTokenRepository _authenticationTokenRepository;
-        private readonly IHttpContextWrapper _httpContextWrapper;
+        private readonly IContextService _contextService;
 
-        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IHttpContextWrapper httpContextWrapper) {
+        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IContextService contextService) {
             _accountRepository = accountRepository;
             _authenticationTokenRepository = authenticationTokenRepository;
-            _httpContextWrapper = httpContextWrapper;
+            _contextService = contextService;
         }
 
         public ActionResult Index() {
@@ -35,7 +35,7 @@ namespace Kauntr.Ui.Web.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model) {
-            if (!_httpContextWrapper.CurrentUserIsAuthenticated && ModelState.IsValid) {
+            if (!_contextService.CurrentUserIsAuthenticated && ModelState.IsValid) {
                 Account account = await _accountRepository.GetByEmailAsync(model.Email) ?? await RegisterAccountAsync(model);
                 AuthenticationToken authenticationToken = await CreateAuthenticationTokenAsync(account);
 
