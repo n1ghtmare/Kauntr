@@ -1,5 +1,5 @@
 ﻿namespace Kauntr.Core.Interfaces {
-    public interface IHttpContextWrapper {
+    public interface IContextService {
         bool CurrentUserIsAuthenticated { get; }
     }
 }

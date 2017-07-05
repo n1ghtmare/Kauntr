@@ -13,11 +13,13 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IAccountRepository _accountRepository;
         private readonly IAuthenticationTokenRepository _authenticationTokenRepository;
         private readonly IContextService _contextService;
+        private readonly INotificationService _notificationService;
 
-        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IContextService contextService) {
+        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IContextService contextService, INotificationService notificationService) {
             _accountRepository = accountRepository;
             _authenticationTokenRepository = authenticationTokenRepository;
             _contextService = contextService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Index() {
@@ -37,9 +39,17 @@ namespace Kauntr.Ui.Web.Controllers {
         public async Task<ActionResult> Login(LoginViewModel model) {
             if (!_contextService.CurrentUserIsAuthenticated && ModelState.IsValid) {
                 Account account = await _accountRepository.GetByEmailAsync(model.Email) ?? await RegisterAccountAsync(model);
-                AuthenticationToken authenticationToken = await CreateAuthenticationTokenAsync(account);
+                AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveByAccountIdAsync(account.Id) ?? await CreateAuthenticationTokenAsync(account);
 
-                // TODO - Email the user here ...
+                if (authenticationToken.NumberOfTokensSent == 5) {
+                    return new HttpStatusCodeResult(403, "Forbidden - Authentication Token Has been sent too many times");
+                }
+
+                await _notificationService.SendAuthenticationEmailAsync(account, authenticationToken);
+
+                authenticationToken.NumberOfTokensSent++;
+                authenticationToken.LastSentOn = DateTime.UtcNow;
+                await _authenticationTokenRepository.UpdateAsync(authenticationToken);
 
                 return new EmptyResult();
             }
@@ -62,7 +72,8 @@ namespace Kauntr.Ui.Web.Controllers {
                 Token = GenerateRandomCryptoToken(),
                 CreatedOn = DateTime.UtcNow,
                 ExpiresOn = DateTime.UtcNow.AddMinutes(15),
-                IsUsed = false
+                IsUsed = false,
+                NumberOfTokensSent = 0
             };
             await _authenticationTokenRepository.CreateAsync(authenticationToken);
             return authenticationToken;
