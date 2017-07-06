@@ -13,31 +13,59 @@ import {
 import AppState from "../interfaces/AppState";
 import LoginState from "../interfaces/LoginState";
 
-export class Login extends React.Component<any, any> {
+interface FormState {
+    email: string;
+    isValid: boolean;
+}
+
+export class Login extends React.Component<any, FormState> {
+    constructor() {
+        super();
+
+        this.state = {
+            email: "",
+            isValid: false
+        };
+    }
+
     componentDidMount() {
         this.props.dispatch(updateSharedContextTitle("login"));
     }
 
-    private handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    validateForm() : void {
+        // This is just a very basic email address reg-ex (rest will be done on server). TODO - perhaps get a better one? * research
+        const emailRegEx: RegExp = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+        this.setState({
+            isValid: emailRegEx.test(this.state.email)
+        });
+    }
+
+    private handleFormSubmit = () => {
+        if(this.state.isValid) {
+            console.log("WILL SUBMIT FORM");
+        }
+    }
+
+    private handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        const {dispatch} = this.props;
 
-        dispatch(invalidateSendAuthenticationToken());
-
-        // TODO - Validate input - perhaps place in form?
-        // dispatch(sendAuthenticationTokenIfNeeded())
+        this.setState({
+            email: e.target.value
+        }, () => this.validateForm());
     }
 
     render() {
         return (
             <div className="main-section">
+                <form onSubmit={this.handleFormSubmit}>
                 <div>
                     <div>Awesome, you're almost there</div>
                     <div>login using your email</div>
                     <div className="text-small">(yeah, we don't use passwords)</div>
-                    <input type="text" className="text-main text-main-desc" placeholder="email" ref="email" />
+                    <input type="text" className="text-main text-main-desc" placeholder="email" onChange={this.handleEmailInputChange} value={this.state.email} />
                 </div>
-                <button className="button button-main" onClick={this.handleLoginClick}>Login</button>
+                <button type="submit" className="button button-main" disabled={!this.state.isValid}>Login</button>
+                </form>
             </div>
         );
     }
