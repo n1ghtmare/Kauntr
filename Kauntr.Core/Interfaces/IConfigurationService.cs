@@ -1,5 +1,5 @@
 ﻿namespace Kauntr.Core.Interfaces {
-    internal interface IConfigurationService {
-        string DatabaseConnection { get; }
+    public interface IConfigurationService {
+        string DatabaseConnectionString { get; }
     }
 }

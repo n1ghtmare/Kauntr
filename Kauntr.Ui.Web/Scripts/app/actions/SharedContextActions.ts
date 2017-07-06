@@ -17,15 +17,15 @@ export function invalidateSharedContext() {
 }
 
 export function fetchSharedContextIfNeeded() {
-    return (dispatch: Function, getState: Function) => {
-        if(shouldFetchSharedContext(getState())) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        if (shouldFetchSharedContext(getState())) {
             const token: number = moment().unix();
             const fetchUrl: string = `/sharedcontext/index?token=${token}`;
             dispatch(loadSharedContext(token));
 
             return fetch(fetchUrl)
                 .then(response => {
-                    if(!response.ok) {
+                    if (!response.ok) {
                         throw Error(response.status.toString());
                     }
                     return response.json();

@@ -8,5 +8,6 @@ namespace Kauntr.Ui.Web.Models {
 
         public string ReturnUrl { get; set; }
 
+        public string Token { get; set; }
     }
 }

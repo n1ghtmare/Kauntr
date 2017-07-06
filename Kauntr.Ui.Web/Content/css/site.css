@@ -7,6 +7,18 @@
 input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
     text-align: center;
 }
+*::-webkit-input-placeholder {
+    color: #CACACA;
+}
+*:-moz-placeholder {
+    color: #CACACA;
+}
+*::-moz-placeholder {
+    color: #CACACA;
+}
+*:-ms-input-placeholder {
+    color: #CACACA;
+}
 
 #header {
     color: #f5f5f5;
