@@ -38,6 +38,7 @@ namespace Kauntr.Core.Repositories {
 	                    CreatedOn = @CreatedOn,
 	                    ExpiresOn = @ExpiresOn,
 	                    IsUsed = @IsUsed,
+                        UsedOn = @UsedOn,
 	                    NumberOfTimesSent = @NumberOfTimesSent,
 	                    LastSentOn = @LastSentOn
                     WHERE Id = @Id";
@@ -59,10 +60,15 @@ namespace Kauntr.Core.Repositories {
 	                    LastSentOn
                     FROM AuthenticationTokens
                     WHERE AccountId = @accountId
-                    AND ExpiresOn >= @expiresOn";
-                return (await connection.QueryAsync<AuthenticationToken>(sql, new {accountId, expiresOn = DateTime.UtcNow}))
+                    AND ExpiresOn >= @expiresOn
+                    AND IsUsed = @isUsed";
+                return (await connection.QueryAsync<AuthenticationToken>(sql, new {accountId, expiresOn = DateTime.UtcNow, isUsed = false}))
                     .FirstOrDefault();
             }
+        }
+
+        public Task<AuthenticationToken> GetActiveAsync(string token, int accountId) {
+            throw new NotImplementedException();
         }
     }
 }

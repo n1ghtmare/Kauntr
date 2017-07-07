@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +14,7 @@ namespace Kauntr.Core.Services {
                 DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
                 Host = "localhost"
             };
-            string authToken = $"http://localhost:3000/#/authenticate/token/{authenticationToken.Token}";
+            string authToken = $"http://localhost:3000/#/authenticate/account/{account.Id}/token/{authenticationToken.Token}";
             await smtpClient.SendMailAsync(new MailMessage {
                 BodyEncoding = Encoding.UTF8,
                 IsBodyHtml = true,

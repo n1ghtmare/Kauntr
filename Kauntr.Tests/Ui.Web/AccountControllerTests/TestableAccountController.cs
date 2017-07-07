@@ -7,13 +7,13 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
     public class TestableAccountController : AccountController {
         public InMemoryAccountRepository AccountRepository { get; set; }
         public InMemoryAuthenticationTokenRepository AuthenticationTokenRepository { get; set; }
-        public Mock<IContextService> MockHttpContextWrapper { get; set; }
+        public Mock<IContextService> MockContextService { get; set; }
         public InMemoryNotificationService NotificationService { get; set; }
 
-        public TestableAccountController(InMemoryAccountRepository accountRepository, InMemoryAuthenticationTokenRepository authenticationTokenRepository, Mock<IContextService> mockHttpContextWrapper, InMemoryNotificationService notificationService) : base(accountRepository, authenticationTokenRepository, mockHttpContextWrapper.Object, notificationService) {
+        public TestableAccountController(InMemoryAccountRepository accountRepository, InMemoryAuthenticationTokenRepository authenticationTokenRepository, Mock<IContextService> mockContextService, InMemoryNotificationService notificationService) : base(accountRepository, authenticationTokenRepository, mockContextService.Object, notificationService) {
             AccountRepository = accountRepository;
             AuthenticationTokenRepository = authenticationTokenRepository;
-            MockHttpContextWrapper = mockHttpContextWrapper;
+            MockContextService = mockContextService;
             NotificationService = notificationService;
         }
 

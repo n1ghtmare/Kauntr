@@ -68,7 +68,7 @@ export class Login extends React.Component<LoginState, FormState> {
             <div className="main-section">
                 <form className={classNames({ "hidden": isWaitingForEmailConfirmation })} onSubmit={this.handleFormSubmit}>
                     <div>
-                        <div>Awesome, you're almost there!</div>
+                        <div>Awesome, you're almost there</div>
                         <div>login using your email</div>
                         <div className="text-small">(yeah, we don't use passwords)</div>
                         <div className={classNames("text-small text-error", { "hidden": this.props.error === null })}>

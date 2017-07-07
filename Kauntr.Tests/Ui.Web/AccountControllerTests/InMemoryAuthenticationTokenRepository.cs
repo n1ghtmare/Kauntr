@@ -22,5 +22,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public Task<AuthenticationToken> GetActiveByAccountIdAsync(int accountId) {
             return Task.Run(() => AuthenticationTokens.FirstOrDefault(x => x.AccountId == accountId));
         }
+
+        public Task<AuthenticationToken> GetActiveAsync(string token, int accountId) {
+            return Task.Run(() => AuthenticationTokens.FirstOrDefault(x => x.AccountId == accountId && x.Token == token));
+        }
     }
 }

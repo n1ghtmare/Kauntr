@@ -8,6 +8,7 @@ namespace Kauntr.Core.Entities {
         public DateTime CreatedOn { get; set; }
         public DateTime ExpiresOn { get; set; }
         public bool IsUsed { get; set; }
+        public DateTime? UsedOn { get; set; }
         public short NumberOfTimesSent { get; set; }
         public DateTime? LastSentOn { get; set; }
     }

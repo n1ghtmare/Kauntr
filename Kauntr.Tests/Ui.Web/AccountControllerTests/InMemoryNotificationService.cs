@@ -10,7 +10,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public List<MailMessage> Emails { get; set; } = new List<MailMessage>();
 
         public Task SendAuthenticationEmailAsync(Account account, AuthenticationToken token) {
-            return Task.Run(() => Emails.Add(new MailMessage("no-reply@kauntr.com", account.Email, "Auth", $"Your Token is {token.Token}")));
+            return Task.Run(() => Emails.Add(new MailMessage("no-reply@kauntr.com", account.Email, "Auth", $"Your Token is {token.Token} - {account.Id}")));
         }
     }
 }

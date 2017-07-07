@@ -27,11 +27,34 @@ namespace Kauntr.Ui.Web.Controllers {
             return null;
         }
 
+        [HttpPost]
+        public ActionResult Logout() {
+            if (_contextService.CurrentUserIsAuthenticated) {
+                _contextService.Logout();
+
+                return new EmptyResult();
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Authenticate(AuthenticationViewModel model) {
-            // TODO - Setup the Authentication (simulate email link click)
-            return null;
+            if (!_contextService.CurrentUserIsAuthenticated && ModelState.IsValid) {
+                AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveAsync(model.Token, model.AccountId);
+
+                if (authenticationToken != null) {
+                    _contextService.Authenticate(authenticationToken.AccountId);
+
+                    authenticationToken.IsUsed = true;
+                    authenticationToken.UsedOn = DateTime.UtcNow;
+                    await _authenticationTokenRepository.UpdateAsync(authenticationToken);
+
+                    return new EmptyResult();
+                }
+                return new HttpStatusCodeResult(403, "Forbidden");
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
         }
 
         [AllowAnonymous]

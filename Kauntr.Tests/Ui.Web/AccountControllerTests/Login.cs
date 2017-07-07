@@ -14,7 +14,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAuthenticatedUser_ReturnsHttpStatusCode401BadRequest() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
 
             HttpStatusCodeResult result = await controller.Login(new LoginViewModel {Email="test@test.com"}) as HttpStatusCodeResult;
 
@@ -26,7 +26,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAuthenticatedUser_DoesntRegisterUser() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel {Email = email});
@@ -38,7 +38,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromUnAuthenticatedUser_RegistersUser() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel {Email = email});
@@ -52,7 +52,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAnUnAuthenticatedUser_CreatesAnAuthenticationToken() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             await controller.Login(new LoginViewModel {Email = "test@test.com"});
 
@@ -65,7 +65,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAnUnAuthenticatedUser_SendsAnEmailToTheUser() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel {Email = email});
@@ -82,7 +82,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAnUnauthenticatedUser_UpdatesNumberOfTokensSentAndLastSendOn() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel { Email = email });
@@ -99,7 +99,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAnAuthenticatedUserWithAnExistingUnusedToken_ResendsAnEmailToUser() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             const string email = "test@test.com";
             const int accountId = 1;
@@ -121,12 +121,13 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Assert.IsNotNull(emailNotification);
             Assert.IsNotEmpty(emailNotification.Body);
             Assert.IsTrue(emailNotification.Body.Contains(existingAuthenticationToken.Token));
+            Assert.IsTrue(emailNotification.Body.Contains(accountId.ToString()));
         }
 
         [Test]
         public async Task PostFromAnUnAuthenticatedUserThatHasSentTokens5Times_ReturnsHttpStatusCode403WithCustomMessage() {
             TestableAccountController controller = TestableAccountController.Create();
-            controller.MockHttpContextWrapper.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
             const string email = "test@test.com";
             const int accountId = 1;
