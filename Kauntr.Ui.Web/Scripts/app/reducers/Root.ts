@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
 
 import sharedContext from "./SharedContext";
+import login from "./Login";
 
 const rootReducer = combineReducers({
-    sharedContext
-    // TODO - add/combine rest of reducers
+    sharedContext,
+    login
 });
 
 export default rootReducer;

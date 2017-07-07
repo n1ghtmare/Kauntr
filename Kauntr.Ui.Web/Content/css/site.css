@@ -158,6 +158,7 @@ input.text-main-small {
     width: 100px;
 }
 
+
 select.dropdown-main {
     font-size: 43px;
     font-weight: bold;
@@ -207,8 +208,12 @@ select.dropdown-main {
     font-size: 27px;
     line-height: 40px;
     letter-spacing: -1px;
-
 }
+
+.text-error {
+    color: #EC102A;
+}
+
 
 .countdown {
     font-size: 43px;

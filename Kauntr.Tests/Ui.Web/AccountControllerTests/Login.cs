@@ -46,6 +46,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Account account = await controller.AccountRepository.GetByEmailAsync(email);
             Assert.IsNotNull(account);
             Assert.AreEqual(email, account.Email);
+            Assert.IsNotNull(account.DisplayName);
         }
 
         [Test]
@@ -89,7 +90,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             AuthenticationToken authenticationToken = controller.AuthenticationTokenRepository.AuthenticationTokens.FirstOrDefault();
 
             Assert.IsNotNull(authenticationToken);
-            Assert.AreEqual(1, authenticationToken.NumberOfTokensSent);
+            Assert.AreEqual(1, authenticationToken.NumberOfTimesSent);
             Assert.IsNotNull(authenticationToken.LastSentOn);
             Assert.AreEqual(1, controller.AuthenticationTokenRepository.NumberOfTimesUpdateWasInvoked);
         }
@@ -132,7 +133,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             var existingAuthenticationToken = new AuthenticationToken {
                 AccountId = accountId,
                 Token = "SOME_TOKEN",
-                NumberOfTokensSent = 5
+                NumberOfTimesSent = 5
             };
             var account = new Account {
                 Email = email,

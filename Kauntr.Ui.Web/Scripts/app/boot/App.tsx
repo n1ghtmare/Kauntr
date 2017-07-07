@@ -42,7 +42,6 @@ const routes = (
                 <Route component={CountdownDetails} path="/countdown/:id" />
                 <Route component={Login} path="/login" />
                 <Route component={AccountDetails} path="/account/:id" />
-
             </Route>
         </Router>
     </Provider>

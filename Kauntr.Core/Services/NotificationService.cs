@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 using Kauntr.Core.Entities;
@@ -14,8 +15,10 @@ namespace Kauntr.Core.Services {
                 DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
                 Host = "localhost"
             };
-            string authToken = $"http://localhost:3000/authenticate/token/{authenticationToken.Token}";
+            string authToken = $"http://localhost:3000/#/authenticate/token/{authenticationToken.Token}";
             await smtpClient.SendMailAsync(new MailMessage {
+                BodyEncoding = Encoding.UTF8,
+                IsBodyHtml = true,
                 From = new MailAddress("no-reply@kauntr.com"),
                 To = {account.Email},
                 Subject = "Logging in to Kauntr",

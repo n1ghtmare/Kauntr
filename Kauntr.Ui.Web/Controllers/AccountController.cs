@@ -41,13 +41,13 @@ namespace Kauntr.Ui.Web.Controllers {
                 Account account = await _accountRepository.GetByEmailAsync(model.Email) ?? await RegisterAccountAsync(model);
                 AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveByAccountIdAsync(account.Id) ?? await CreateAuthenticationTokenAsync(account);
 
-                if (authenticationToken.NumberOfTokensSent == 5) {
+                if (authenticationToken.NumberOfTimesSent == 5) {
                     return new HttpStatusCodeResult(403, "Forbidden - Authentication Token Has been sent too many times");
                 }
 
                 await _notificationService.SendAuthenticationEmailAsync(account, authenticationToken);
 
-                authenticationToken.NumberOfTokensSent++;
+                authenticationToken.NumberOfTimesSent++;
                 authenticationToken.LastSentOn = DateTime.UtcNow;
                 await _authenticationTokenRepository.UpdateAsync(authenticationToken);
 
@@ -60,7 +60,8 @@ namespace Kauntr.Ui.Web.Controllers {
             var account = new Account {
                 Email = model.Email,
                 CreatedOn = DateTime.UtcNow,
-                IsAutoSetup = true
+                IsAutoSetup = true,
+                DisplayName = $"user_{DateTime.UtcNow.Ticks.ToString().Substring(10, 7)}"
             };
             await _accountRepository.CreateAsync(account);
             return account;
@@ -73,7 +74,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 CreatedOn = DateTime.UtcNow,
                 ExpiresOn = DateTime.UtcNow.AddMinutes(15),
                 IsUsed = false,
-                NumberOfTokensSent = 0
+                NumberOfTimesSent = 0
             };
             await _authenticationTokenRepository.CreateAsync(authenticationToken);
             return authenticationToken;

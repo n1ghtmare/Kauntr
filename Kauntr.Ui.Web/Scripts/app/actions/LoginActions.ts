@@ -16,14 +16,13 @@ export function invalidateSendAuthenticationToken() {
 }
 
 export function sendAuthenticationTokenIfNeeded(email: string, returnUrl: string) {
-    return (dispatch: Function, getState: Function): Promise<void> => {
+    return (dispatch: Function, getState: Function) => {
         if (shouldRequestAuthenticationToken(getState())) {
             const token: number = moment().unix();
             const fetchUrl: string = "/account/login";
 
             dispatch(sendAuthenticationToken(token));
-
-            return fetch(fetchUrl, { method: "post", body: { Token: token, Email: email, ReturnUrl: returnUrl } })
+            return fetch(fetchUrl, { method: "post", body: JSON.stringify({ Token: token, Email: email, ReturnUrl: returnUrl }), headers: { "Content-Type": "application/json" } })
                 .then(response => {
                     if (!response.ok) {
                         throw Error(response.status.toString());

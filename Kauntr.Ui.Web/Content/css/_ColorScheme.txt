@@ -6,3 +6,4 @@
 #888888 - Light Gray (for less important text)
 #FFCC00 - Yellow (for text-selection highlight)
 #CACACA - Gray for borders (cool)
+#f00 - Red (for errors)

@@ -32,6 +32,9 @@ var forwardRequestFunc = function (req, res) {
 
 app.get("/Home/*", forwardRequestFunc);
 app.get("/SharedContext/*", forwardRequestFunc);
+app.get("/Account/*", forwardRequestFunc);
+
+app.post("/Account/*", forwardRequestFunc);
 
 app.use("/Content", express.static(__dirname + "/Content"));
 app.use("/fonts", express.static(__dirname + "/fonts"));

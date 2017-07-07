@@ -10,7 +10,7 @@ export class AuthorizationContainer extends React.Component<SharedContextState, 
 
         if(this.props.currentUserId === null) {
             // dispatch(setReturnUrl(this.props.returnUrl));
-            console.log(this.props.router.push("/login"));
+            console.log(this.props.router.push("/login?returnUrl=" + this.props.returnUrl));
         }
     }
 
