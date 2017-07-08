@@ -18,6 +18,7 @@ import Login from "../components/Login";
 import Account from "../components/Account";
 import AccountDetails from "../components/AccountDetails";
 import NotificationList from "../components/NotificationList";
+import Authenticator from "../components/Authenticator";
 import AuthorizationContainer from "../components/AuthorizationContainer";
 
 // Redux Setup
@@ -43,6 +44,7 @@ const routes = (
                 <Route component={Login} path="/login" />
                 <Route component={AccountDetails} path="/account/:id" />
             </Route>
+            <Route component={Authenticator} path="/authenticate/account/:accountId/token/:authenticationToken" />
         </Router>
     </Provider>
 );

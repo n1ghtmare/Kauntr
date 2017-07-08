@@ -5,6 +5,6 @@ namespace Kauntr.Ui.Web.Models {
         [Required]
         public int AccountId { get; set; }
         [Required]
-        public string Token { get; set; }
+        public string AuthenticationToken { get; set; }
     }
 }

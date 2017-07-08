@@ -17,7 +17,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             TestableAccountController controller = TestableAccountController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
 
-            HttpStatusCodeResult result = await controller.Authenticate(new AuthenticationViewModel {Token = "test", AccountId = 1}) as HttpStatusCodeResult;
+            HttpStatusCodeResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = "test", AccountId = 1}) as HttpStatusCodeResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -25,11 +25,11 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         }
 
         [Test]
-        public async Task AnUnAuthenticatedUserPostsTokenAndAccountIdThatIsNotValid_ReturnsHttpStatusCodeResult403Forbidden() {
+        public async Task AnUnAuthenticatedUserPostsTokenAndAccountIdThatAreNotValid_ReturnsHttpStatusCodeResult403Forbidden() {
             TestableAccountController controller = TestableAccountController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
-            HttpStatusCodeResult result = await controller.Authenticate(new AuthenticationViewModel {Token = "test", AccountId = 1}) as HttpStatusCodeResult;
+            HttpStatusCodeResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = "test", AccountId = 1}) as HttpStatusCodeResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(403, result.StatusCode);
@@ -37,7 +37,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         }
 
         [Test]
-        public async Task AnUnAuthenticatedUserPostsTokenAndAccountIdThatIsValid_ReturnEmptyResult() {
+        public async Task AnUnAuthenticatedUserPostsTokenAndAccountIdThatAreValid_ReturnEmptyResult() {
             TestableAccountController controller = TestableAccountController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
 
@@ -49,7 +49,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
                 Token = token
             });
 
-            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {Token = token, AccountId = accountId}) as EmptyResult;
+            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = token, AccountId = accountId}) as EmptyResult;
 
             Assert.IsNotNull(result);
         }
@@ -68,7 +68,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
                 IsUsed = false
             });
 
-            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {Token = token, AccountId = accountId}) as EmptyResult;
+            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = token, AccountId = accountId}) as EmptyResult;
             AuthenticationToken authenticationToken = controller.AuthenticationTokenRepository.AuthenticationTokens.FirstOrDefault();
 
             Assert.IsNotNull(result);
@@ -92,7 +92,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
                 IsUsed = false
             });
 
-            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {Token = token, AccountId = accountId}) as EmptyResult;
+            EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = token, AccountId = accountId}) as EmptyResult;
 
             controller.MockContextService.Verify(x => x.Authenticate(accountId), Times.Once);
         }

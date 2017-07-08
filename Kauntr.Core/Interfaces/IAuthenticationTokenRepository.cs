@@ -7,6 +7,5 @@ namespace Kauntr.Core.Interfaces {
         Task CreateAsync(AuthenticationToken authenticationToken);
         Task UpdateAsync(AuthenticationToken authenticationToken);
         Task<AuthenticationToken> GetActiveByAccountIdAsync(int accountId);
-        Task<AuthenticationToken> GetActiveAsync(string token, int accountId);
     }
 }

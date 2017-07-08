@@ -5,6 +5,7 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class SharedContextController : Controller {
+
         public async Task<ActionResult> Index(int token) {
             // simulate work
             await Task.Delay(3000);

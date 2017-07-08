@@ -41,9 +41,9 @@ namespace Kauntr.Ui.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> Authenticate(AuthenticationViewModel model) {
             if (!_contextService.CurrentUserIsAuthenticated && ModelState.IsValid) {
-                AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveAsync(model.Token, model.AccountId);
+                AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveByAccountIdAsync(model.AccountId);
 
-                if (authenticationToken != null) {
+                if (authenticationToken != null && authenticationToken.Token == model.AuthenticationToken) {
                     _contextService.Authenticate(authenticationToken.AccountId);
 
                     authenticationToken.IsUsed = true;

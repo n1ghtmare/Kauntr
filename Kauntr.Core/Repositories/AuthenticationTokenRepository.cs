@@ -66,9 +66,5 @@ namespace Kauntr.Core.Repositories {
                     .FirstOrDefault();
             }
         }
-
-        public Task<AuthenticationToken> GetActiveAsync(string token, int accountId) {
-            throw new NotImplementedException();
-        }
     }
 }
