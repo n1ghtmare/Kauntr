@@ -43,6 +43,10 @@ namespace Kauntr.Core.Repositories {
                 account.Id = (await connection.QueryAsync<int>(sql, account)).Single();
             }
         }
+
+        public Task<Account> GetAsync(int id) {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

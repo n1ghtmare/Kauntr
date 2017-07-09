@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\Authenticate.cs" />
+    <Compile Include="Ui.Web\AccountControllerTests\Index.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\InMemoryAccountRepository.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\InMemoryAuthenticationTokenRepository.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\InMemoryNotificationService.cs" />

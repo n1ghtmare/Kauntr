@@ -22,9 +22,10 @@ namespace Kauntr.Ui.Web.Controllers {
             _notificationService = notificationService;
         }
 
-        public ActionResult Index() {
-            // TODO - design the auth ...
-            return null;
+        public async Task<ActionResult> Index() {
+            Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
+
+            return Json(account);
         }
 
         [HttpPost]

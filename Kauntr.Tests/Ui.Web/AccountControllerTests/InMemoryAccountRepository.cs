@@ -16,5 +16,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public Task CreateAsync(Account account) {
             return Task.Run(() => Accounts.Add(account));
         }
+
+        public Task<Account> GetAsync(int id) {
+            return Task.Run(() => Accounts.FirstOrDefault(x => x.Id == id));
+        }
     }
 }
