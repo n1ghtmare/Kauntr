@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Kauntr.Core.Entities;
+
 using NUnit.Framework;
 
-namespace Kauntr.Tests.Ui.Web.AccountControllerTests
-{
+using Kauntr.Core.Entities;
+
+namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
     [TestFixture]
-    public class Index
-    {
+    public class Index {
         [Test]
         public async Task Get_ReturnsCurrentUserAccountDetails() {
             TestableAccountController controller = TestableAccountController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
 
+            const int token = 123;
             var account = new Account {
                 Id = 1,
                 Email = "test@test.com",
@@ -24,11 +21,14 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests
             };
             controller.AccountRepository.Accounts.Add(account);
 
-            JsonResult result = await controller.Index() as JsonResult;
+            JsonResult result = await controller.Index(token) as JsonResult;
             dynamic accountJson = result?.Data;
+            dynamic accountResult = accountJson?.Account;
 
             Assert.IsNotNull(accountJson);
-            Assert.AreEqual(account.Id, accountJson.Id);
+            Assert.IsNotNull(accountJson.Account);
+            Assert.AreEqual(accountResult.Id, accountResult.Id);
+            Assert.AreEqual(token, accountJson.Token);
         }
     }
 }

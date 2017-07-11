@@ -31,7 +31,9 @@ export function fetchSharedContextIfNeeded() {
                     return response.json();
                 })
                 .then(json => {
-                    dispatch(loadSharedContextSuccess(json));
+                    if(shouldProcessSharedContextResponse(getState(), json.Token)) {
+                        dispatch(loadSharedContextSuccess(json));
+                    }
                 })
                 .catch(errorStatusCode => {
                     dispatch(loadSharedContextFailure(`Error - status code - ${errorStatusCode}`));
@@ -40,8 +42,12 @@ export function fetchSharedContextIfNeeded() {
     };
 }
 
+function shouldProcessSharedContextResponse(state: AppState, token: number): boolean {
+    return state.sharedContext.token === token;
+}
+
 function shouldFetchSharedContext(state: AppState): boolean {
-    let { isLoadingData, isInvalidated } = state.sharedContext;
+    const { isLoadingData, isInvalidated } = state.sharedContext;
     return !isLoadingData && isInvalidated;
 }
 

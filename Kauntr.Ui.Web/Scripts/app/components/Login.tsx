@@ -93,4 +93,5 @@ function mapStateToProps(state: AppState, ownProps: any): LoginState {
         ...state.login
     };
 }
+
 export default connect(mapStateToProps)(Login);

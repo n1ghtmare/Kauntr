@@ -20,10 +20,7 @@ export function authenticateUser(accountId: number, authenticationToken: string,
                 dispatch(authenticateSuccess());
                 router.push(typeof returnUrl !== "undefined" ? returnUrl : "/");
             })
-            .catch(errorMessage => {
-                console.log("ERROR");
-                dispatch(authenticateFailure(errorMessage));
-            });
+            .catch(errorMessage => dispatch(authenticateFailure(errorMessage)));
     };
 }
 

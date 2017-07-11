@@ -4,6 +4,7 @@ interface SharedContextState {
     currentUserId?: number;
     notificationsCount?: number;
     title?: string;
+    token?: number;
     returnUrl?: string;
     dispatch?: Function;
     router?: any;

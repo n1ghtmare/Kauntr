@@ -6,16 +6,14 @@ import SharedContextState from "../interfaces/SharedContextState";
 
 export class AuthorizationContainer extends React.Component<SharedContextState, any> {
     componentDidMount() {
-        const { dispatch } = this.props;
-
-        if(this.props.currentUserId === null) {
-            // dispatch(setReturnUrl(this.props.returnUrl));
-            console.log(this.props.router.push("/login?returnUrl=" + this.props.returnUrl));
+        // BUG - when the user is in a component that requires authorization (and the user is already authorized) - refreshing the page causes him to be redirected to the login
+        if (this.props.currentUserId === null) {
+            this.props.router.push("/login?returnUrl=" + this.props.returnUrl);
         }
     }
 
     render() {
-        if(this.props.currentUserId === null) {
+        if (this.props.currentUserId === null) {
             return null;
         }
         return (
@@ -31,4 +29,4 @@ function mapStateToProps(state: AppState, ownProps: any): SharedContextState {
     };
 };
 
-export default connect(mapStateToProps)(AuthorizationContainer)
+export default connect(mapStateToProps)(AuthorizationContainer);

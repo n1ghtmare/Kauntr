@@ -15,11 +15,12 @@ namespace Kauntr.Ui.Web.Controllers {
         }
 
         public SharedContextViewModel GetSharedContextViewModel(int token) {
-            if (!HttpContext.User.Identity.IsAuthenticated) {
-                return new SharedContextViewModel {
-                    Token = token
-                };
-            }
+            // TODO - write unit tests and hook up to the actual Context Service
+//            if (!HttpContext.User.Identity.IsAuthenticated) {
+//                return new SharedContextViewModel {
+//                    Token = token
+//                };
+//            }
 
             // TODO - Fetch from db with actual data
             return new SharedContextViewModel {

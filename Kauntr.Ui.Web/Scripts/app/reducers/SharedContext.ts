@@ -44,7 +44,8 @@ export default function sharedContext(state = initialState, action: SharedContex
                 ...state,
                 isInvalidated: true,
                 isLoadingData: false,
-                notificationsCount: action.json.NotificationsCount
+                notificationsCount: action.json.NotificationsCount,
+                currentUserId: action.json.CurrentUserId
             };
         case LOAD_SHARED_CONTEXT_FAILURE:
             return {

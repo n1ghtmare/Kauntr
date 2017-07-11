@@ -22,10 +22,13 @@ namespace Kauntr.Ui.Web.Controllers {
             _notificationService = notificationService;
         }
 
-        public async Task<ActionResult> Index() {
+        // TODO - Remove after DEBUG
+        [AllowAnonymous]
+        public async Task<ActionResult> Index(int token) {
             Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
+//            Account account = await _accountRepository.GetAsync(1);
 
-            return Json(account);
+            return Json(new {Account = account, Token = token});
         }
 
         [HttpPost]
