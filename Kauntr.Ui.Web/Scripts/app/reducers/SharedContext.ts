@@ -19,7 +19,7 @@ interface SharedContextAction {
 export const initialState: SharedContextState = {
     isLoadingData: false,
     isInvalidated: true,
-    currentUserId: null,
+    currentUserAccountId: null,
     notificationsCount: null,
     title: null
 };
@@ -45,7 +45,7 @@ export default function sharedContext(state = initialState, action: SharedContex
                 isInvalidated: true,
                 isLoadingData: false,
                 notificationsCount: action.json.NotificationsCount,
-                currentUserId: action.json.CurrentUserId
+                currentUserAccountId: action.json.CurrentUserAccountId
             };
         case LOAD_SHARED_CONTEXT_FAILURE:
             return {

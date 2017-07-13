@@ -90,6 +90,8 @@
     <Compile Include="Ui.Web\AccountControllerTests\Login.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\Logout.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\TestableAccountController.cs" />
+    <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />
+    <Compile Include="Ui.Web\SharedContextControllerTests\TestableSharedContextController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

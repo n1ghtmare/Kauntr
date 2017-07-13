@@ -1,33 +1,25 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-
+using Kauntr.Core.Interfaces;
 using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class SharedContextController : Controller {
+        private readonly IContextService _contextService;
 
-        public async Task<ActionResult> Index(int token) {
+        public SharedContextController(IContextService contextService) {
+            _contextService = contextService;
+        }
+
+        public async Task<JsonResult> Index(int token) {
             // simulate work
             await Task.Delay(3000);
 
-            SharedContextViewModel model = GetSharedContextViewModel(token);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
-        public SharedContextViewModel GetSharedContextViewModel(int token) {
-            // TODO - write unit tests and hook up to the actual Context Service
-//            if (!HttpContext.User.Identity.IsAuthenticated) {
-//                return new SharedContextViewModel {
-//                    Token = token
-//                };
-//            }
-
-            // TODO - Fetch from db with actual data
-            return new SharedContextViewModel {
-                CurrentUserId = 123,
-                NotificationsCount = 10000,
-                Token = token
+            var model = new SharedContextViewModel {
+                Token = token,
+                CurrentUserAccountId = _contextService.CurrentUserAccountId
             };
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }
