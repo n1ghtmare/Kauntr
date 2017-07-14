@@ -14,19 +14,19 @@ namespace Kauntr.Ui.Web.Controllers {
 
         public async Task<JsonResult> Index(int token) {
             // simulate work
-            await Task.Delay(3000);
+//            await Task.Delay(3000);
 
             // fake code
-            var model = new SharedContextViewModel {
-                Token = token,
-                CurrentUserAccountId = 1
-            };
-
-
 //            var model = new SharedContextViewModel {
 //                Token = token,
-//                CurrentUserAccountId = _contextService.CurrentUserAccountId
+//                CurrentUserAccountId = 1
 //            };
+
+
+            var model = new SharedContextViewModel {
+                Token = token,
+                CurrentUserAccountId = _contextService.CurrentUserAccountId
+            };
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }

@@ -3,24 +3,24 @@ import * as moment from "moment";
 import AppState from "../interfaces/AppState";
 
 import {
-    INVALIDATE_PERSONAL_ACCOUNT,
-    LOAD_PERSONAL_ACCOUNT,
-    LOAD_PERSONAL_ACCOUNT_SUCCESS,
-    LOAD_PERSONAL_ACCOUNT_FAILURE
+    INVALIDATE_ACCOUNT_DETAILS,
+    LOAD_ACCOUNT_DETAILS,
+    LOAD_ACCOUNT_DETAILS_SUCCESS,
+    LOAD_ACCOUNT_DETAILS_FAILURE
 } from "../constants/ActionTypes";
 
 export function invalidatePersonalAccount() {
     return {
-        type: INVALIDATE_PERSONAL_ACCOUNT
+        type: INVALIDATE_ACCOUNT_DETAILS
     };
 }
 
-export function fetchPersonalAccountIfNeeded() {
+export function fetchAccountDetailsIfNeeded(accountId?: number) {
     return (dispatch: Function, getState: Function): Promise<void> => {
-        if (shouldFetchPersonalAccount(getState())) {
+        if (shouldFetchAccountDetails(getState())) {
             const token: number = moment().unix();
-            const fetchUrl: string = `/account/index?token=${token}`;
-            dispatch(loadPersonalAccount(token));
+            const fetchUrl: string = `/account/index?token=${token}&accountId=${accountId}`;
+            dispatch(loadAccountDetails(token));
 
             return fetch(fetchUrl)
                 .then(response => {
@@ -30,41 +30,41 @@ export function fetchPersonalAccountIfNeeded() {
                     return response.json();
                 })
                 .then(json => {
-                    if (shouldProcessPersonalAccountResponse(getState(), json.Token)) {
-                        dispatch(loadPersonalAccountSuccess(json));
+                    if (shouldProcessAccountDetailsResponse(getState(), json.Token)) {
+                        dispatch(loadAccountDetailsSuccess(json));
                     }
                 })
-                .catch(errorMessage => dispatch(loadPersonalAccountFailure(errorMessage)));
+                .catch(errorMessage => dispatch(loadAccountDetailsFailure(errorMessage)));
         }
     };
 }
 
-function shouldProcessPersonalAccountResponse(state: AppState, token: number): boolean {
-    return state.personalAccount.token === token;
+function shouldProcessAccountDetailsResponse(state: AppState, token: number): boolean {
+    return state.accountDetails.token === token;
 }
 
-function shouldFetchPersonalAccount(state: AppState): boolean {
-    const { isLoadingData, isInvalidated } = state.personalAccount;
+function shouldFetchAccountDetails(state: AppState): boolean {
+    const { isLoadingData, isInvalidated } = state.accountDetails;
     return !isLoadingData && isInvalidated;
 }
 
-function loadPersonalAccount(token: number) {
+function loadAccountDetails(token: number) {
     return {
-        type: LOAD_PERSONAL_ACCOUNT,
+        type: LOAD_ACCOUNT_DETAILS,
         token
     };
 }
 
-function loadPersonalAccountSuccess(json: any) {
+function loadAccountDetailsSuccess(json: any) {
     return {
-        type: LOAD_PERSONAL_ACCOUNT_SUCCESS,
+        type: LOAD_ACCOUNT_DETAILS_SUCCESS,
         json
     };
 }
 
-function loadPersonalAccountFailure(error: string) {
+function loadAccountDetailsFailure(error: string) {
     return {
-        type: LOAD_PERSONAL_ACCOUNT_FAILURE,
+        type: LOAD_ACCOUNT_DETAILS_FAILURE,
         error
     };
 }

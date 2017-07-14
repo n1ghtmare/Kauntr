@@ -22,12 +22,19 @@ namespace Kauntr.Ui.Web.Controllers {
             _notificationService = notificationService;
         }
 
-        // TODO - Remove after DEBUG
         [AllowAnonymous]
-        public async Task<ActionResult> Index(int token) {
-//            Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
-            Account account = await _accountRepository.GetAsync(13);
+        public async Task<ActionResult> Index(int token, int? accountId = null) {
             await Task.Delay(1500);
+
+            if (accountId == null && !_contextService.CurrentUserIsAuthenticated) {
+                return new HttpStatusCodeResult(403, "Forbidden");
+            }
+
+            Account account = await _accountRepository.GetAsync((int) (accountId ?? _contextService.CurrentUserAccountId));
+            if (accountId != null) {
+                account.Email = null;
+            }
+
             return Json(new {Account = account, Token = token}, JsonRequestBehavior.AllowGet);
         }
 

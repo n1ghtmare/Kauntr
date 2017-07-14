@@ -1,17 +1,17 @@
 import AccountState from "../interfaces/AccountState";
 
 import {
-    INVALIDATE_PERSONAL_ACCOUNT,
-    LOAD_PERSONAL_ACCOUNT,
-    LOAD_PERSONAL_ACCOUNT_SUCCESS,
-    LOAD_PERSONAL_ACCOUNT_FAILURE
+    INVALIDATE_ACCOUNT_DETAILS,
+    LOAD_ACCOUNT_DETAILS,
+    LOAD_ACCOUNT_DETAILS_SUCCESS,
+    LOAD_ACCOUNT_DETAILS_FAILURE
 } from "../constants/ActionTypes";
 
 import {
     parseRawDate
 } from "../helpers/DateHelpers";
 
-interface PersonalAccountAction {
+interface AccountAction {
     type: string;
     token?: number;
     json?: any;
@@ -23,33 +23,34 @@ export const initialState: AccountState = {
     isInvalidated: true
 };
 
-export default function personalAccount(state = initialState, action: PersonalAccountAction): AccountState {
+export default function accountDetails(state = initialState, action: AccountAction): AccountState {
     switch (action.type) {
-        case INVALIDATE_PERSONAL_ACCOUNT:
+        case INVALIDATE_ACCOUNT_DETAILS:
             return {
                 ...state,
                 isInvalidated: true,
                 error: null
             };
-        case LOAD_PERSONAL_ACCOUNT:
+        case LOAD_ACCOUNT_DETAILS:
             return {
                 ...state,
                 isInvalidated: false,
                 isLoadingData: true,
                 token: action.token
             };
-        case LOAD_PERSONAL_ACCOUNT_SUCCESS:
+        case LOAD_ACCOUNT_DETAILS_SUCCESS:
             return {
                 ...state,
                 isInvalidated: true,
                 isLoadingData: false,
+                id: action.json.Account.Id,
                 displayName: action.json.Account.DisplayName,
                 email: action.json.Account.Email,
                 reputation: action.json.Account.Reputation,
                 createdOn: parseRawDate(action.json.Account.CreatedOn),
                 isAutoSetup: action.json.Account.IsAutoSetup
             };
-        case LOAD_PERSONAL_ACCOUNT_FAILURE:
+        case LOAD_ACCOUNT_DETAILS_FAILURE:
             return {
                 ...state,
                 isInvalidated: true,

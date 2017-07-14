@@ -12,9 +12,11 @@ namespace Kauntr.Ui.Web.Services {
         private static IOwinContext CurrentOwinContext => HttpContext.Current.Request.GetOwinContext();
 
         // These have to be mocked on dev-server (auth cookies are not proxied correctly between expressjs and iisexpress)
-        public bool CurrentUserIsAuthenticated => HttpContext.Current.User.Identity.IsAuthenticated;
+//        public bool CurrentUserIsAuthenticated => HttpContext.Current.User.Identity.IsAuthenticated;
+        public bool CurrentUserIsAuthenticated => true;
 
-        public int? CurrentUserAccountId => string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) ? null : (int?) int.Parse(HttpContext.Current.User.Identity.Name);
+//        public int? CurrentUserAccountId => string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) ? null : (int?) int.Parse(HttpContext.Current.User.Identity.Name);
+        public int? CurrentUserAccountId => 21;
 
         public void Authenticate(int accountId) {
             var identity = new ClaimsIdentity(new[] {

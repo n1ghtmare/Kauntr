@@ -15,7 +15,6 @@ import CountdownList from "../components/CountdownList";
 import CountdownDetails from "../components/CountdownDetails";
 import CountdownForm from "../components/CountdownForm";
 import Login from "../components/Login";
-import Account from "../components/Account";
 import AccountDetails from "../components/AccountDetails";
 import NotificationList from "../components/NotificationList";
 import Authenticator from "../components/Authenticator";
@@ -35,7 +34,7 @@ const routes = (
                 <Route component={AuthorizationContainer}>
                     <Route component={CountdownList} path="/countdowns/mine" />
                     <Route component={CountdownForm} path="/countdown/create" />
-                    <Route component={Account} path="/account" />
+                    <Route component={AccountDetails} path="/account" />
                     <Route component={NotificationList} path="/notifications" />
                 </Route>
                 <Redirect from="/" to="countdowns/trending" />

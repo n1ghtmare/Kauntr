@@ -3,6 +3,7 @@ import * as moment from "moment";
 interface AccountState {
     isLoadingData: boolean;
     isInvalidated: boolean;
+    isPersonalAccount?: boolean;
     id?: number;
     displayName?: string;
     email?: string;

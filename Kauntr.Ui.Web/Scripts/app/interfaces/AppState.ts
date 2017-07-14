@@ -7,7 +7,7 @@ interface AppState {
     sharedContext: SharedContextState;
     login: LoginState;
     authenticator: AuthenticatorState;
-    personalAccount: AccountState;
+    accountDetails: AccountState;
 };
 
 export default AppState;
