@@ -1,4 +1,4 @@
-import PersonalAccountState from "../interfaces/PersonalAccountState";
+import AccountState from "../interfaces/AccountState";
 
 import {
     INVALIDATE_PERSONAL_ACCOUNT,
@@ -18,12 +18,12 @@ interface PersonalAccountAction {
     error?: string;
 }
 
-export const initialState: PersonalAccountState = {
+export const initialState: AccountState = {
     isLoadingData: false,
     isInvalidated: true
 };
 
-export default function personalAccount(state = initialState, action: PersonalAccountAction): PersonalAccountState {
+export default function personalAccount(state = initialState, action: PersonalAccountAction): AccountState {
     switch (action.type) {
         case INVALIDATE_PERSONAL_ACCOUNT:
             return {

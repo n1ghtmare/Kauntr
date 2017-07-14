@@ -390,12 +390,7 @@ textarea.input-validation-error {
 ---------------------------------------
 */
 
-
-@media handheld, only screen and (max-width: 767px) {
-    .main-content {
-        padding-top: 110px;
-    }
-
+@media handheld, only screen and (max-width: 1150px) {
     #header {
         text-align: center;
     }
@@ -410,6 +405,16 @@ textarea.input-validation-error {
         z-index: 9999;
     }
 
+    .main-content {
+        padding-top: 158px;
+    }
+}
+
+@media handheld, only screen and (max-width: 767px) {
+    h1 {
+        font-size: 48px;
+        line-height: 58px;
+    }
     #header-menu > li {
         margin: 0 3px;
     }
@@ -432,7 +437,7 @@ textarea.input-validation-error {
         line-height: 27px;
     }
 
-    .countdown, .user-details-list, .user-details-list li {
+    .countdown {
         font-size: 34px;
         line-height: 47px;
     }
@@ -473,7 +478,7 @@ textarea.input-validation-error {
         padding-top: 300px;
     }
 
-    .countdown, .user-details-list {
+    .countdown {
         margin: 70px 10px;
     }
 

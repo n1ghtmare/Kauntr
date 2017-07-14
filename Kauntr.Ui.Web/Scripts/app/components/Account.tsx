@@ -9,19 +9,21 @@ import {
 import {
     invalidatePersonalAccount,
     fetchPersonalAccountIfNeeded
-} from "../actions/PersonalAccountActions";
+} from "../actions/AccountActions";
 
 import AppState from "../interfaces/AppState";
-import PersonalAccountState from "../interfaces/PersonalAccountState";
+import AccountState from "../interfaces/AccountState";
 
 import LoadingIndicator from "./LoadingIndicator";
+import AccountDetailsList from "./AccountDetailsList";
+import DiamondsSeparator from "./DiamondsSeparator";
 
 interface AccountFormState {
     displayName: string;
     isValid: boolean;
 };
 
-export class Account extends React.Component<PersonalAccountState, AccountFormState> {
+export class Account extends React.Component<AccountState, AccountFormState> {
     constructor() {
         super();
         this.state = {
@@ -39,7 +41,7 @@ export class Account extends React.Component<PersonalAccountState, AccountFormSt
         dispatch(fetchPersonalAccountIfNeeded());
     }
 
-    componentWillReceiveProps(nextProps: PersonalAccountState) {
+    componentWillReceiveProps(nextProps: AccountState) {
         this.setState({
             displayName: nextProps.displayName
         });
@@ -69,23 +71,18 @@ export class Account extends React.Component<PersonalAccountState, AccountFormSt
     }
 
     renderAccountDetails() {
-        const { createdOn } = this.props;
         return (
             <div className="main-section animated fadeIn">
-                <h1 className="main-section-header">Account (Personal)</h1>
-                <ul className="user-details-list">
-                    <li>email - {this.props.email}</li>
-                    <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>
-                    <li>reputation - {this.props.reputation}</li>
-                </ul>
-                <div className="diamonds">&#9830; &#9830; &#9830;</div>
+                <h1 className="main-section-header">Account (personal)</h1>
+                <AccountDetailsList createdOn={this.props.createdOn} email={this.props.email} reputation={this.props.reputation} />
+                <DiamondsSeparator />
                 <form className="form-section" onSubmit={this.handleFormSubmit}>
                     <div><label htmlFor="displayName">display name</label></div>
                     <div className={classNames("text-small", { "hidden": !this.props.isAutoSetup })}>
-                        (your display name was auto-setup by the system, you might want to change it?)
+                        (your display name was auto-setup by the system, you might want to change it ... or not, it's cool)
                     </div>
                     <div>
-                        <input type="text" className="text-main" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} />
+                        <input type="text" className="text-main" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} />
                     </div>
                     <div>
                         <button type="submit" className="button button-main" disabled={!this.state.isValid}>Update</button>
@@ -102,7 +99,7 @@ export class Account extends React.Component<PersonalAccountState, AccountFormSt
     }
 }
 
-function mapStateToProps(state: AppState, ownProps: any): PersonalAccountState {
+function mapStateToProps(state: AppState, ownProps: any): AccountState {
     return state.personalAccount;
 }
 

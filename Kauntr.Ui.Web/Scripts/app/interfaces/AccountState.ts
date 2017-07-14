@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-interface PersonalAccountState {
+interface AccountState {
     isLoadingData: boolean;
     isInvalidated: boolean;
     id?: number;
@@ -18,4 +18,4 @@ interface PersonalAccountState {
     router?: any;
 }
 
-export default PersonalAccountState;
+export default AccountState;
