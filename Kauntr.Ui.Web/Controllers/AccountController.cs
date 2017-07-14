@@ -25,10 +25,10 @@ namespace Kauntr.Ui.Web.Controllers {
         // TODO - Remove after DEBUG
         [AllowAnonymous]
         public async Task<ActionResult> Index(int token) {
-            Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
-//            Account account = await _accountRepository.GetAsync(1);
-
-            return Json(new {Account = account, Token = token});
+//            Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
+            Account account = await _accountRepository.GetAsync(13);
+            await Task.Delay(1500);
+            return Json(new {Account = account, Token = token}, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

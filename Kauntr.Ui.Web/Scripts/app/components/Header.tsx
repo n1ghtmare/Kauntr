@@ -46,7 +46,7 @@ export class Header extends React.Component<SharedContextState, any> {
     }
 
     render() {
-        let isAuthenticated: boolean = this.props.currentUserId !== null;
+        let isAuthenticated: boolean = this.props.currentUserAccountId !== null;
         return (
             <div id="header">
                 <div className={classNames({ "hidden": !this.state.isInSearchMode })}>
@@ -54,15 +54,15 @@ export class Header extends React.Component<SharedContextState, any> {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="threecol">
+                        <div className="fivecol first">
                             <div id="header-logo">kauntr // {this.props.title}</div>
                         </div>
-                        <div className="ninecol last">
+                        <div className="sevencol last">
                             <ul id="header-menu">
                                 <li><Link to="/notifications" className="notifications-indicator">13</Link></li>
                                 <li><a href="#" onClick={this.handleSearchClick}>search</a></li>
                                 <li><Link to="/login">login</Link></li>
-                                <li className={classNames({"hidden": !isAuthenticated})}>
+                                <li className={classNames({ "hidden": !isAuthenticated })}>
                                     <a className="has-sub-menu" href="#">account</a>
                                     <ul className="sub-menu">
                                         <li><Link to="/account">settings</Link></li>
@@ -74,7 +74,7 @@ export class Header extends React.Component<SharedContextState, any> {
                                     <ul className="sub-menu">
                                         <li><Link to="/countdowns/latest">Latest</Link></li>
                                         <li><Link to="/countdowns/trending">Trending</Link></li>
-                                        <li className={classNames({"hidden": !isAuthenticated})}><Link to="/countdowns/mine">Mine</Link></li>
+                                        <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdowns/mine">Mine</Link></li>
                                     </ul>
                                 </li>
                             </ul>

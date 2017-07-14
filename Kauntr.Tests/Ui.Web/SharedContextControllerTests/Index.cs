@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 
 using NUnit.Framework;
+
 using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.SharedContextControllerTests {

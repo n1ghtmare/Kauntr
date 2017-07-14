@@ -44,8 +44,20 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public Task<Account> GetAsync(int id) {
-            throw new System.NotImplementedException();
+        public async Task<Account> GetAsync(int id) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    Id,
+	                    DisplayName,
+	                    Email,
+	                    CreatedOn,
+	                    Reputation,
+	                    IsAutoSetup
+                    FROM Accounts
+                    WHERE Id = @id";
+                return (await connection.QueryAsync<Account>(sql, new { id })).FirstOrDefault();
+            }
         }
     }
 }

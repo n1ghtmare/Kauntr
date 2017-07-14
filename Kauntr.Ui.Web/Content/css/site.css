@@ -1,9 +1,7 @@
-﻿/* ============================== */
-/* ! Layout for desktop version   */
-/* ============================== */
-
-/* ### Basic Layout ### */
-
+﻿/*
+    Basic Layout
+    #########################################
+*/
 input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
     text-align: center;
 }
@@ -20,6 +18,86 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     color: #CACACA;
 }
 
+.main-content {
+    padding-top: 110px;
+    text-align: center;
+}
+
+.main-section {
+    font-size: 43px;
+    line-height: 59px;
+    letter-spacing: -2px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.diamonds {
+    margin: 15px 0;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+input.text-mid {
+    width: 450px;
+}
+
+input.text-main {
+    font-size: 43px;
+    font-weight: bold;
+    padding: 14px 7px;
+}
+
+input.text-main-desc {
+    width: 500px;
+}
+
+input.text-main-mid {
+    width: 110px;
+}
+
+input.text-main-dur {
+    width: 150px;
+}
+
+input.text-main-small {
+    width: 100px;
+}
+
+.text-small {
+    font-size: 14px;
+    line-height: 27px;
+    letter-spacing: 0px;
+    font-weight: normal;
+}
+
+.text-medium {
+    font-size: 27px;
+    line-height: 40px;
+    letter-spacing: -1px;
+}
+
+.text-error {
+    color: #F00000;
+}
+
+select.dropdown-main {
+    font-size: 43px;
+    font-weight: bold;
+    padding: 13px;
+    border: 3px solid #bbb;
+}
+/* ######################################### */
+
+
+
+
+/*
+    Header
+    #########################################
+*/
 #header {
     color: #f5f5f5;
     background-color: #3b3b3b;
@@ -61,25 +139,19 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     display: none;
 }
 
-.main-content {
-    padding-top: 110px;
-    text-align: center;
+.main-section-header {
+    margin-bottom: 55px;
 }
 
-.main-section {
-    font-size: 43px;
-    line-height: 59px;
-    letter-spacing: -2px;
-    font-weight: bold;
-}
-
-.hidden {
-    display: none;
-}
+/* ######################################### */
 
 
 
-/* ### Loader ### */
+
+/*
+    Header
+    #########################################
+*/
 .loader {
     position: absolute;
     left: 50%;
@@ -94,10 +166,15 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .loader-message {
     padding: 15px 0;
 }
+/* ######################################### */
 
 
 
-/* ### Notifications ### */
+
+/*
+    Notifications
+    #########################################
+*/
 .notifications-indicator {
     background: #f00;
     padding-right: 10px !important;
@@ -117,6 +194,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     min-height: 30px;
     padding: 0 15px;
 }
+/* ######################################### */
 
 
 /* ### Index ### */
@@ -132,39 +210,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     opacity: 1;
 }
 
-input.text-mid {
-    width: 450px;
-}
 
-input.text-main {
-    font-size: 43px;
-    font-weight: bold;
-    padding: 14px 7px;
-}
-
-input.text-main-desc {
-    width: 500px;
-}
-
-input.text-main-mid {
-    width: 110px;
-}
-
-input.text-main-dur {
-    width: 150px;
-}
-
-input.text-main-small {
-    width: 100px;
-}
-
-
-select.dropdown-main {
-    font-size: 43px;
-    font-weight: bold;
-    padding: 13px;
-    border: 3px solid #bbb;
-}
 
 #countdown-new {
     margin: 50px 0;
@@ -197,22 +243,7 @@ select.dropdown-main {
     display: none;
 }
 
-.text-small {
-    font-size: 14px;
-    line-height: 27px;
-    letter-spacing: 0px;
-    font-weight: normal;
-}
 
-.text-medium {
-    font-size: 27px;
-    line-height: 40px;
-    letter-spacing: -1px;
-}
-
-.text-error {
-    color: #F00000;
-}
 
 
 .countdown {
@@ -299,10 +330,6 @@ select.dropdown-main {
     font-size: 12px;
 }
 
-.comment-diamonds {
-    margin-bottom: 15px;
-}
-
 .text-comment {
     font-size: 15px;
     line-height: 24px;
@@ -363,8 +390,9 @@ textarea.input-validation-error {
 ---------------------------------------
 */
 
+
 @media handheld, only screen and (max-width: 767px) {
-    #content {
+    .main-content {
         padding-top: 110px;
     }
 
@@ -404,7 +432,7 @@ textarea.input-validation-error {
         line-height: 27px;
     }
 
-    .countdown {
+    .countdown, .user-details-list, .user-details-list li {
         font-size: 34px;
         line-height: 47px;
     }
@@ -432,7 +460,7 @@ textarea.input-validation-error {
     }
 }
 
-@media handheld, only screen and (max-width: 500px) {
+@media handheld, only screen and (max-width: 650px) {
     input[type=text], input[type=email], input[type=password], input.text, input.title, textarea {
         width: 90%;
     }
@@ -441,11 +469,11 @@ textarea.input-validation-error {
         width: 95%;
     }
 
-    #content {
-        padding-top: 200px;
+    .main-content {
+        padding-top: 300px;
     }
 
-    .countdown {
+    .countdown, .user-details-list {
         margin: 70px 10px;
     }
 
@@ -518,3 +546,8 @@ textarea.input-validation-error {
         line-height: 94px;
     }
 }
+
+/*
+    Account (Personal)
+    ------------------
+*/

@@ -7,6 +7,10 @@ import {
     LOAD_PERSONAL_ACCOUNT_FAILURE
 } from "../constants/ActionTypes";
 
+import {
+    parseRawDate
+} from "../helpers/DateHelpers";
+
 interface PersonalAccountAction {
     type: string;
     token?: number;
@@ -19,7 +23,7 @@ export const initialState: PersonalAccountState = {
     isInvalidated: true
 };
 
-export default function personalAccount(state = initialState, action: PersonalAccountAction) {
+export default function personalAccount(state = initialState, action: PersonalAccountAction): PersonalAccountState {
     switch (action.type) {
         case INVALIDATE_PERSONAL_ACCOUNT:
             return {
@@ -39,7 +43,11 @@ export default function personalAccount(state = initialState, action: PersonalAc
                 ...state,
                 isInvalidated: true,
                 isLoadingData: false,
-                // TODO - map Account props
+                displayName: action.json.Account.DisplayName,
+                email: action.json.Account.Email,
+                reputation: action.json.Account.Reputation,
+                createdOn: parseRawDate(action.json.Account.CreatedOn),
+                isAutoSetup: action.json.Account.IsAutoSetup
             };
         case LOAD_PERSONAL_ACCOUNT_FAILURE:
             return {

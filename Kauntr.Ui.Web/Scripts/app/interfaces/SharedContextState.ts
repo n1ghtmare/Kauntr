@@ -1,7 +1,7 @@
 interface SharedContextState {
     isLoadingData: boolean;
     isInvalidated: boolean;
-    currentUserId?: number;
+    currentUserAccountId?: number;
     notificationsCount?: number;
     title?: string;
     token?: number;

@@ -19,7 +19,7 @@ export function fetchPersonalAccountIfNeeded() {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchPersonalAccount(getState())) {
             const token: number = moment().unix();
-            const fetchUrl: string = "/account/index";
+            const fetchUrl: string = `/account/index?token=${token}`;
             dispatch(loadPersonalAccount(token));
 
             return fetch(fetchUrl)

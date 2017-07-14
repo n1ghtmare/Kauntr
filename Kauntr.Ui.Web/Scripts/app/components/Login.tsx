@@ -44,7 +44,15 @@ export class Login extends React.Component<LoginState, FormState> {
         });
     }
 
-    private handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    private handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        e.preventDefault();
+
+        this.setState({
+            email: e.target.value
+        }, () => this.validateForm());
+    }
+
+    private handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
 
         if (this.state.isValid) {
@@ -52,14 +60,6 @@ export class Login extends React.Component<LoginState, FormState> {
             dispatch(invalidateSendAuthenticationToken());
             dispatch(sendAuthenticationTokenIfNeeded(this.state.email, router.location.query.returnUrl));
         }
-    }
-
-    private handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-
-        this.setState({
-            email: e.target.value
-        }, () => this.validateForm());
     }
 
     render() {
@@ -89,7 +89,7 @@ export class Login extends React.Component<LoginState, FormState> {
 
 function mapStateToProps(state: AppState, ownProps: any): LoginState {
     return {
-        isAuthenticated: state.sharedContext.currentUserId !== null,
+        isAuthenticated: state.sharedContext.currentUserAccountId !== null,
         ...state.login
     };
 }

@@ -20,8 +20,8 @@ export class App extends React.Component<SharedContextState, any> {
     }
 
     componentDidUpdate(prevProps: SharedContextState) {
-        const isLoggingOut = prevProps.currentUserId !== null && this.props.currentUserId === null;
-        const isLoggingIn = prevProps.currentUserId === null && this.props.currentUserId !== null;
+        const isLoggingOut = prevProps.currentUserAccountId !== null && this.props.currentUserAccountId === null;
+        const isLoggingIn = prevProps.currentUserAccountId === null && this.props.currentUserAccountId !== null;
 
         if (isLoggingIn) {
             // navigate to returnUrl and clear returnUrl in store
@@ -35,7 +35,7 @@ export class App extends React.Component<SharedContextState, any> {
             return null;
         }
         return (
-            <div className="animated fadeIn">
+            <div>
                 <Header />
                 <div className="container main-content">
                     {this.props.children}
