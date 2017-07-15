@@ -31,8 +31,8 @@ export class AccountDetails extends React.Component<AccountState, any> {
     renderAccountDetails() {
         const { createdOn, isPersonalAccount, displayName } = this.props;
         return (
-            <div className="main-section animated fadeIn">
-                <h1 className="main-section-header">Account Details ({isPersonalAccount ? "personal" : displayName})</h1>
+            <div className="animated fadeIn">
+                <h3>Account Details ({isPersonalAccount ? "personal" : displayName})</h3>
                 <ul>
                     <li>email - {isPersonalAccount ? this.props.email : "?"}</li>
                     <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>

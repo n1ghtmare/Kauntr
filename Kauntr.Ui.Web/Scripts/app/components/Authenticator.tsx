@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { authenticateUser } from "../actions/AuthenticatorActions";
+import { authenticateUser } from "../actions/AuthenticationActions";
 
 import AppState from "../interfaces/AppState";
 import AuthenticatorState from "../interfaces/AuthenticatorState";

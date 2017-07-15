@@ -1,8 +1,9 @@
-﻿/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
+﻿/*
+    http://meyerweb.com/eric/tools/css/reset/
+    v2.0 | 20110126
+    License: none (public domain)
+    ################################################################
 */
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -34,6 +35,7 @@ ol, ul {
 }
 
 blockquote, q {
+    -webkit-quotes: none;
     quotes: none;
 }
 
@@ -47,45 +49,72 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+/* ################################################################ */
 
-/* CSS CORE 
-   font-size/line-height based on a golden ratio calculation    
+
+
+
+/*
+    Typography (Golden Ratio 1.618)
+    ################################################################
 */
+html {
+    font-size: 1em;
+}
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 22px;
+    font-weight: 400;
+    line-height: 1.45;
     background-color: #F4F5F5;
     color: #3B3B3B;
     -webkit-appearance: none;
     text-align: center;
 }
 
-h1,h2,h3,h4,h5,h6 {
+p {
+    margin-bottom: 1.3em;
+}
+
+h1, h2, h3, h4, .text-extra-large, .text-large {
+    margin: 1.414em 0 0.5em;
     font-weight: bold;
-    text-rendering: optimizelegibility;
-    letter-spacing: -1px;
-}
-
-h1, h2, .large-text {
-    font-size: 55px;
-    line-height: 74px;
+    line-height: 1.2;
     letter-spacing: -2px;
+    -ms-text-rendering: optimizelegibility;
+    text-rendering: optimizelegibility;
 }
 
-h3, h4 {
-    font-size: 23px;
-    line-height: 37px;
-    text-transform: lowercase;
+h1, .text-extra-large {
+  margin-top: 0;
+  font-size: 6.854em;
 }
 
-h5 {
-    font-size: 18px;
-    line-height: 29px;
+h2, .text-large {
+    font-size: 4.236em;
 }
 
-b {
+h3, .text-medium {
+    font-size: 2.618em;
+}
+
+h4 {
+    font-size: 1.618em;
+}
+
+small, .text-small {
+    font-size: 0.618em;
+}
+/* ################################################################ */
+
+
+
+
+/*
+    UI Extras
+    ################################################################
+*/
+b, strong {
     font-weight: bold;
 }
 
@@ -93,22 +122,10 @@ b {
     border-bottom: 1px dotted;
 }
 
-.small-text {
-    font-size: 11px;
-    line-height: 18px;
-}
-
-@media handheld, only screen and (max-width: 767px) {
-
-}
-
-@media handheld, only screen and (max-width: 480px) {
-
-}
-
 img {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
     border-radius: 3px;
 }
 
@@ -124,14 +141,6 @@ a:hover {
     cursor: pointer;
 }
 
-p {
-  margin: 0 0 10px;
-}
-
-i {
-    font-style: italic;
-}
-
 ::selection {
     background: #FFCC00;
 }
@@ -140,8 +149,27 @@ i {
     background: #FFCC00;
 }
 
+a, .button {
+    -o-transition: color .2s ease-out, background .5s ease-in;
+    -ms-transition: color .2s ease-out, background .5s ease-in;
+    -moz-transition: color .2s ease-out, background .5s ease-in;
+    -webkit-transition: color .2s ease-out, background .2s ease-out;
+    transition: color .2s ease-out, background .2s ease-out;
+}
 
-/* CSS FORM CORE */
+.hidden {
+    display: none;
+}
+
+/* ################################################################ */
+
+
+
+
+/*
+    Forms
+    ################################################################
+*/
 label {
     font-weight: bold;
 }
@@ -159,32 +187,29 @@ legend {
     margin-bottom: 1em;
 }
 
-fieldset, #IE8#HACK {
-    padding-top: 1.4em;
-}
-
-legend, #IE8#HACK {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-input[type=text], input[type=email], input[type=password], input.text, input.title, textarea {
+input[type=text], input[type=email], input[type=password], textarea, select, .input {
     outline: none;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #fff;
     width: 400px;
     font-weight: bold;
-    font-size: 34px;
-    padding: 14px 7px;
     border: 3px solid #bbb;
     text-align: center;
+    margin: 0.5em 0;
+    padding: 11px 33px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus {
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus, .input:focus {
     border-color: #666;
     background-color: #fff;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
+    -ms-box-shadow: none;
     box-shadow: none;
 }
 
@@ -192,22 +217,6 @@ select {
     background-color: #fff;
     border-width: 2px;
     border-style: solid;
-}
-
-input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
-    margin: 0.5em 0;
-    padding: 14px 7px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-}
-
-input.text, input.title {
-    padding: 13px 7px;
-}
-
-input.title {
-    font-size: 1.5em;
 }
 
 textarea {
@@ -220,6 +229,18 @@ form.inline p {
     margin-bottom: 0;
 }
 
+.input-large {
+    font-size: 2.618em;
+    letter-spacing: -2px;
+    padding: 17px 51px;
+}
+
+.input-medium {
+    font-size: 1.618em;
+    letter-spacing: -2px;
+    padding: 11px 33px;
+}
+
 .button {
     background: #888;
     border: none;
@@ -229,6 +250,7 @@ form.inline p {
     margin: 7px 0;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
     border-radius: 3px;
     -webkit-appearance: none;
 }
@@ -238,20 +260,26 @@ form.inline p {
 }
 
 .button:disabled {
+    -ms-opacity: 0.5;
     opacity: 0.5;
     background-color: #888;
 }
 
-.button-main {
-    font-size: 37px;
-    line-height: 59px;
+.button-large {
+    font-size: 2.618em;
     letter-spacing: -2px;
-    padding: 7px 35px;
+    padding: 17px 51px;
+}
+
+.button-medium {
+    font-size: 1.618em;
+    letter-spacing: -2px;
+    padding: 11px 33px;
 }
 
 .button-mini {
-    font-size: 14px;
-    padding: 11px 25px;
+    font-size: 0.618em;
+    padding: 7px 21px;
 }
 
 .success-message {
@@ -261,17 +289,6 @@ form.inline p {
     padding: 9px;
 }
 
-
-/* CSS3 Transitions */
-a, .button {
-    -o-transition: color .2s ease-out, background .5s ease-in;
-    -ms-transition: color .2s ease-out, background .5s ease-in;
-    -moz-transition: color .2s ease-out, background .5s ease-in;
-    -webkit-transition: color .2s ease-out, background .2s ease-out;
-    transition: color .2s ease-out, background .2s ease-out;
-}
-
-/* Validations */
 .field-validation-error {
     color: #f00;
 }
@@ -281,3 +298,4 @@ a, .button {
     color: #fff;
     padding: 7px;
 }
+/* ################################################################ */

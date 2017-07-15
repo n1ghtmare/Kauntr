@@ -1,37 +1,42 @@
 ﻿/*
-    Basic Layout
-    #########################################
+    Common
+    ################################################################
 */
 input[type=text],input[type=email], input[type=password], input.text, input.title, textarea, select {
     text-align: center;
 }
+
 *::-webkit-input-placeholder {
     color: #CACACA;
 }
+
 *:-moz-placeholder {
     color: #CACACA;
 }
+
 *::-moz-placeholder {
     color: #CACACA;
 }
+
 *:-ms-input-placeholder {
     color: #CACACA;
 }
 
+.text-error {
+    color: #F00000;
+}
+
+/* ################################################################ */
+
+
+
+
+/*
+    Layout
+    ################################################################
+*/
 .main-content {
-    padding-top: 110px;
     text-align: center;
-}
-
-.main-section {
-    font-size: 43px;
-    line-height: 59px;
-    letter-spacing: -2px;
-    font-weight: bold;
-}
-
-.hidden {
-    display: none;
 }
 
 .diamonds {
@@ -39,118 +44,14 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     font-size: 15px;
     line-height: 24px;
 }
-
-input.text-mid {
-    width: 450px;
-}
-
-input.text-main {
-    font-size: 43px;
-    font-weight: bold;
-    padding: 14px 7px;
-}
-
-input.text-main-desc {
-    width: 500px;
-}
-
-input.text-main-mid {
-    width: 110px;
-}
-
-input.text-main-dur {
-    width: 150px;
-}
-
-input.text-main-small {
-    width: 100px;
-}
-
-.text-small {
-    font-size: 14px;
-    line-height: 27px;
-    letter-spacing: 0px;
-    font-weight: normal;
-}
-
-.text-medium {
-    font-size: 27px;
-    line-height: 40px;
-    letter-spacing: -1px;
-}
-
-.text-error {
-    color: #F00000;
-}
-
-select.dropdown-main {
-    font-size: 43px;
-    font-weight: bold;
-    padding: 13px;
-    border: 3px solid #bbb;
-}
-/* ######################################### */
+/* ################################################################ */
 
 
 
 
 /*
-    Header
-    #########################################
-*/
-#header {
-    color: #f5f5f5;
-    background-color: #3b3b3b;
-    font-size: 34px;
-    line-height: 48px;
-    letter-spacing: -2px;
-    text-transform: lowercase;
-    font-weight: bold;
-    position: fixed;
-    width: 100%;
-    display: block;
-    margin-bottom: 30px;
-    z-index: 999;
-}
-
-#header-logo {
-    text-align: center;
-    white-space: nowrap;
-}
-
-#header-menu > li {
-    float: right;
-    margin-left: 15px;
-
-}
-
-#header-menu > li a {
-    display: block;
-    padding: 0 5px;
-    color: #f5f5f5;
-}
-
-#header-menu > li a:hover {
-    color: #FF6600;
-}
-
-.sub-menu {
-    margin: 0;
-    display: none;
-}
-
-.main-section-header {
-    margin-bottom: 55px;
-}
-
-/* ######################################### */
-
-
-
-
-/*
-    Header
-    #########################################
+    Loader
+    ################################################################
 */
 .loader {
     position: absolute;
@@ -166,35 +67,130 @@ select.dropdown-main {
 .loader-message {
     padding: 15px 0;
 }
-/* ######################################### */
+/* ################################################################ */
 
 
 
 
 /*
-    Notifications
-    #########################################
+    Header / Menu
+    ################################################################
 */
+#header {
+    color: #f5f5f5;
+    background-color: #3b3b3b;
+    font-size: 1.618em;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+    font-weight: bold;
+    position: fixed;
+    width: 100%;
+    display: block;
+    z-index: 999;
+    top: 0;
+}
+
+#header-logo {
+    text-align: center;
+    white-space: nowrap;
+}
+
+#header-menu > li {
+    float: right;
+    margin-left: 5px;
+
+}
+
+#header-menu > li a {
+    display: block;
+    padding: 0 7px;
+    color: #f5f5f5;
+}
+
+#header-menu > li a:hover {
+    color: #FF6600;
+}
+
+.sub-menu {
+    margin: 0;
+    display: none;
+}
+
 .notifications-indicator {
     background: #f00;
     padding-right: 10px !important;
 }
+/* ################################################################ */
 
-.notifications-indicator:hover {
-    background: #3b3b3b;
+
+
+
+/*
+    Forms (Textboxes/Inputs)
+    ################################################################
+*/
+
+select.dropdown-main {
+    font-size: 2.618em;
+    font-weight: bold;
+    padding: 13px;
+    border: 3px solid #bbb;
+}
+/* ################################################################ */
+
+
+
+
+/*
+    Forms (Textboxes/Inputs)
+    ################################################################
+*/
+.wrapper-error {
+    position: absolute;
+    top: 50%;
+    margin-top: -300px;
+    left: 0;
+    width: 100%;
 }
 
-#notifications, #notifications-live {
-    text-transform: none;
-    background-color: #FFCC00;
-    color: #3b3b3b;
+.error-message {
+    font-size: 55px;
+    line-height: 74px;
+    font-weight: bold;
+    letter-spacing: -2px;
 }
 
-#notifications-live {
-    min-height: 30px;
-    padding: 0 15px;
+.error-code {
+    font-size: 144px;
+    line-height: 189px;
+    letter-spacing: -2px;
 }
-/* ######################################### */
+/* ################################################################ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ### Index ### */
@@ -247,8 +243,7 @@ select.dropdown-main {
 
 
 .countdown {
-    font-size: 43px;
-    line-height: 59px;
+    font-size: 2.618em;
     letter-spacing: -2px;
     font-weight: bold;
     margin-bottom: 90px;
@@ -335,6 +330,9 @@ select.dropdown-main {
     line-height: 24px;
     width: 97%;
     overflow: auto;
+    -moz-resize: vertical;
+    -ms-resize: vertical;
+    -o-resize: vertical;
     resize: vertical;
 }
 
@@ -375,18 +373,6 @@ select.dropdown-main {
 
 
 /*
-    Global Validation
---------------------------------------
-*/
-input.input-validation-error {
-    border-color: #f00;
-}
-
-textarea.input-validation-error {
-    border-color: #f00;
-}
-
-/*
 ---------------------------------------
 */
 
@@ -406,15 +392,11 @@ textarea.input-validation-error {
     }
 
     .main-content {
-        padding-top: 158px;
+        padding-top: 37px;
     }
 }
 
 @media handheld, only screen and (max-width: 767px) {
-    h1 {
-        font-size: 48px;
-        line-height: 58px;
-    }
     #header-menu > li {
         margin: 0 3px;
     }
@@ -432,17 +414,8 @@ textarea.input-validation-error {
         display: none;
     }
 
-    .text-small {
-        font-size: 13px;
-        line-height: 27px;
-    }
 
     .countdown {
-        font-size: 34px;
-        line-height: 47px;
-    }
-
-    .main-section {
         font-size: 34px;
         line-height: 47px;
     }
@@ -455,27 +428,15 @@ textarea.input-validation-error {
     select.dropdown-main {
         font-size: 34px;
     }
-
-    input.text-main {
-        font-size: 34px;
-    }
-
-    input.input-validation-error {
-        border-color: #f00;
-    }
 }
 
 @media handheld, only screen and (max-width: 650px) {
-    input[type=text], input[type=email], input[type=password], input.text, input.title, textarea {
-        width: 90%;
-    }
-
-    select {
-        width: 95%;
+    input[type=text], input[type=email], input[type=password], textarea, .input, select {
+        width: 77%;
     }
 
     .main-content {
-        padding-top: 300px;
+        padding-top: 185px;
     }
 
     .countdown {
@@ -502,31 +463,7 @@ textarea.input-validation-error {
     }
 }
 
-/*
-    Error Messages
-    ----------------
-*/
 
-.wrapper-error {
-    position: absolute;
-    top: 50%;
-    margin-top: -300px;
-    left: 0;
-    width: 100%;
-}
-
-.error-message {
-    font-size: 55px;
-    line-height: 74px;
-    font-weight: bold;
-    letter-spacing: -2px;
-}
-
-.error-code {
-    font-size: 144px;
-    line-height: 189px;
-    letter-spacing: -2px;
-}
 
 @media handheld, only screen and (max-width: 767px) {
     .error-message {
@@ -551,8 +488,3 @@ textarea.input-validation-error {
         line-height: 94px;
     }
 }
-
-/*
-    Account (Personal)
-    ------------------
-*/

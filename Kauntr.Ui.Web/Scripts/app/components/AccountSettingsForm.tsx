@@ -51,16 +51,16 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
         return (
             <form className="form-section" onSubmit={this.handleFormSubmit}>
                 <div><label htmlFor="displayName">display name</label></div>
-                <div className={classNames("text-small", { "hidden": !this.props.isAutoSetup })}>
+                <div className={classNames({ "hidden": !this.props.isAutoSetup })}>
                     (your display name was auto-setup by the system, you might want to change it ... or not, it's cool)
                 </div>
                 <div>
-                    <input type="text" className="text-main" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} />
+                    <input type="text" className="input input-medium" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} />
                 </div>
                 <div>
-                    <button type="submit" className="button button-main" disabled={!this.state.isValid}>Update</button>
+                    <button type="submit" className="button button-medium" disabled={!this.state.isValid}>Update</button>
                 </div>
             </form>
-        )
+        );
     }
 }

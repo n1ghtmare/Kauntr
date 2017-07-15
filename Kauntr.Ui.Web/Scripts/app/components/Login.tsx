@@ -9,7 +9,7 @@ import {
 import {
     invalidateSendAuthenticationToken,
     sendAuthenticationTokenIfNeeded
-} from "../actions/LoginActions";
+} from "../actions/AuthenticationActions";
 
 import AppState from "../interfaces/AppState";
 import LoginState from "../interfaces/LoginState";
