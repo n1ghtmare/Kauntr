@@ -1,12 +1,10 @@
 import SharedContextState from "./SharedContextState";
-import LoginState from "./LoginState";
-import AuthenticatorState from "./AuthenticatorState";
+import AuthenticationState from "./AuthenticationState";
 import AccountState from "./AccountState";
 
 interface AppState {
     sharedContext: SharedContextState;
-    login: LoginState;
-    authenticator: AuthenticatorState;
+    authentication: AuthenticationState;
     accountDetails: AccountState;
 };
 

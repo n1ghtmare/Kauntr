@@ -1,7 +1,8 @@
-interface LoginState {
-    isLoadingData: boolean;
-    isInvalidated: boolean;
+interface AuthenticationState {
+    isLoggingInOrOut: boolean;
+    isRequestingAuthenticationToken: boolean;
     isWaitingForEmailConfirmation: boolean;
+    token?: number;
     isAuthenticated?: boolean;
     returnUrl?: string;
     error?: string;
@@ -9,4 +10,4 @@ interface LoginState {
     router?: any;
 }
 
-export default LoginState;
+export default AuthenticationState;

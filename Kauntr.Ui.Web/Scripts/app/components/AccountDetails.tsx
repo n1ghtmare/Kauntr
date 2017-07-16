@@ -32,16 +32,19 @@ export class AccountDetails extends React.Component<AccountState, any> {
         const { createdOn, isPersonalAccount, displayName } = this.props;
         return (
             <div className="animated fadeIn">
-                <h3>Account Details ({isPersonalAccount ? "personal" : displayName})</h3>
-                <ul>
-                    <li>email - {isPersonalAccount ? this.props.email : "?"}</li>
-                    <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>
-                    <li>reputation - {this.props.reputation}</li>
-                </ul>
-                <DiamondsSeparator />
-                {isPersonalAccount
-                    ? <AccountSettingsForm isAutoSetup={this.props.isAutoSetup} displayName={displayName} onSubmit={n => console.log(n)} />
-                    : null}
+                <div className="row">
+                    <h3>Account Details</h3>
+                    <h4>{isPersonalAccount ? "personal" : displayName}</h4>
+                    <ul>
+                        <li>email - {isPersonalAccount ? this.props.email : "?"}</li>
+                        <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>
+                        <li>reputation - {this.props.reputation}</li>
+                    </ul>
+                    <DiamondsSeparator />
+                    {isPersonalAccount
+                        ? <AccountSettingsForm isAutoSetup={this.props.isAutoSetup} displayName={displayName} onSubmit={n => console.log(n)} />
+                        : null}
+                </div>
             </div>
         );
     }

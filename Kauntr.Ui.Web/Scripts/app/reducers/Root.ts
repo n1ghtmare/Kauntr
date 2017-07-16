@@ -1,14 +1,12 @@
 import { combineReducers } from "redux";
 
 import sharedContext from "./SharedContext";
-import login from "./Login";
-import authenticator from "./Authenticator";
+import authentication from "./Authentication";
 import accountDetails from "./AccountDetails";
 
 const rootReducer = combineReducers({
     sharedContext,
-    login,
-    authenticator,
+    authentication,
     accountDetails
 });
 

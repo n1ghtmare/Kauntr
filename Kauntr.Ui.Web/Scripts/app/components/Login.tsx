@@ -7,19 +7,18 @@ import {
 } from "../actions/SharedContextActions";
 
 import {
-    invalidateSendAuthenticationToken,
-    sendAuthenticationTokenIfNeeded
+    requestAuthenticationTokenIfNeeded
 } from "../actions/AuthenticationActions";
 
 import AppState from "../interfaces/AppState";
-import LoginState from "../interfaces/LoginState";
+import AuthenticationState from "../interfaces/AuthenticationState";
 
 interface FormState {
     email: string;
     isValid: boolean;
 }
 
-export class Login extends React.Component<LoginState, FormState> {
+export class Login extends React.Component<AuthenticationState, FormState> {
     constructor() {
         super();
 
@@ -57,40 +56,44 @@ export class Login extends React.Component<LoginState, FormState> {
 
         if (this.state.isValid) {
             const { dispatch, router } = this.props;
-            dispatch(invalidateSendAuthenticationToken());
-            dispatch(sendAuthenticationTokenIfNeeded(this.state.email, router.location.query.returnUrl));
+            dispatch(requestAuthenticationTokenIfNeeded(this.state.email, router.location.query.returnUrl));
         }
     }
 
     render() {
         const { isWaitingForEmailConfirmation } = this.props;
         return (
-            <div className="main-section">
-                <form className={classNames({ "hidden": isWaitingForEmailConfirmation })} onSubmit={this.handleFormSubmit}>
-                    <div>
-                        <div>Awesome, you're almost there</div>
-                        <div>login using your email</div>
-                        <div className="text-small">(yeah, we don't use passwords)</div>
-                        <div className={classNames("text-small text-error", { "hidden": this.props.error === null })}>
-                            <p>Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts.</p>
-                            <p>Try again later or contact us at <a href="mailto:support@kauntr.com">support@kauntr.com</a> if the issue persists.</p>
-                        </div>
-                        <input type="text" className="text-main text-main-desc" placeholder="email" onChange={this.handleEmailInputChange} value={this.state.email} />
+            <div className="animated fadeIn">
+                <div className="row">
+                    <h3>Login</h3>
+                    <div className="text-medium-sub">
+                        Awesome, you're almost there
+                        <br />
+                        login using your email
                     </div>
-                    <button type="submit" className="button button-main" disabled={!this.state.isValid}>Login</button>
-                </form>
-                <div className={classNames({ "hidden": !this.props.isWaitingForEmailConfirmation })}>
-                    <div>We've sent you a login email, go check it out ...</div>
+                    <p>(yeah, we don't use passwords)</p>
+                    <div className={classNames("text-error", { "hidden": this.props.error === null })}>
+                        <p>Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts. Try again later or contact us at <a href="mailto:support@kauntr.com">support@kauntr.com</a> if the issue persists.</p>
+                    </div>
+                    <form className={classNames("form-section", { "hidden": isWaitingForEmailConfirmation })} onSubmit={this.handleFormSubmit}>
+                        <div>
+                            <input type="text" className="input input-medium" placeholder="email" onChange={this.handleEmailInputChange} value={this.state.email} />
+                        </div>
+                        <button type="submit" className="button button-medium" disabled={!this.state.isValid}>Login</button>
+                    </form>
+                    <div className={classNames({ "hidden": !this.props.isWaitingForEmailConfirmation })}>
+                        <div>We've sent you a login email, go check it out ...</div>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-function mapStateToProps(state: AppState, ownProps: any): LoginState {
+function mapStateToProps(state: AppState, ownProps: any): AuthenticationState {
     return {
-        isAuthenticated: state.sharedContext.currentUserAccountId !== null,
-        ...state.login
+        ...state.authentication,
+        isAuthenticated: state.sharedContext.currentUserAccountId !== null
     };
 }
 

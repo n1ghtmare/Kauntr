@@ -76,7 +76,7 @@ p {
     margin-bottom: 1.3em;
 }
 
-h1, h2, h3, h4, .text-extra-large, .text-large {
+h1, h2, h3, h4, .text-extra-large, .text-large, .text-medium, .text-medium-sub {
     margin: 1.414em 0 0.5em;
     font-weight: bold;
     line-height: 1.2;
@@ -98,7 +98,7 @@ h3, .text-medium {
     font-size: 2.618em;
 }
 
-h4 {
+h4, .text-medium-sub {
     font-size: 1.618em;
 }
 
@@ -196,12 +196,12 @@ input[type=text], input[type=email], input[type=password], textarea, select, .in
     border: 3px solid #bbb;
     text-align: center;
     margin: 0.5em 0;
-    padding: 11px 33px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -ms-border-radius: 5px;
     border-radius: 5px;
     font-weight: bold;
+    letter-spacing: -2px;
 }
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus, .input:focus {
@@ -231,14 +231,16 @@ form.inline p {
 
 .input-large {
     font-size: 2.618em;
-    letter-spacing: -2px;
     padding: 17px 51px;
 }
 
 .input-medium {
     font-size: 1.618em;
-    letter-spacing: -2px;
     padding: 11px 33px;
+}
+
+.input-validation-error {
+    border-color: #f00;
 }
 
 .button {

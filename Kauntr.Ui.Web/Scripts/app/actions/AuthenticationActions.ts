@@ -3,21 +3,20 @@ import * as moment from "moment";
 import AppState from "../interfaces/AppState";
 
 import {
-    AUTHENTICATE,
-    AUTHENTICATE_SUCCESS,
-    AUTHENTICATE_FAILURE,
+    LOGIN,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
 
-    INVALIDATE_SEND_AUTHENTICATION_TOKEN,
-    SEND_AUTHENTICATION_TOKEN,
-    SEND_AUTHENTICATION_TOKEN_SUCCESS,
-    SEND_AUTHENTICATION_TOKEN_FAILURE
+    REQUEST_AUTHENTICATION_TOKEN,
+    REQUEST_AUTHENTICATION_TOKEN_SUCCESS,
+    REQUEST_AUTHENTICATION_TOKEN_FAILURE
 } from "../constants/ActionTypes";
 
-export function authenticateUser(accountId: number, authenticationToken: string, returnUrl: string, router: any) {
+export function loginUserAccount(accountId: number, authenticationToken: string, returnUrl: string, router: any) {
     return (dispatch: Function, getState: Function) => {
         const fetchUrl: string = "/account/authenticate";
 
-        dispatch(authenticate());
+        dispatch(login());
         return fetch(fetchUrl, { method: "post", body: JSON.stringify({ AccountId: accountId, AuthenticationToken: authenticationToken }), headers: { "Content-Type": "application/json" } })
             .then(response => {
                 if (!response.ok) {
@@ -26,45 +25,39 @@ export function authenticateUser(accountId: number, authenticationToken: string,
                 return response;
             })
             .then(() => {
-                dispatch(authenticateSuccess());
+                dispatch(loginSuccess());
                 router.push(typeof returnUrl !== "undefined" ? returnUrl : "/");
             })
-            .catch(errorMessage => dispatch(authenticateFailure(errorMessage)));
+            .catch(errorMessage => dispatch(loginFailure(errorMessage)));
     };
 }
 
-function authenticate() {
+function login() {
     return {
-        type: AUTHENTICATE
+        type: LOGIN
     };
 }
 
-function authenticateSuccess() {
+function loginSuccess() {
     return {
-        type: AUTHENTICATE_SUCCESS
+        type: LOGIN_SUCCESS
     };
 }
 
-function authenticateFailure(error: string) {
+function loginFailure(error: string) {
     return {
-        type: AUTHENTICATE_FAILURE,
+        type: LOGIN_FAILURE,
         error
     };
 }
 
-export function invalidateSendAuthenticationToken() {
-    return {
-        type: INVALIDATE_SEND_AUTHENTICATION_TOKEN
-    };
-}
-
-export function sendAuthenticationTokenIfNeeded(email: string, returnUrl: string) {
+export function requestAuthenticationTokenIfNeeded(email: string, returnUrl: string) {
     return (dispatch: Function, getState: Function) => {
         if (shouldRequestAuthenticationToken(getState())) {
             const token: number = moment().unix();
             const fetchUrl: string = "/account/login";
 
-            dispatch(sendAuthenticationToken(token));
+            dispatch(requestAuthenticationToken(token));
             return fetch(fetchUrl, { method: "post", body: JSON.stringify({ Token: token, Email: email, ReturnUrl: returnUrl }), headers: { "Content-Type": "application/json" } })
                 .then(response => {
                     if (!response.ok) {
@@ -72,7 +65,7 @@ export function sendAuthenticationTokenIfNeeded(email: string, returnUrl: string
                     }
                     return response;
                 })
-                .then(() => dispatch(sendAuthenticationTokenSuccess()))
+                .then(() => dispatch(requestAuthenticationTokenSuccess()))
                 .catch(errorStatusCode => {
                     dispatch(sendAuthenticationTokenFailure(`Error - status code - ${errorStatusCode}`));
                 });
@@ -81,26 +74,26 @@ export function sendAuthenticationTokenIfNeeded(email: string, returnUrl: string
 }
 
 function shouldRequestAuthenticationToken(state: AppState): boolean {
-    let { isLoadingData, isInvalidated } = state.login;
-    return !isLoadingData && isInvalidated;
+    let { isRequestingAuthenticationToken } = state.authentication;
+    return !isRequestingAuthenticationToken;
 }
 
-function sendAuthenticationToken(token: number) {
+function requestAuthenticationToken(token: number) {
     return {
-        type: SEND_AUTHENTICATION_TOKEN,
+        type: REQUEST_AUTHENTICATION_TOKEN,
         token
     };
 }
 
-function sendAuthenticationTokenSuccess() {
+function requestAuthenticationTokenSuccess() {
     return {
-        type: SEND_AUTHENTICATION_TOKEN_SUCCESS
+        type: REQUEST_AUTHENTICATION_TOKEN_SUCCESS
     };
 }
 
 function sendAuthenticationTokenFailure(error: string) {
     return {
-        type: SEND_AUTHENTICATION_TOKEN_FAILURE,
+        type: REQUEST_AUTHENTICATION_TOKEN_FAILURE,
         error
     };
 }

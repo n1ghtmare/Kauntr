@@ -1,20 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { authenticateUser } from "../actions/AuthenticationActions";
+import { loginUserAccount } from "../actions/AuthenticationActions";
 
 import AppState from "../interfaces/AppState";
-import AuthenticatorState from "../interfaces/AuthenticatorState";
+import AuthenticationState from "../interfaces/AuthenticationState";
 
 import LoadingIndicator from "./LoadingIndicator";
 import Error from "./Error";
 
-export class Authenticator extends React.Component<AuthenticatorState, any> {
+export class Authenticator extends React.Component<AuthenticationState, any> {
     componentDidMount() {
         const { dispatch, router } = this.props;
         const { accountId, authenticationToken } = router.params;
 
-        dispatch(authenticateUser(accountId, authenticationToken, router.location.query.returnUrl, router));
+        dispatch(loginUserAccount(accountId, authenticationToken, router.location.query.returnUrl, router));
     }
 
     render() {
@@ -29,13 +29,13 @@ export class Authenticator extends React.Component<AuthenticatorState, any> {
                         </div>
                     </Error>
                 )
-                : <LoadingIndicator isActive={this.props.isLoadingData} />
+                : <LoadingIndicator isActive={this.props.isLoggingInOrOut} />
         );
     }
 }
 
-function mapStateToProps(state: AppState, ownProps: any): AuthenticatorState {
-    return state.authenticator;
+function mapStateToProps(state: AppState, ownProps: any): AuthenticationState {
+    return state.authentication;
 }
 
 export default connect(mapStateToProps)(Authenticator);
