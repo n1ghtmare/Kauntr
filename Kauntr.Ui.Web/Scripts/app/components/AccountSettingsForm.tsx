@@ -7,6 +7,7 @@ interface AccountSettingsFormProps {
     isAutoSetup: boolean;
     displayName: string;
     onSubmit: AccountSettingsSubmitFunc;
+    isActive: boolean;
 }
 
 interface AccountSettingsFormState {
@@ -48,6 +49,7 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
     }
 
     render() {
+        const { isActive } = this.props;
         return (
             <form className="form-section" onSubmit={this.handleFormSubmit}>
                 <div><label htmlFor="displayName">display name</label></div>
@@ -55,10 +57,10 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
                     (your display name was auto-setup by the system, you might want to change it ... or not, it's cool)
                 </div>
                 <div>
-                    <input type="text" className="input input-medium" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} />
+                    <input type="text" className="input input-medium" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} disabled={isActive} />
                 </div>
                 <div>
-                    <button type="submit" className="button button-medium" disabled={!this.state.isValid}>Update</button>
+                    <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>Update</button>
                 </div>
             </form>
         );

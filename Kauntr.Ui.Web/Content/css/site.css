@@ -91,7 +91,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 }
 
 #header-logo {
-    text-align: center;
+    text-align: left;
     white-space: nowrap;
 }
 

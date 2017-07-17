@@ -7,7 +7,8 @@ import {
 
 import {
     invalidatePersonalAccount,
-    fetchAccountDetailsIfNeeded
+    fetchAccountDetailsIfNeeded,
+    updateAccountDisplayNameIfNeeded
 } from "../actions/AccountActions";
 
 import AppState from "../interfaces/AppState";
@@ -28,6 +29,10 @@ export class AccountDetails extends React.Component<AccountState, any> {
         dispatch(fetchAccountDetailsIfNeeded(typeof id === "undefined" ? null : id));
     }
 
+    private handleOnDisplayNameUpdate = (displayName: string): void => {
+        this.props.dispatch(updateAccountDisplayNameIfNeeded(displayName));
+    }
+
     renderAccountDetails() {
         const { createdOn, isPersonalAccount, displayName } = this.props;
         return (
@@ -42,7 +47,7 @@ export class AccountDetails extends React.Component<AccountState, any> {
                     </ul>
                     <DiamondsSeparator />
                     {isPersonalAccount
-                        ? <AccountSettingsForm isAutoSetup={this.props.isAutoSetup} displayName={displayName} onSubmit={n => console.log(n)} />
+                        ? <AccountSettingsForm isAutoSetup={this.props.isAutoSetup} displayName={displayName} onSubmit={this.handleOnDisplayNameUpdate} isActive={this.props.isUpdatingData || this.props.isLoadingData} />
                         : null}
                 </div>
             </div>
@@ -50,8 +55,9 @@ export class AccountDetails extends React.Component<AccountState, any> {
     }
 
     render() {
-        return this.props.isLoadingData
-            ? <LoadingIndicator isActive={this.props.isLoadingData} />
+        const { isLoadingData } = this.props;
+        return isLoadingData
+            ? <LoadingIndicator isActive={isLoadingData} />
             : this.renderAccountDetails();
     }
 }

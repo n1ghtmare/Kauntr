@@ -6,7 +6,10 @@ import {
     INVALIDATE_ACCOUNT_DETAILS,
     LOAD_ACCOUNT_DETAILS,
     LOAD_ACCOUNT_DETAILS_SUCCESS,
-    LOAD_ACCOUNT_DETAILS_FAILURE
+    LOAD_ACCOUNT_DETAILS_FAILURE,
+    UPDATE_ACCOUNT_DISPLAY_NAME,
+    UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
+    UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE
 } from "../constants/ActionTypes";
 
 export function invalidatePersonalAccount() {
@@ -65,6 +68,43 @@ function loadAccountDetailsSuccess(json: any) {
 function loadAccountDetailsFailure(error: string) {
     return {
         type: LOAD_ACCOUNT_DETAILS_FAILURE,
+        error
+    };
+}
+
+export function updateAccountDisplayNameIfNeeded(displayName: string) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        const fetchUrl: string = "/account/update";
+
+        dispatch(updateAccountDisplayName());
+        return fetch(fetchUrl, { method: "post", body: JSON.stringify({ displayName }), headers: { "Content-Type": "application/json" } })
+            .then(response => {
+                if (!response.ok) {
+                    throw response.status.toString();
+                }
+                return response;
+            })
+            .then(() => dispatch(updateAccountDisplayNameSuccess(displayName)))
+            .catch(errorMessage => dispatch(updateAccountDisplayNameFailure(errorMessage)));
+    };
+}
+
+function updateAccountDisplayName() {
+    return {
+        type: UPDATE_ACCOUNT_DISPLAY_NAME
+    };
+}
+
+function updateAccountDisplayNameSuccess(displayName: string) {
+    return {
+        type: UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
+        displayName
+    };
+}
+
+function updateAccountDisplayNameFailure(error: string) {
+    return {
+        type: UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE,
         error
     };
 }

@@ -4,7 +4,10 @@ import {
     INVALIDATE_ACCOUNT_DETAILS,
     LOAD_ACCOUNT_DETAILS,
     LOAD_ACCOUNT_DETAILS_SUCCESS,
-    LOAD_ACCOUNT_DETAILS_FAILURE
+    LOAD_ACCOUNT_DETAILS_FAILURE,
+    UPDATE_ACCOUNT_DISPLAY_NAME,
+    UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
+    UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE
 } from "../constants/ActionTypes";
 
 import {
@@ -13,6 +16,7 @@ import {
 
 interface AccountAction {
     type: string;
+    displayName?: string;
     token?: number;
     json?: any;
     error?: string;
@@ -20,7 +24,8 @@ interface AccountAction {
 
 export const initialState: AccountState = {
     isLoadingData: false,
-    isInvalidated: true
+    isInvalidated: true,
+    isUpdatingData: false
 };
 
 export default function accountDetails(state = initialState, action: AccountAction): AccountState {
@@ -55,6 +60,23 @@ export default function accountDetails(state = initialState, action: AccountActi
                 ...state,
                 isInvalidated: true,
                 isLoadingData: false,
+                error: action.error
+            };
+        case UPDATE_ACCOUNT_DISPLAY_NAME:
+            return {
+                ...state,
+                isUpdatingData: true
+            };
+        case UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS:
+            return {
+                ...state,
+                isUpdatingData: false,
+                displayName: action.displayName
+            };
+        case UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE:
+            return {
+                ...state,
+                isUpdatingData: false,
                 error: action.error
             };
         default:

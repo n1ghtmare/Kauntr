@@ -59,6 +59,19 @@ namespace Kauntr.Core.Repositories {
                 return (await connection.QueryAsync<Account>(sql, new { id })).FirstOrDefault();
             }
         }
+
+        public async Task UpdateAsync(Account account) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"UPDATE Accounts SET
+                        DisplayName = @DisplayName,
+                        Reputation = @Reputation,
+                        Email = @Email,
+                        IsAutoSetup = @IsAutoSetup
+                    WHERE Id = @Id";
+                await connection.ExecuteAsync(sql, account);
+            }
+        }
     }
 }
 

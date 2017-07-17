@@ -38,6 +38,21 @@ namespace Kauntr.Ui.Web.Controllers {
             return Json(new {Account = account, Token = token}, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous] // TODO - Remove after debug
+        [HttpPost]
+        public async Task<ActionResult> Update(AccountUpdateViewModel model) {
+            if (ModelState.IsValid) {
+                Account account = await _accountRepository.GetAsync((int)_contextService.CurrentUserAccountId);
+
+                account.DisplayName = model.DisplayName;
+                account.IsAutoSetup = false;
+
+                await _accountRepository.UpdateAsync(account);
+                return new EmptyResult();
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
         [HttpPost]
         public ActionResult Logout() {
             if (_contextService.CurrentUserIsAuthenticated) {

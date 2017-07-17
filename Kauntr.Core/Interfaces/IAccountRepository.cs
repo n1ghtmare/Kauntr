@@ -7,5 +7,6 @@ namespace Kauntr.Core.Interfaces {
         Task<Account> GetByEmailAsync(string email);
         Task CreateAsync(Account account);
         Task<Account> GetAsync(int id);
+        Task UpdateAsync(Account account);
     }
 }
