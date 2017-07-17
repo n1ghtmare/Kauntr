@@ -71,6 +71,7 @@ export default function accountDetails(state = initialState, action: AccountActi
             return {
                 ...state,
                 isUpdatingData: false,
+                isAutoSetup: false,
                 displayName: action.displayName
             };
         case UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE:

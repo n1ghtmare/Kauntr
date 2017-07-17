@@ -39,7 +39,7 @@ export class AccountDetails extends React.Component<AccountState, any> {
             <div className="animated fadeIn">
                 <div className="row">
                     <h3>Account Details</h3>
-                    <h4>{isPersonalAccount ? "personal" : displayName}</h4>
+                    <h4>{displayName} {isPersonalAccount ? "(personal)" : null}</h4>
                     <ul>
                         <li>email - {isPersonalAccount ? this.props.email : "?"}</li>
                         <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>
