@@ -31,7 +31,7 @@ namespace Kauntr.Ui.Web.Controllers {
             }
 
             Account account = await _accountRepository.GetAsync((int) (accountId ?? _contextService.CurrentUserAccountId));
-            if (accountId != null) {
+            if (accountId != null && account != null) {
                 account.Email = null;
             }
 
@@ -53,6 +53,7 @@ namespace Kauntr.Ui.Web.Controllers {
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
+        [AllowAnonymous] // TODO - Remove after debug
         [HttpPost]
         public ActionResult Logout() {
             if (_contextService.CurrentUserIsAuthenticated) {

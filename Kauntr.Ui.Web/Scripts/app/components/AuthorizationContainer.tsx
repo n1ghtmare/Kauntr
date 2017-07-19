@@ -7,7 +7,8 @@ import SharedContextState from "../interfaces/SharedContextState";
 export class AuthorizationContainer extends React.Component<SharedContextState, any> {
     componentDidMount() {
         if (this.props.currentUserAccountId === null && !this.props.isLoadingData) {
-            this.props.router.push("/login?returnUrl=" + this.props.returnUrl);
+            const { returnUrl } = this.props;
+            this.props.router.push(returnUrl === "/logout" ? "/" : "/login?returnUrl=" + returnUrl);
         }
     }
 

@@ -9,7 +9,11 @@ import {
 
     REQUEST_AUTHENTICATION_TOKEN,
     REQUEST_AUTHENTICATION_TOKEN_SUCCESS,
-    REQUEST_AUTHENTICATION_TOKEN_FAILURE
+    REQUEST_AUTHENTICATION_TOKEN_FAILURE,
+
+    LOGOUT,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILURE
 } from "../constants/ActionTypes";
 
 export function loginUserAccount(accountId: number, authenticationToken: string, returnUrl: string, router: any) {
@@ -66,9 +70,7 @@ export function requestAuthenticationTokenIfNeeded(email: string, returnUrl: str
                     return response;
                 })
                 .then(() => dispatch(requestAuthenticationTokenSuccess()))
-                .catch(errorStatusCode => {
-                    dispatch(sendAuthenticationTokenFailure(`Error - status code - ${errorStatusCode}`));
-                });
+                .catch(errorStatusCode => dispatch(sendAuthenticationTokenFailure(`Error - status code - ${errorStatusCode}`)));
         }
     };
 }
@@ -94,6 +96,46 @@ function requestAuthenticationTokenSuccess() {
 function sendAuthenticationTokenFailure(error: string) {
     return {
         type: REQUEST_AUTHENTICATION_TOKEN_FAILURE,
+        error
+    };
+}
+
+export function logoutUserAccount(router: any) {
+    return (dispatch: Function, getState: Function) => {
+        const fetchUrl: string = "/account/logout";
+
+        dispatch(logout());
+        return fetch(fetchUrl, { method: "post" })
+            .then(response => {
+                if (!response.ok) {
+                    throw response.status.toString();
+                }
+                return response;
+            })
+            .then(() => {
+                dispatch(logoutSuccess());
+                router.push("/");
+            })
+            .catch(errorStatusCode => dispatch(logoutFailure(errorStatusCode)));
+
+    }
+}
+
+function logout() {
+    return {
+        type: LOGOUT
+    };
+}
+
+function logoutSuccess() {
+    return {
+        type: LOGOUT_SUCCESS
+    };
+}
+
+function logoutFailure(error: string) {
+    return {
+        type: LOGOUT_FAILURE,
         error
     };
 }

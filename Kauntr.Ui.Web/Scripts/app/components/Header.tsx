@@ -61,12 +61,12 @@ export class Header extends React.Component<SharedContextState, any> {
                             <ul id="header-menu">
                                 <li><Link to="/notifications" className="notifications-indicator">13</Link></li>
                                 <li><a href="#" onClick={this.handleSearchClick}>search</a></li>
-                                <li><Link to="/login">login</Link></li>
+                                <li className={classNames({ "hidden": isAuthenticated })}><Link to="/login">login</Link></li>
                                 <li className={classNames({ "hidden": !isAuthenticated })}>
                                     <a className="has-sub-menu" href="#">account</a>
                                     <ul className="sub-menu">
                                         <li><Link to="/account">settings</Link></li>
-                                        <li><Link to="/account/logoff">logoff</Link></li>
+                                        <li><Link to="/logout">logout</Link></li>
                                     </ul>
                                 </li>
                                 <li>

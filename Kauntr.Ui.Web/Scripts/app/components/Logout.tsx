@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { loginUserAccount } from "../actions/AuthenticationActions";
+import { logoutUserAccount } from "../actions/AuthenticationActions";
 
 import AppState from "../interfaces/AppState";
 import AuthenticationState from "../interfaces/AuthenticationState";
@@ -9,24 +9,20 @@ import AuthenticationState from "../interfaces/AuthenticationState";
 import LoadingIndicator from "./LoadingIndicator";
 import Error from "./Error";
 
-export class Authenticator extends React.Component<AuthenticationState, any> {
+export class Logout extends React.Component<AuthenticationState, any> {
     componentDidMount() {
         const { dispatch, router } = this.props;
-        const { accountId, authenticationToken } = router.params;
 
-        dispatch(loginUserAccount(accountId, authenticationToken, router.location.query.returnUrl, router));
+        dispatch(logoutUserAccount(router));
     }
 
     render() {
         return (
             this.props.error !== null
                 ? (
-                    <Error code={this.props.error} subMessage={"ooops, something went wrong."}>
+                    <Error code={this.props.error} subMessage={"oh snap! Something went wrong."}>
                         <div className="text-error">
-                            <p>
-                                Your authentication token is either invalid, it has been used already (they're one time use only), or it has expired and is no longer valid.
-                                Or, you know ... something else entirely.
-                            </p>
+                            <p>For some reason we can't log you out. Try again later perhaps.</p>
                             <p>Contact us at <a href="mailto:support@kauntr.com">support@kauntr.com</a> if the issue persists.</p>
                         </div>
                     </Error>
@@ -40,4 +36,4 @@ function mapStateToProps(state: AppState, ownProps: any): AuthenticationState {
     return state.authentication;
 }
 
-export default connect(mapStateToProps)(Authenticator);
+export default connect(mapStateToProps)(Logout);

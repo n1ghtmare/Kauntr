@@ -145,7 +145,7 @@ select.dropdown-main {
     Forms (Textboxes/Inputs)
     ################################################################
 */
-.wrapper-error {
+.error-wrapper {
     position: absolute;
     top: 50%;
     margin-top: -300px;

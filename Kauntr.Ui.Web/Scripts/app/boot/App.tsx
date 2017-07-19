@@ -19,6 +19,8 @@ import AccountDetails from "../components/AccountDetails";
 import NotificationList from "../components/NotificationList";
 import Authenticator from "../components/Authenticator";
 import AuthorizationContainer from "../components/AuthorizationContainer";
+import Logout from "../components/Logout";
+import ErrorNotFound from "../components/ErrorNotFound";
 
 // Redux Setup
 const createStoreWithMiddleware = applyMiddleware(
@@ -44,6 +46,10 @@ const routes = (
                 <Route component={AccountDetails} path="/account/:id" />
             </Route>
             <Route component={Authenticator} path="/authenticate/account/:accountId/token/:authenticationToken" />
+            <Route component={AuthorizationContainer}>
+                <Route component={Logout} path="/logout" />
+            </Route>
+            <Route component={ErrorNotFound} path="*" />
         </Router>
     </Provider>
 );

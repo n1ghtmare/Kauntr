@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router";
 
 interface ErrorProps {
     code: string;
@@ -8,14 +9,17 @@ interface ErrorProps {
 export default class Error extends React.Component<ErrorProps, any> {
     render() {
         return (
-            <div className="error-wrapper">
-                <div className="error-message">
-                    <p className="error-code">{this.props.code}</p>
-                    <p>:(</p>
-                    <p>{this.props.subMessage}</p>
-                </div>
-                <div>
-                    {this.props.children}
+            <div className="error-wrapper animated fadeIn">
+                <div className="row">
+                    <div>
+                        <h1>{this.props.code}</h1>
+                        <h2>:(</h2>
+                        <h3>{this.props.subMessage}</h3>
+                    </div>
+                    <div>
+                        {this.props.children}
+                    </div>
+                    <p><Link to="/">get me out of here</Link></p>
                 </div>
             </div>
         );

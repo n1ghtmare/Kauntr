@@ -7,7 +7,11 @@ import {
 
     REQUEST_AUTHENTICATION_TOKEN,
     REQUEST_AUTHENTICATION_TOKEN_SUCCESS,
-    REQUEST_AUTHENTICATION_TOKEN_FAILURE
+    REQUEST_AUTHENTICATION_TOKEN_FAILURE,
+
+    LOGOUT,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILURE
 } from "../constants/ActionTypes";
 
 interface AuthenticatorAction {
@@ -60,6 +64,23 @@ export default function authentication(state = initialState, action: Authenticat
                 ...state,
                 isInvalidated: true,
                 isLoadingData: false,
+                error: action.error
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                isLoggingInOrOut: true,
+                error: null
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isLoggingInOrOut: false
+            };
+        case LOGOUT_FAILURE:
+            return {
+                ...state,
+                isLoggingInOrOut: false,
                 error: action.error
             };
         default:
