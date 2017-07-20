@@ -12,7 +12,7 @@ namespace Kauntr.Ui.Web.Controllers {
             _contextService = contextService;
         }
 
-        public async Task<ActionResult> Index(int token) {
+        public async Task<JsonResult> Index(int token) {
             // simulate work
 //            await Task.Delay(3000);
 

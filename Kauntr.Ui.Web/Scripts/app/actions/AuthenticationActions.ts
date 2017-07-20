@@ -5,7 +5,7 @@ import AppState from "../interfaces/AppState";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
-import { invalidateError, setError } from "./ErrorActions";
+import { handleServerError } from "./ErrorActions";
 
 export function loginUserAccount(accountId: number, authenticationToken: string, returnUrl: string) {
     return (dispatch: Function, getState: Function) => {
@@ -23,13 +23,7 @@ export function loginUserAccount(accountId: number, authenticationToken: string,
                 dispatch(loginSuccess());
                 hashHistory.push(typeof returnUrl !== "undefined" ? returnUrl : "/");
             })
-            .catch((response: Response) => {
-                dispatch(loginFailure());
-                dispatch(invalidateError());
-                dispatch(setError(response.status, response.statusText, "Your authentication token is either invalid, it has been used already (they're one time use only), or it has expired and is no longer valid. Or, you know ... something else entirely."));
-
-                hashHistory.push("/error");
-            });
+            .catch((response: Response) => handleServerError(response, dispatch, loginFailure, "Your authentication token is either invalid, it has been used already (they're one time use only), or it has expired and is no longer valid. Or, you know ... something else entirely."));
     };
 }
 
@@ -66,13 +60,7 @@ export function requestAuthenticationTokenIfNeeded(email: string, returnUrl: str
                     return response;
                 })
                 .then(() => dispatch(requestAuthenticationTokenSuccess()))
-                .catch((response: Response) => {
-                    dispatch(sendAuthenticationTokenFailure());
-                    dispatch(invalidateError());
-                    dispatch(setError(response.status, response.statusText, "Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts."));
-
-                    hashHistory.push("/error");
-                });
+                .catch((response: Response) => handleServerError(response, dispatch, sendAuthenticationTokenFailure, "Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts."));
         }
     };
 }
@@ -117,13 +105,7 @@ export function logoutUserAccount(router: any) {
                 dispatch(logoutSuccess());
                 router.push("/");
             })
-            .catch((response: Response) => {
-                dispatch(logoutFailure());
-                dispatch(invalidateError());
-                dispatch(setError(response.status, response.statusText, "For some reason we can't log you out. Try again later perhaps."));
-
-                hashHistory.push("/error");
-            });
+            .catch((response: Response) => handleServerError(response, dispatch, logoutFailure, "For some reason we can't log you out. Try again later perhaps."));
 
     }
 }

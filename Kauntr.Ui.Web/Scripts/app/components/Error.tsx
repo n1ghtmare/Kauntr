@@ -15,7 +15,7 @@ export default class Error extends React.Component<ErrorProps, any> {
                     <div>
                         <h1>{this.props.code}</h1>
                         <h2>:(</h2>
-                        <h3>{this.props.subMessage}</h3>
+                        <h3>{this.props.message}</h3>
                     </div>
                     <div>
                         {this.props.children}

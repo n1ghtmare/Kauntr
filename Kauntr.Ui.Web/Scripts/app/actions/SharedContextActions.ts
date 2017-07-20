@@ -1,11 +1,10 @@
 import * as moment from "moment";
-import { hashHistory } from "react-router";
 
 import AppState from "../interfaces/AppState";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
-import { invalidateError, setError } from "./ErrorActions";
+import { handleServerError } from "./ErrorActions";
 
 export function invalidateSharedContext() {
     return {
@@ -32,13 +31,7 @@ export function fetchSharedContextIfNeeded() {
                         dispatch(loadSharedContextSuccess(json));
                     }
                 })
-                .catch((response: Response) => {
-                    dispatch(loadSharedContextFailure());
-                    dispatch(invalidateError());
-                    dispatch(setError(response.status, response.statusText));
-
-                    hashHistory.push("/error");
-                });
+                .catch((response: Response) => handleServerError(response, dispatch, loadSharedContextFailure));
         }
     };
 }

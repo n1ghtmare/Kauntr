@@ -1,11 +1,10 @@
 import * as moment from "moment";
-import { hashHistory } from "react-router";
 
 import AppState from "../interfaces/AppState";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
-import { invalidateError, setError } from "./ErrorActions";
+import { handleServerError } from "./ErrorActions";
 
 export function invalidatePersonalAccount() {
     return {
@@ -32,13 +31,7 @@ export function fetchAccountDetailsIfNeeded(accountId?: number) {
                         dispatch(loadAccountDetailsSuccess(json));
                     }
                 })
-                .catch((response: Response) => {
-                    dispatch(loadAccountDetailsFailure());
-                    dispatch(invalidateError());
-                    dispatch(setError(response.status, response.statusText));
-
-                    hashHistory.push("/error");
-                });
+                .catch((response: Response) => handleServerError(response, dispatch, loadAccountDetailsFailure));
         }
     };
 }
@@ -85,13 +78,7 @@ export function updateAccountDisplayNameIfNeeded(displayName: string) {
                 return response;
             })
             .then(() => dispatch(updateAccountDisplayNameSuccess(displayName)))
-            .catch((response: Response) => {
-                dispatch(updateAccountDisplayNameFailure());
-                dispatch(invalidateError());
-                dispatch(setError(response.status, response.statusText, "Something bad happened and we couldn't update your display name, it is perhaps in a bad format"));
-
-                hashHistory.push("/error");
-            });
+            .catch((response: Response) => handleServerError(response, dispatch, updateAccountDisplayNameFailure, "Something bad happened and we couldn't update your display name, it is perhaps in a bad format"));
     };
 }
 
