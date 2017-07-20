@@ -1,20 +1,15 @@
 import * as moment from "moment";
+import { hashHistory } from "react-router";
 
 import AppState from "../interfaces/AppState";
 
-import {
-    INVALIDATE_ACCOUNT_DETAILS,
-    LOAD_ACCOUNT_DETAILS,
-    LOAD_ACCOUNT_DETAILS_SUCCESS,
-    LOAD_ACCOUNT_DETAILS_FAILURE,
-    UPDATE_ACCOUNT_DISPLAY_NAME,
-    UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
-    UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE
-} from "../constants/ActionTypes";
+import * as ActionTypes from "../constants/ActionTypes";
+
+import { invalidateError, setError } from "./ErrorActions";
 
 export function invalidatePersonalAccount() {
     return {
-        type: INVALIDATE_ACCOUNT_DETAILS
+        type: ActionTypes.INVALIDATE_ACCOUNT_DETAILS
     };
 }
 
@@ -28,7 +23,7 @@ export function fetchAccountDetailsIfNeeded(accountId?: number) {
             return fetch(fetchUrl)
                 .then(response => {
                     if (!response.ok) {
-                        throw response.status.toString();
+                        throw response;
                     }
                     return response.json();
                 })
@@ -37,7 +32,13 @@ export function fetchAccountDetailsIfNeeded(accountId?: number) {
                         dispatch(loadAccountDetailsSuccess(json));
                     }
                 })
-                .catch(errorMessage => dispatch(loadAccountDetailsFailure(errorMessage)));
+                .catch((response: Response) => {
+                    dispatch(loadAccountDetailsFailure());
+                    dispatch(invalidateError());
+                    dispatch(setError(response.status, response.statusText));
+
+                    hashHistory.push("/error");
+                });
         }
     };
 }
@@ -53,22 +54,21 @@ function shouldFetchAccountDetails(state: AppState): boolean {
 
 function loadAccountDetails(token: number) {
     return {
-        type: LOAD_ACCOUNT_DETAILS,
+        type: ActionTypes.LOAD_ACCOUNT_DETAILS,
         token
     };
 }
 
 function loadAccountDetailsSuccess(json: any) {
     return {
-        type: LOAD_ACCOUNT_DETAILS_SUCCESS,
+        type: ActionTypes.LOAD_ACCOUNT_DETAILS_SUCCESS,
         json
     };
 }
 
-function loadAccountDetailsFailure(error: string) {
+function loadAccountDetailsFailure() {
     return {
-        type: LOAD_ACCOUNT_DETAILS_FAILURE,
-        error
+        type: ActionTypes.LOAD_ACCOUNT_DETAILS_FAILURE
     };
 }
 
@@ -80,31 +80,36 @@ export function updateAccountDisplayNameIfNeeded(displayName: string) {
         return fetch(fetchUrl, { method: "post", body: JSON.stringify({ displayName }), headers: { "Content-Type": "application/json" } })
             .then(response => {
                 if (!response.ok) {
-                    throw response.status.toString();
+                    throw response;
                 }
                 return response;
             })
             .then(() => dispatch(updateAccountDisplayNameSuccess(displayName)))
-            .catch(errorMessage => dispatch(updateAccountDisplayNameFailure(errorMessage)));
+            .catch((response: Response) => {
+                dispatch(updateAccountDisplayNameFailure());
+                dispatch(invalidateError());
+                dispatch(setError(response.status, response.statusText, "Something bad happened and we couldn't update your display name, it is perhaps in a bad format"));
+
+                hashHistory.push("/error");
+            });
     };
 }
 
 function updateAccountDisplayName() {
     return {
-        type: UPDATE_ACCOUNT_DISPLAY_NAME
+        type: ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME
     };
 }
 
 function updateAccountDisplayNameSuccess(displayName: string) {
     return {
-        type: UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
+        type: ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
         displayName
     };
 }
 
-function updateAccountDisplayNameFailure(error: string) {
+function updateAccountDisplayNameFailure() {
     return {
-        type: UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE,
-        error
+        type: ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE
     };
 }

@@ -12,7 +12,7 @@ namespace Kauntr.Ui.Web.Controllers {
             _contextService = contextService;
         }
 
-        public async Task<JsonResult> Index(int token) {
+        public async Task<ActionResult> Index(int token) {
             // simulate work
 //            await Task.Delay(3000);
 
@@ -21,7 +21,6 @@ namespace Kauntr.Ui.Web.Controllers {
 //                Token = token,
 //                CurrentUserAccountId = 1
 //            };
-
 
             var model = new SharedContextViewModel {
                 Token = token,

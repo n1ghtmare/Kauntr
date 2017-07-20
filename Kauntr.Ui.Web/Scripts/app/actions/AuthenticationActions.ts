@@ -1,22 +1,13 @@
 import * as moment from "moment";
+import { hashHistory } from "react-router";
 
 import AppState from "../interfaces/AppState";
 
-import {
-    LOGIN,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
+import * as ActionTypes from "../constants/ActionTypes";
 
-    REQUEST_AUTHENTICATION_TOKEN,
-    REQUEST_AUTHENTICATION_TOKEN_SUCCESS,
-    REQUEST_AUTHENTICATION_TOKEN_FAILURE,
+import { invalidateError, setError } from "./ErrorActions";
 
-    LOGOUT,
-    LOGOUT_SUCCESS,
-    LOGOUT_FAILURE
-} from "../constants/ActionTypes";
-
-export function loginUserAccount(accountId: number, authenticationToken: string, returnUrl: string, router: any) {
+export function loginUserAccount(accountId: number, authenticationToken: string, returnUrl: string) {
     return (dispatch: Function, getState: Function) => {
         const fetchUrl: string = "/account/authenticate";
 
@@ -24,34 +15,39 @@ export function loginUserAccount(accountId: number, authenticationToken: string,
         return fetch(fetchUrl, { method: "post", body: JSON.stringify({ AccountId: accountId, AuthenticationToken: authenticationToken }), headers: { "Content-Type": "application/json" } })
             .then(response => {
                 if (!response.ok) {
-                    throw response.status.toString();
+                    throw response;
                 }
                 return response;
             })
             .then(() => {
                 dispatch(loginSuccess());
-                router.push(typeof returnUrl !== "undefined" ? returnUrl : "/");
+                hashHistory.push(typeof returnUrl !== "undefined" ? returnUrl : "/");
             })
-            .catch(errorMessage => dispatch(loginFailure(errorMessage)));
+            .catch((response: Response) => {
+                dispatch(loginFailure());
+                dispatch(invalidateError());
+                dispatch(setError(response.status, response.statusText, "Your authentication token is either invalid, it has been used already (they're one time use only), or it has expired and is no longer valid. Or, you know ... something else entirely."));
+
+                hashHistory.push("/error");
+            });
     };
 }
 
 function login() {
     return {
-        type: LOGIN
+        type: ActionTypes.LOGIN
     };
 }
 
 function loginSuccess() {
     return {
-        type: LOGIN_SUCCESS
+        type: ActionTypes.LOGIN_SUCCESS
     };
 }
 
-function loginFailure(error: string) {
+function loginFailure() {
     return {
-        type: LOGIN_FAILURE,
-        error
+        type: ActionTypes.LOGIN_FAILURE
     };
 }
 
@@ -70,7 +66,13 @@ export function requestAuthenticationTokenIfNeeded(email: string, returnUrl: str
                     return response;
                 })
                 .then(() => dispatch(requestAuthenticationTokenSuccess()))
-                .catch(errorStatusCode => dispatch(sendAuthenticationTokenFailure(`Error - status code - ${errorStatusCode}`)));
+                .catch((response: Response) => {
+                    dispatch(sendAuthenticationTokenFailure());
+                    dispatch(invalidateError());
+                    dispatch(setError(response.status, response.statusText, "Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts."));
+
+                    hashHistory.push("/error");
+                });
         }
     };
 }
@@ -82,21 +84,20 @@ function shouldRequestAuthenticationToken(state: AppState): boolean {
 
 function requestAuthenticationToken(token: number) {
     return {
-        type: REQUEST_AUTHENTICATION_TOKEN,
+        type: ActionTypes.REQUEST_AUTHENTICATION_TOKEN,
         token
     };
 }
 
 function requestAuthenticationTokenSuccess() {
     return {
-        type: REQUEST_AUTHENTICATION_TOKEN_SUCCESS
+        type: ActionTypes.REQUEST_AUTHENTICATION_TOKEN_SUCCESS
     };
 }
 
-function sendAuthenticationTokenFailure(error: string) {
+function sendAuthenticationTokenFailure() {
     return {
-        type: REQUEST_AUTHENTICATION_TOKEN_FAILURE,
-        error
+        type: ActionTypes.REQUEST_AUTHENTICATION_TOKEN_FAILURE
     };
 }
 
@@ -116,26 +117,31 @@ export function logoutUserAccount(router: any) {
                 dispatch(logoutSuccess());
                 router.push("/");
             })
-            .catch(errorStatusCode => dispatch(logoutFailure(errorStatusCode)));
+            .catch((response: Response) => {
+                dispatch(logoutFailure());
+                dispatch(invalidateError());
+                dispatch(setError(response.status, response.statusText, "For some reason we can't log you out. Try again later perhaps."));
+
+                hashHistory.push("/error");
+            });
 
     }
 }
 
 function logout() {
     return {
-        type: LOGOUT
+        type: ActionTypes.LOGOUT
     };
 }
 
 function logoutSuccess() {
     return {
-        type: LOGOUT_SUCCESS
+        type: ActionTypes.LOGOUT_SUCCESS
     };
 }
 
-function logoutFailure(error: string) {
+function logoutFailure() {
     return {
-        type: LOGOUT_FAILURE,
-        error
+        type: ActionTypes.LOGOUT_FAILURE
     };
 }

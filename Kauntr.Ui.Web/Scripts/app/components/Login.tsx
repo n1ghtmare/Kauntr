@@ -72,9 +72,6 @@ export class Login extends React.Component<AuthenticationState, FormState> {
                         login using your email
                     </div>
                     <p>(yeah, we don't use passwords)</p>
-                    <div className={classNames("text-error", { "hidden": this.props.error === null })}>
-                        <p>Hmmm, something went wrong. Either the email is invalid, or you have too many login attempts. Try again later or contact us at <a href="mailto:support@kauntr.com">support@kauntr.com</a> if the issue persists.</p>
-                    </div>
                     <form className={classNames("form-section", { "hidden": isWaitingForEmailConfirmation })} onSubmit={this.handleFormSubmit}>
                         <div>
                             <input type="text" className="input input-medium" placeholder="email" onChange={this.handleEmailInputChange} value={this.state.email} />

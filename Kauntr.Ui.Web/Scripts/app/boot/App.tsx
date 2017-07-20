@@ -20,6 +20,7 @@ import NotificationList from "../components/NotificationList";
 import Authenticator from "../components/Authenticator";
 import AuthorizationContainer from "../components/AuthorizationContainer";
 import Logout from "../components/Logout";
+import ErrorContainer from "../components/ErrorContainer";
 import ErrorNotFound from "../components/ErrorNotFound";
 
 // Redux Setup
@@ -49,6 +50,7 @@ const routes = (
             <Route component={AuthorizationContainer}>
                 <Route component={Logout} path="/logout" />
             </Route>
+            <Route component={ErrorContainer} path="error" />
             <Route component={ErrorNotFound} path="*" />
         </Router>
     </Provider>

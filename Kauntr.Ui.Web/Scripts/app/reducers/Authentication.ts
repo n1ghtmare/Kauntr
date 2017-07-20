@@ -1,87 +1,68 @@
 import AuthenticatorState from "../interfaces/AuthenticationState";
 
-import {
-    LOGIN,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-
-    REQUEST_AUTHENTICATION_TOKEN,
-    REQUEST_AUTHENTICATION_TOKEN_SUCCESS,
-    REQUEST_AUTHENTICATION_TOKEN_FAILURE,
-
-    LOGOUT,
-    LOGOUT_SUCCESS,
-    LOGOUT_FAILURE
-} from "../constants/ActionTypes";
+import * as ActionTypes from "../constants/ActionTypes";
 
 interface AuthenticatorAction {
     type: string;
-    error?: string;
     token?: number;
 }
 
 export const initialState: AuthenticatorState = {
     isLoggingInOrOut: false,
     isWaitingForEmailConfirmation: false,
-    isRequestingAuthenticationToken: false,
-    error: null
+    isRequestingAuthenticationToken: false
 };
 
 export default function authentication(state = initialState, action: AuthenticatorAction) {
     switch (action.type) {
-        case LOGIN:
+        case ActionTypes.LOGIN:
             return {
                 ...state,
-                isLoggingInOrOut: true,
-                error: null
+                isLoggingInOrOut: true
             };
-        case LOGIN_SUCCESS:
+        case ActionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
                 isLoggingInOrOut: false
             };
-        case LOGIN_FAILURE:
+        case ActionTypes.LOGIN_FAILURE:
             return {
                 ...state,
-                isLoggingInOrOut: false,
-                error: action.error
+                isLoggingInOrOut: false
             };
-        case REQUEST_AUTHENTICATION_TOKEN:
+        case ActionTypes.REQUEST_AUTHENTICATION_TOKEN:
             return {
                 ...state,
                 isRequestingAuthenticationToken: false,
                 isWaitingForEmailConfirmation: false,
                 token: action.token
             };
-        case REQUEST_AUTHENTICATION_TOKEN_SUCCESS:
+        case ActionTypes.REQUEST_AUTHENTICATION_TOKEN_SUCCESS:
             return {
                 ...state,
                 isRequestingAuthenticationToken: false,
                 isWaitingForEmailConfirmation: true
             };
-        case REQUEST_AUTHENTICATION_TOKEN_FAILURE:
+        case ActionTypes.REQUEST_AUTHENTICATION_TOKEN_FAILURE:
             return {
                 ...state,
                 isInvalidated: true,
-                isLoadingData: false,
-                error: action.error
+                isLoadingData: false
             };
-        case LOGOUT:
+        case ActionTypes.LOGOUT:
             return {
                 ...state,
-                isLoggingInOrOut: true,
-                error: null
+                isLoggingInOrOut: true
             };
-        case LOGOUT_SUCCESS:
+        case ActionTypes.LOGOUT_SUCCESS:
             return {
                 ...state,
                 isLoggingInOrOut: false
             };
-        case LOGOUT_FAILURE:
+        case ActionTypes.LOGOUT_FAILURE:
             return {
                 ...state,
-                isLoggingInOrOut: false,
-                error: action.error
+                isLoggingInOrOut: false
             };
         default:
             return state;

@@ -2,8 +2,9 @@ import * as React from "react";
 import { Link } from "react-router";
 
 interface ErrorProps {
-    code: string;
-    subMessage: string;
+    code: number;
+    message: string;
+    subMessage?: string;
 };
 
 export default class Error extends React.Component<ErrorProps, any> {
@@ -19,7 +20,7 @@ export default class Error extends React.Component<ErrorProps, any> {
                     <div>
                         {this.props.children}
                     </div>
-                    <p><Link to="/">get me out of here</Link></p>
+                    <p><Link to="/" className="document-link">get me out of here</Link></p>
                 </div>
             </div>
         );

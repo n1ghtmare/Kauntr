@@ -1,18 +1,15 @@
 import * as moment from "moment";
+import { hashHistory } from "react-router";
 
 import AppState from "../interfaces/AppState";
 
-import {
-    INVALIDATE_SHARED_CONTEXT,
-    LOAD_SHARED_CONTEXT,
-    LOAD_SHARED_CONTEXT_SUCCESS,
-    LOAD_SHARED_CONTEXT_FAILURE,
-    UPDATE_SHARED_CONTEXT_TITLE
-} from "../constants/ActionTypes";
+import * as ActionTypes from "../constants/ActionTypes";
+
+import { invalidateError, setError } from "./ErrorActions";
 
 export function invalidateSharedContext() {
     return {
-        type: INVALIDATE_SHARED_CONTEXT
+        type: ActionTypes.INVALIDATE_SHARED_CONTEXT
     };
 }
 
@@ -26,17 +23,21 @@ export function fetchSharedContextIfNeeded() {
             return fetch(fetchUrl)
                 .then(response => {
                     if (!response.ok) {
-                        throw Error(response.status.toString());
+                        throw response;
                     }
                     return response.json();
                 })
                 .then(json => {
-                    if(shouldProcessSharedContextResponse(getState(), json.Token)) {
+                    if (shouldProcessSharedContextResponse(getState(), json.Token)) {
                         dispatch(loadSharedContextSuccess(json));
                     }
                 })
-                .catch(errorStatusCode => {
-                    dispatch(loadSharedContextFailure(`Error - status code - ${errorStatusCode}`));
+                .catch((response: Response) => {
+                    dispatch(loadSharedContextFailure());
+                    dispatch(invalidateError());
+                    dispatch(setError(response.status, response.statusText));
+
+                    hashHistory.push("/error");
                 });
         }
     };
@@ -48,33 +49,33 @@ function shouldProcessSharedContextResponse(state: AppState, token: number): boo
 
 function shouldFetchSharedContext(state: AppState): boolean {
     const { isLoadingData, isInvalidated } = state.sharedContext;
+    console.log(state.sharedContext);
     return !isLoadingData && isInvalidated;
 }
 
 function loadSharedContext(token: number) {
     return {
-        type: LOAD_SHARED_CONTEXT,
+        type: ActionTypes.LOAD_SHARED_CONTEXT,
         token
     };
 }
 
 function loadSharedContextSuccess(json: any) {
     return {
-        type: LOAD_SHARED_CONTEXT_SUCCESS,
+        type: ActionTypes.LOAD_SHARED_CONTEXT_SUCCESS,
         json
     };
 }
 
-function loadSharedContextFailure(error: string) {
+function loadSharedContextFailure() {
     return {
-        type: LOAD_SHARED_CONTEXT_FAILURE,
-        error
+        type: ActionTypes.LOAD_SHARED_CONTEXT_FAILURE
     };
 }
 
 export function updateSharedContextTitle(title: string) {
     return {
-        type: UPDATE_SHARED_CONTEXT_TITLE,
+        type: ActionTypes.UPDATE_SHARED_CONTEXT_TITLE,
         title
     };
 }

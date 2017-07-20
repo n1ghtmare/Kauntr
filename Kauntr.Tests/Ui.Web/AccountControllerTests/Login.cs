@@ -147,7 +147,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             Assert.IsNotNull(result);
             Assert.AreEqual(403, result.StatusCode);
-            Assert.AreEqual("Forbidden - Authentication Token Has been sent too many times", result.StatusDescription);
+            Assert.AreEqual("Forbidden", result.StatusDescription);
         }
 
     }

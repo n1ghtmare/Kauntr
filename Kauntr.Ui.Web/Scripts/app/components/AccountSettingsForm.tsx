@@ -28,7 +28,7 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
     validateForm(): void {
         const { displayName } = this.state;
         this.setState({
-            isValid: displayName.length > 1 && displayName !== this.props.displayName
+            isValid: displayName.length > 2 && displayName !== this.props.displayName
         });
     }
 

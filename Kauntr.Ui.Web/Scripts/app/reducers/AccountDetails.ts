@@ -1,14 +1,6 @@
 import AccountState from "../interfaces/AccountState";
 
-import {
-    INVALIDATE_ACCOUNT_DETAILS,
-    LOAD_ACCOUNT_DETAILS,
-    LOAD_ACCOUNT_DETAILS_SUCCESS,
-    LOAD_ACCOUNT_DETAILS_FAILURE,
-    UPDATE_ACCOUNT_DISPLAY_NAME,
-    UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS,
-    UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE
-} from "../constants/ActionTypes";
+import * as ActionTypes from "../constants/ActionTypes";
 
 import {
     parseRawDate
@@ -19,7 +11,6 @@ interface AccountAction {
     displayName?: string;
     token?: number;
     json?: any;
-    error?: string;
 }
 
 export const initialState: AccountState = {
@@ -30,20 +21,19 @@ export const initialState: AccountState = {
 
 export default function accountDetails(state = initialState, action: AccountAction): AccountState {
     switch (action.type) {
-        case INVALIDATE_ACCOUNT_DETAILS:
+        case ActionTypes.INVALIDATE_ACCOUNT_DETAILS:
             return {
                 ...state,
-                isInvalidated: true,
-                error: null
+                isInvalidated: true
             };
-        case LOAD_ACCOUNT_DETAILS:
+        case ActionTypes.LOAD_ACCOUNT_DETAILS:
             return {
                 ...state,
                 isInvalidated: false,
                 isLoadingData: true,
                 token: action.token
             };
-        case LOAD_ACCOUNT_DETAILS_SUCCESS:
+        case ActionTypes.LOAD_ACCOUNT_DETAILS_SUCCESS:
             return {
                 ...state,
                 isInvalidated: true,
@@ -55,30 +45,28 @@ export default function accountDetails(state = initialState, action: AccountActi
                 createdOn: parseRawDate(action.json.Account.CreatedOn),
                 isAutoSetup: action.json.Account.IsAutoSetup
             };
-        case LOAD_ACCOUNT_DETAILS_FAILURE:
+        case ActionTypes.LOAD_ACCOUNT_DETAILS_FAILURE:
             return {
                 ...state,
                 isInvalidated: true,
-                isLoadingData: false,
-                error: action.error
+                isLoadingData: false
             };
-        case UPDATE_ACCOUNT_DISPLAY_NAME:
+        case ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME:
             return {
                 ...state,
                 isUpdatingData: true
             };
-        case UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS:
+        case ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME_SUCCESS:
             return {
                 ...state,
                 isUpdatingData: false,
                 isAutoSetup: false,
                 displayName: action.displayName
             };
-        case UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE:
+        case ActionTypes.UPDATE_ACCOUNT_DISPLAY_NAME_FAILURE:
             return {
                 ...state,
-                isUpdatingData: false,
-                error: action.error
+                isUpdatingData: false
             };
         default:
             return state;

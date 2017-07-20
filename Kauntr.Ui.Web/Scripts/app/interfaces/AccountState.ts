@@ -12,7 +12,6 @@ interface AccountState {
     createdOn?: moment.Moment;
     isAutoSetup?: boolean;
     token?: number;
-    error?: string;
 
     // TODO - add stats here (number of countdowns created? reputation changes? comments count? etc.)
 

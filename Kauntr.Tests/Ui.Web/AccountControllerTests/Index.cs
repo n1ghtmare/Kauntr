@@ -87,7 +87,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             Assert.IsNotNull(result);
             Assert.AreEqual(404, result.StatusCode);
-            Assert.AreEqual("NotFound", result.StatusDescription);
+            Assert.AreEqual("Not Found", result.StatusDescription);
         }
     }
 }

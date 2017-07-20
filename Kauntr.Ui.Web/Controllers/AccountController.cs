@@ -32,7 +32,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
             Account account = await _accountRepository.GetAsync((int) (accountId ?? _contextService.CurrentUserAccountId));
             if (account == null) {
-                return new HttpStatusCodeResult(404, "NotFound");
+                return new HttpStatusCodeResult(404, "Not Found");
             }
 
             if (accountId != null) {
@@ -96,7 +96,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 AuthenticationToken authenticationToken = await _authenticationTokenRepository.GetActiveByAccountIdAsync(account.Id) ?? await CreateAuthenticationTokenAsync(account);
 
                 if (authenticationToken.NumberOfTimesSent == 5) {
-                    return new HttpStatusCodeResult(403, "Forbidden - Authentication Token Has been sent too many times");
+                    return new HttpStatusCodeResult(403, "Forbidden");
                 }
 
                 await _notificationService.SendAuthenticationEmailAsync(account, authenticationToken);

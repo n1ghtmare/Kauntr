@@ -105,6 +105,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     display: block;
     padding: 0 7px;
     color: #f5f5f5;
+    border: none;
 }
 
 #header-menu > li a:hover {

@@ -5,7 +5,6 @@ interface AuthenticationState {
     token?: number;
     isAuthenticated?: boolean;
     returnUrl?: string;
-    error?: string;
     dispatch?: Function;
     router?: any;
 }
