@@ -31,7 +31,11 @@ namespace Kauntr.Ui.Web.Controllers {
             }
 
             Account account = await _accountRepository.GetAsync((int) (accountId ?? _contextService.CurrentUserAccountId));
-            if (accountId != null && account != null) {
+            if (account == null) {
+                return new HttpStatusCodeResult(404, "NotFound");
+            }
+
+            if (accountId != null) {
                 account.Email = null;
             }
 

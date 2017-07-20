@@ -78,5 +78,16 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Assert.AreEqual(403, result.StatusCode);
             Assert.AreEqual("Forbidden", result.StatusDescription);
         }
+
+        [Test]
+        public async Task GetAnAccountIdThatIsNotExisting_ReturnsHttpStatusCode404NotFound() {
+            TestableAccountController controller = TestableAccountController.Create();
+
+            HttpStatusCodeResult result = await controller.Index(123, 1) as HttpStatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+            Assert.AreEqual("NotFound", result.StatusDescription);
+        }
     }
 }
