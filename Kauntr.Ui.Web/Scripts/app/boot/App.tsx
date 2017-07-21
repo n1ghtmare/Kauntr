@@ -13,7 +13,7 @@ import rootReducer from "../reducers/Root";
 import App from "../components/App";
 import CountdownList from "../components/CountdownList";
 import CountdownDetails from "../components/CountdownDetails";
-import CountdownForm from "../components/CountdownForm";
+import CountdownCreate from "../components/CountdownCreate";
 import Login from "../components/Login";
 import AccountDetails from "../components/AccountDetails";
 import NotificationList from "../components/NotificationList";
@@ -36,7 +36,7 @@ const routes = (
             <Route component={App}>
                 <Route component={AuthorizationContainer}>
                     <Route component={CountdownList} path="/countdowns/mine" />
-                    <Route component={CountdownForm} path="/countdown/create" />
+                    <Route component={CountdownCreate} path="/countdown/create" />
                     <Route component={AccountDetails} path="/account" />
                     <Route component={NotificationList} path="/notifications" />
                 </Route>

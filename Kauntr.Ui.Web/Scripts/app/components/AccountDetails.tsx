@@ -38,7 +38,7 @@ export class AccountDetails extends React.Component<AccountState, any> {
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <h3>Account Details</h3>
+                    <h3>account details</h3>
                     <h4>{displayName} {isPersonalAccount ? "(personal)" : null}</h4>
                     <ul>
                         <li>email - {isPersonalAccount ? this.props.email : "?"}</li>

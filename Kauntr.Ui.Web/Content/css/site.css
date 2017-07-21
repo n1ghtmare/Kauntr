@@ -37,6 +37,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 */
 .main-content {
     text-align: center;
+    margin-top: 1.618em;
 }
 
 .diamonds {
@@ -117,25 +118,17 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     display: none;
 }
 
+.menu-link-special {
+    font-weight: bolder;
+}
+
 .notifications-indicator {
     background: #f00;
     padding-right: 10px !important;
 }
-/* ################################################################ */
-
-
-
-
-/*
-    Forms (Textboxes/Inputs)
-    ################################################################
-*/
-
-select.dropdown-main {
-    font-size: 2.618em;
-    font-weight: bold;
-    padding: 13px;
-    border: 3px solid #bbb;
+.notifications-indicator:hover {
+    color: #f5f5f5 !important;
+    background-color: #FF6600;
 }
 /* ################################################################ */
 
@@ -143,7 +136,7 @@ select.dropdown-main {
 
 
 /*
-    Forms (Textboxes/Inputs)
+    Errors
     ################################################################
 */
 .error-wrapper {
@@ -175,19 +168,14 @@ select.dropdown-main {
     Countdown Form
     ################################################################
 */
-
-.form-countdown-type, .form-duration-type  {
-    width: 245px;
-}
-
-.form-duration {
-    width: 173px !important;
+.form-countdown-type, .form-duration-type, .form-duration  {
+    width: 193px !important;
 }
 
 .form-endson {
     width: 53px !important;
 }
-
+/* ################################################################ */
 
 
 
@@ -417,10 +405,6 @@ select.dropdown-main {
         margin: 0 3px;
     }
 
-    #countdown-new {
-        margin: 50px 0;
-        display: none;
-    }
 
     #countdown-collection {
         margin: 50px 0;
@@ -435,20 +419,11 @@ select.dropdown-main {
         font-size: 34px;
         line-height: 47px;
     }
-
-    button.button-main {
-        font-size: 34px;
-        line-height: 47px;
-    }
-
-    select.dropdown-main {
-        font-size: 34px;
-    }
 }
 
 @media handheld, only screen and (max-width: 650px) {
     input[type=text], input[type=email], input[type=password], textarea, .input, select {
-        width: 77%;
+        width: 77% !important;
     }
 
     .main-content {

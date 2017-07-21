@@ -222,6 +222,10 @@ select {
     -moz-text-align-last: center;
     -o-text-align-last: center;
     text-align-last: center;
+    -ms-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    box-sizing:content-box
 }
 
 textarea {
