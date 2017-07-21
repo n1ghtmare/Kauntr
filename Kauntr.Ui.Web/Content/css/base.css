@@ -196,7 +196,7 @@ input[type=text], input[type=email], input[type=password], textarea, select, .in
     font-weight: bold;
     border: 3px solid #bbb;
     text-align: center;
-    margin: 0.5em 0;
+    margin: 0.5em 0.3em;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -ms-border-radius: 5px;
@@ -218,6 +218,10 @@ select {
     background-color: #fff;
     border-width: 2px;
     border-style: solid;
+    -webkit-text-align-last: center;
+    -moz-text-align-last: center;
+    -o-text-align-last: center;
+    text-align-last: center;
 }
 
 textarea {
@@ -250,7 +254,7 @@ form.inline p {
     text-transform: lowercase;
     color: #F4F5F5;
     font-weight: bold;
-    margin: 7px 0;
+    margin: 0.5em 0.3em;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     -ms-border-radius: 3px;

@@ -69,14 +69,16 @@ export class Header extends React.Component<SharedContextState, any> {
                                         <li><Link to="/logout">logout</Link></li>
                                     </ul>
                                 </li>
+
                                 <li>
                                     <a className="has-sub-menu" href="#">countdowns</a>
                                     <ul className="sub-menu">
-                                        <li><Link to="/countdowns/latest">Latest</Link></li>
-                                        <li><Link to="/countdowns/trending">Trending</Link></li>
-                                        <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdowns/mine">Mine</Link></li>
+                                        <li><Link to="/countdowns/latest">latest</Link></li>
+                                        <li><Link to="/countdowns/trending">trending</Link></li>
+                                        <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdowns/mine">mine</Link></li>
                                     </ul>
                                 </li>
+                                <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdown/create">+</Link></li>
                             </ul>
                         </div>
                     </div>

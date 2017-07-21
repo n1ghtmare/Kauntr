@@ -171,7 +171,22 @@ select.dropdown-main {
 
 
 
+/*
+    Countdown Form
+    ################################################################
+*/
 
+.form-countdown-type, .form-duration-type  {
+    width: 245px;
+}
+
+.form-duration {
+    width: 173px !important;
+}
+
+.form-endson {
+    width: 53px !important;
+}
 
 
 
