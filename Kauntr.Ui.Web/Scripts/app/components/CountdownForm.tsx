@@ -1,38 +1,61 @@
 import * as React from "react";
 
-export default class CountdownForm extends React.Component<any, any> {
-    renderDurationSection() {
-        return (
-            <div>
-                <input type="text" className="input input-medium form-duration" placeholder="duration" />
-                <select className="input input-medium form-duration-type">
-                    <option>seconds</option>
-                    <option>minutes</option>
-                    <option>hours</option>
-                    <option>days</option>
-                    <option>months</option>
-                    <option>years</option>
-                </select>
-                <div>(from now)</div>
-            </div>
-        );
+import CountdownType from "../constants/CountdownType";
+import DurationType from "../constants/DurationType";
+
+import CountdownFormDate from "./CountdownFormDate";
+import CountdownFormDuration from "./CountdownFormDuration";
+
+interface CountdownFormState {
+    countdownType: CountdownType;
+    duration?: number;
+    durationType?: DurationType;
+    day?: number;
+    month?: number;
+    year?: number;
+    hour?: number;
+    minute?: number;
+}
+
+export default class CountdownForm extends React.Component<any, CountdownFormState> {
+    constructor() {
+        super();
+
+        this.state = {
+            countdownType: CountdownType.Date,
+            duration: null,
+        };
     }
 
-    renderDateSection() {
-        return (
-            <div>
-                <input type="text" className="input input-medium form-endson" placeholder="dd" maxLength={2} />
-                <span className="text-medium-sub">/</span>
-                <input type="text" className="input input-medium form-endson" placeholder="mm" maxLength={2} />
-                <span className="text-medium-sub">/</span>
-                <input type="text" className="input input-medium form-endson" placeholder="yyyy" maxLength={4} />
-                <span className="text-medium-sub">-</span>
-                <input type="text" className="input input-medium form-endson" placeholder="dd" maxLength={2} />
-                <span className="text-medium-sub">:</span>
-                <input type="text" className="input input-medium form-endson" placeholder="dd" maxLength={2} />
-                <div>example date: 21/7/2019 - 19:35 (time is optional)</div>
-            </div>
-        );
+    private handleCountdownTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        this.setState({
+            countdownType: parseInt(e.target.value, 10),
+            duration: null,
+            durationType: null
+        });
+    }
+
+    private handleDurationChange = (duration: number, durationType: DurationType) => {
+        this.setState({
+            duration,
+            durationType
+        });
+    }
+
+    private handleDateChange = (day: number, month: number, year: number, hour: number, minute: number) => {
+        this.setState({
+            day,
+            month,
+            year,
+            hour,
+            minute
+        });
+    }
+
+    renderSubSection() {
+        return this.state.countdownType === CountdownType.Duration
+            ? <CountdownFormDuration onChange={this.handleDurationChange} duration={this.state.duration} durationType={this.state.durationType} />
+            : <CountdownFormDate onChange={this.handleDateChange} day={this.state.day} month={this.state.month} year={this.state.year} hour={this.state.hour} minute={this.state.minute} />;
     }
 
     render() {
@@ -43,10 +66,11 @@ export default class CountdownForm extends React.Component<any, any> {
                     <input type="text" className="input input-medium" placeholder="describe the event" maxLength={50} autoComplete={"off"} />
                 </div>
                 <h4>when?</h4>
-                <select className="input input-medium form-countdown-type">
-                    <option>duration</option>
-                    <option>date</option>
+                <select className="input input-medium form-countdown-type" value={this.state.countdownType} onChange={this.handleCountdownTypeChange}>
+                    <option value={CountdownType.Duration}>duration</option>
+                    <option value={CountdownType.Date}>date</option>
                 </select>
+                {this.renderSubSection()}
                 <div>
                     <button type="submit" className="button button-medium">Start</button>
                 </div>

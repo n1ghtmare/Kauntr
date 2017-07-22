@@ -249,7 +249,7 @@ form.inline p {
 }
 
 .input-validation-error {
-    border-color: #f00;
+    border-color: #f00 !important;
 }
 
 .button {
