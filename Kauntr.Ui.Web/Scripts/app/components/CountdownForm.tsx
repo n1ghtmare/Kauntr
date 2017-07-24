@@ -15,6 +15,7 @@ interface CountdownFormState {
     year?: number;
     hour?: number;
     minute?: number;
+    isValidDate?: boolean;
 }
 
 export default class CountdownForm extends React.Component<any, CountdownFormState> {
@@ -31,7 +32,12 @@ export default class CountdownForm extends React.Component<any, CountdownFormSta
         this.setState({
             countdownType: parseInt(e.target.value, 10),
             duration: null,
-            durationType: null
+            durationType: null,
+            day: null,
+            month: null,
+            year: null,
+            hour: null,
+            minute: null
         });
     }
 
@@ -42,13 +48,14 @@ export default class CountdownForm extends React.Component<any, CountdownFormSta
         });
     }
 
-    private handleDateChange = (day: number, month: number, year: number, hour: number, minute: number) => {
+    private handleDateChange = (day: number, month: number, year: number, hour: number, minute: number, isValidDate: boolean) => {
         this.setState({
             day,
             month,
             year,
             hour,
-            minute
+            minute,
+            isValidDate
         });
     }
 

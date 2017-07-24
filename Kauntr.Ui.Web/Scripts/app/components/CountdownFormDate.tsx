@@ -2,7 +2,7 @@ import * as React from "react";
 import * as moment from "moment";
 import * as classNames from "classnames";
 
-type DateChangeFunc = (day: number, month: number, year: number, hour: number, minute: number) => void;
+type DateChangeFunc = (day: number, month: number, year: number, hour: number, minute: number, isValid: boolean) => void;
 
 interface CountdownFormDateProps {
     day: number;
@@ -14,142 +14,117 @@ interface CountdownFormDateProps {
 }
 
 interface CountdownFormDateState {
-    day: DateSegment;
-    month: DateSegment;
-    year: DateSegment;
-    hour: DateSegment;
-    minute: DateSegment;
+    day: number;
+    month: number;
+    year: number;
+    hour?: number;
+    minute?: number;
+    isValid: boolean;
 }
 
-interface DateSegment {
-    value: number;
-    isValid?: boolean;
-}
-
-
-// TODO - Simplify the validation - became too complex (maybe validate all at once)
 export default class CountdownFormDate extends React.Component<CountdownFormDateProps, CountdownFormDateState> {
     constructor(props: CountdownFormDateProps) {
         super(props);
 
         this.state = {
-            day: { value: props.day, isValid: true },
-            month: { value: props.month, isValid: true },
-            year: { value: props.year, isValid: true },
-            hour: { value: props.hour, isValid: true },
-            minute: { value: props.minute, isValid: true }
+            day: props.day,
+            month: props.month,
+            year: props.year,
+            hour: props.hour,
+            minute: props.minute,
+            isValid: true
         };
     }
 
-    validateDay(): void {
-        const { value } = this.state.day;
-        const { year, month, hour, minute } = this.state;
-        const today: moment.Moment = moment();
+    private validationInterval: number = null;
+    private placeholderDate: string = moment().add(1, "years").format("D/M/YYYY HH:mm");
+
+    componentWillUnmount() {
+        if (this.validationInterval !== null) {
+            clearInterval(this.validationInterval);
+        }
+    }
+
+    validateDate(): void {
+        const { day, month, year, hour, minute } = this.state;
+        const now: moment.Moment = moment();
         const date: moment.Moment = moment({
-            year: year.value || today.year(),
-            month: (month.value || today.month()) - 1,
-            d: value,
-            hour: hour.value || today.hour(),
-            minute: minute.value || today.minute()
+            year: year || now.year(),
+            month: (month || now.month()) - 1,
+            d: day || now.day(),
+            hour: hour || now.hour(),
+            minute: minute || now.minute()
         });
 
         this.setState({
-            day: {
-                ...this.state.day,
-                isValid: value > 0 && value <= date.daysInMonth() && today.diff(date) < 0
-            }
-        });
+            isValid: date.diff(now, "seconds") > 239
+        }, this.handleDateChange);
+    }
+
+    populateMissingDateSegmentsAndValidate(): void {
+        const { day, month, year, hour, minute } = this.state;
+        const now: moment.Moment = moment();
+
+        this.setState({
+            day: day || now.date(),
+            month: month || (now.month() + 1),
+            year: year || now.year(),
+            hour: hour === 0 ? 0 : (hour || now.hour()),
+            minute: minute === 0 ? 0 : (minute || now.minute() + 5)
+        }, this.validateDate);
+    }
+
+    private handleDateChange = () => {
+        const { day, month, year, hour, minute, isValid } = this.state;
+        this.props.onChange(day, month, year, hour, minute, isValid);
+
+        if (this.validationInterval === null) {
+            this.validationInterval = setInterval(() => this.validateDate(), 1000);
+        }
     }
 
     private handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value, 10);
         this.setState({
-            day: { value }
-        }, this.validateDay);
-    }
-
-    validateMonth(): void {
-        const { value } = this.state.month;
-        this.setState({
-            month: {
-                ...this.state.month,
-                isValid: value > 0 && value <= 12
-            }
-        }, this.validateDay);
+            day: parseInt(e.target.value, 10)
+        }, this.populateMissingDateSegmentsAndValidate);
     }
 
     private handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value, 10);
         this.setState({
-            month: { value }
-        }, this.validateMonth);
-    }
-
-    validateYear(): void {
-        const { value } = this.state.year;
-        this.setState({
-            year: {
-                ...this.state.year,
-                isValid: value >= moment().year()
-            }
-        }, this.validateMonth);
+            month: parseInt(e.target.value, 10)
+        }, this.populateMissingDateSegmentsAndValidate);
     }
 
     private handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value, 10);
         this.setState({
-            year: { value }
-        }, this.validateYear);
-    }
-
-    validateHour(): void {
-        const { value } = this.state.hour;
-        this.setState({
-            hour: {
-                ...this.state.hour,
-                isValid: value <= 24
-            }
-        }, this.validateYear);
+            year: parseInt(e.target.value, 10)
+        }, this.populateMissingDateSegmentsAndValidate);
     }
 
     private handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value, 10);
         this.setState({
-            hour: { value }
-        }, this.validateHour);
-    }
-
-    validateMinute(): void {
-        const { value } = this.state.minute;
-        this.setState({
-            minute: {
-                ...this.state.minute,
-                isValid: value > 0 && value < 60
-            }
-        }, this.validateHour);
+            hour: parseInt(e.target.value, 10)
+        }, this.populateMissingDateSegmentsAndValidate);
     }
 
     private handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.target.value, 10);
         this.setState({
-            minute: { value }
-        }, this.validateMinute);
-    }
-
-    generateCss(dateSegment: DateSegment): string {
-        return classNames("input input-medium form-endson", { "input-validation-error": !dateSegment.isValid });
+            minute: parseInt(e.target.value, 10)
+        }, this.populateMissingDateSegmentsAndValidate);
     }
 
     render() {
         const { day, month, year, hour, minute } = this.state;
+        const cx = classNames("input input-medium form-endson", { "input-validation-error": !this.state.isValid });
         return (
             <div>
-                <input value={day.value || ""} type="text" className={this.generateCss(day)} placeholder="dd" maxLength={2} onChange={this.handleDayChange} /><span className="text-medium-sub">/</span>
-                <input value={month.value || ""} type="text" className={this.generateCss(month)} placeholder="mm" maxLength={2} onChange={this.handleMonthChange} /><span className="text-medium-sub">/</span>
-                <input value={year.value || ""} type="text" className={this.generateCss(year)} placeholder="yyyy" maxLength={4} onChange={this.handleYearChange} /><span className="text-medium-sub">-</span>
-                <input value={hour.value || ""} type="text" className={this.generateCss(hour)} placeholder="HH" maxLength={2} onChange={this.handleHourChange} /><span className="text-medium-sub">:</span>
-                <input value={minute.value || ""} type="text" className={this.generateCss(minute)} placeholder="MM" maxLength={2} onChange={this.handleMinuteChange} />
-                <div>example date: 21/7/2019 - 19:35 (time is optional)</div>
+                <input value={day || ""} type="text" className={cx} placeholder="dd" maxLength={2} onChange={this.handleDayChange} /><span className="text-medium-sub">/</span>
+                <input value={month || ""} type="text" className={cx} placeholder="mm" maxLength={2} onChange={this.handleMonthChange} /><span className="text-medium-sub">/</span>
+                <input value={year || ""} type="text" className={cx} placeholder="yyyy" maxLength={4} onChange={this.handleYearChange} /><span className="text-medium-sub">-</span>
+                <input value={hour || ""} type="text" className={cx} placeholder="HH" maxLength={2} onChange={this.handleHourChange} /><span className="text-medium-sub">:</span>
+                <input value={minute || ""} type="text" className={cx} placeholder="MM" maxLength={2} onChange={this.handleMinuteChange} />
+                <p>example date: {this.placeholderDate} (exact time is optional)</p>
+                <p>oh, and ... it has to be at least 5 mins in the future!</p>
             </div>
         );
     }
