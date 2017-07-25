@@ -124,7 +124,6 @@ export default class CountdownFormDate extends React.Component<CountdownFormDate
                 <input value={hour || ""} type="text" className={cx} placeholder="HH" maxLength={2} onChange={this.handleHourChange} /><span className="text-medium-sub">:</span>
                 <input value={minute || ""} type="text" className={cx} placeholder="MM" maxLength={2} onChange={this.handleMinuteChange} />
                 <p>example date: {this.placeholderDate} (exact time is optional)</p>
-                <p>oh, and ... it has to be at least 5 mins in the future!</p>
             </div>
         );
     }

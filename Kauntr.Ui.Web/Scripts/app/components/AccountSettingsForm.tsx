@@ -37,7 +37,7 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
 
         this.setState({
             displayName: e.target.value
-        }, () => this.validateForm());
+        }, this.validateForm);
     }
 
     private handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
