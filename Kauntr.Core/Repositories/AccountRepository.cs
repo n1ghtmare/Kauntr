@@ -39,8 +39,8 @@ namespace Kauntr.Core.Repositories {
                 const string sql =
                     @"INSERT Accounts (DisplayName, Email, CreatedOn, Reputation, IsAutoSetup)
                     OUTPUT INSERTED.Id
-                    VALUES(@DisplayName, @Email, @CreatedOn, @Reputation, @IsAutoSetup)";
-                account.Id = (await connection.QueryAsync<int>(sql, account)).Single();
+                    VALUES (@DisplayName, @Email, @CreatedOn, @Reputation, @IsAutoSetup)";
+                account.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, account);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Kauntr.Core.Repositories {
 	                    IsAutoSetup
                     FROM Accounts
                     WHERE Id = @id";
-                return (await connection.QueryAsync<Account>(sql, new { id })).FirstOrDefault();
+                return await connection.QueryFirstOrDefaultAsync<Account>(sql, new { id });
             }
         }
 

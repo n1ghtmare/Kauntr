@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
+using Moq;
 using NUnit.Framework;
 
 using Kauntr.Core.Entities;
 using Kauntr.Ui.Web.Models;
-using Moq;
 
 namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
     [TestFixture]
@@ -57,7 +57,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task AnUnAuthenticatedUserPostsTokenAndAccountIdThatAreValid_MarksAuthenticationTokenAsUsed() {
             TestableAccountController controller = TestableAccountController.Create();
+            var systemTime = new DateTime(2017, 5, 1, 7, 31, 50);
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             const int accountId = 1;
             const string token = "totally-fake-token";
@@ -74,7 +76,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Assert.IsNotNull(result);
             Assert.IsNotNull(authenticationToken);
             Assert.IsTrue(authenticationToken.IsUsed);
-            Assert.IsNotNull(authenticationToken.UsedOn);
+            Assert.AreEqual(systemTime, authenticationToken.UsedOn);
             Assert.AreEqual(1, controller.AuthenticationTokenRepository.NumberOfTimesUpdateWasInvoked);
         }
 
@@ -94,6 +96,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             EmptyResult result = await controller.Authenticate(new AuthenticationViewModel {AuthenticationToken = token, AccountId = accountId}) as EmptyResult;
 
+            Assert.IsNotNull(result);
             controller.MockContextService.Verify(x => x.Authenticate(accountId), Times.Once);
         }
     }

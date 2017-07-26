@@ -34,5 +34,18 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Assert.IsFalse(account.IsAutoSetup);
             Assert.AreEqual(1, controller.AccountRepository.NumberOfTimesUpdateWasInvoked);
         }
+
+        [Test]
+        public async Task PostFromAnAuthenticatedUserWithInvalidModelState_ReturnsHttpStatusCode400BadRequest() {
+            TestableAccountController controller = TestableAccountController.Create();
+            controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
+            controller.ModelState.AddModelError("NOPE", "Erroredededed");
+
+            HttpStatusCodeResult result = await controller.Update(new AccountUpdateViewModel()) as HttpStatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.AreEqual("Bad Request", result.StatusDescription);
+        }
     }
 }

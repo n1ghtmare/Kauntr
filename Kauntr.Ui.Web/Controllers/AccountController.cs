@@ -14,17 +14,19 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IAuthenticationTokenRepository _authenticationTokenRepository;
         private readonly IContextService _contextService;
         private readonly INotificationService _notificationService;
+        private readonly ISystemClock _systemClock;
 
-        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IContextService contextService, INotificationService notificationService) {
+        public AccountController(IAccountRepository accountRepository, IAuthenticationTokenRepository authenticationTokenRepository, IContextService contextService, INotificationService notificationService, ISystemClock systemClock) {
             _accountRepository = accountRepository;
             _authenticationTokenRepository = authenticationTokenRepository;
             _contextService = contextService;
             _notificationService = notificationService;
+            _systemClock = systemClock;
         }
 
         [AllowAnonymous]
         public async Task<ActionResult> Index(int token, int? accountId = null) {
-            await Task.Delay(1500);
+//            await Task.Delay(1500);
 
             if (accountId == null && !_contextService.CurrentUserIsAuthenticated) {
                 return new HttpStatusCodeResult(403, "Forbidden");
@@ -38,7 +40,6 @@ namespace Kauntr.Ui.Web.Controllers {
             if (accountId != null) {
                 account.Email = null;
             }
-
             return Json(new {Account = account, Token = token}, JsonRequestBehavior.AllowGet);
         }
 
@@ -78,7 +79,7 @@ namespace Kauntr.Ui.Web.Controllers {
                     _contextService.Authenticate(authenticationToken.AccountId);
 
                     authenticationToken.IsUsed = true;
-                    authenticationToken.UsedOn = DateTime.UtcNow;
+                    authenticationToken.UsedOn = _systemClock.UtcNow;
                     await _authenticationTokenRepository.UpdateAsync(authenticationToken);
 
                     return new EmptyResult();
@@ -102,7 +103,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 await _notificationService.SendAuthenticationEmailAsync(account, authenticationToken);
 
                 authenticationToken.NumberOfTimesSent++;
-                authenticationToken.LastSentOn = DateTime.UtcNow;
+                authenticationToken.LastSentOn = _systemClock.UtcNow;
                 await _authenticationTokenRepository.UpdateAsync(authenticationToken);
 
                 return new EmptyResult();
@@ -113,9 +114,9 @@ namespace Kauntr.Ui.Web.Controllers {
         private async Task<Account> RegisterAccountAsync(LoginViewModel model) {
             var account = new Account {
                 Email = model.Email,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = _systemClock.UtcNow,
                 IsAutoSetup = true,
-                DisplayName = $"user_{DateTime.UtcNow.Ticks.ToString().Substring(10, 7)}"
+                DisplayName = $"user_{_systemClock.UtcNow.Ticks.ToString().Substring(10, 7)}"
             };
             await _accountRepository.CreateAsync(account);
             return account;
@@ -125,8 +126,8 @@ namespace Kauntr.Ui.Web.Controllers {
             var authenticationToken = new AuthenticationToken {
                 AccountId = account.Id,
                 Token = GenerateRandomCryptoToken(),
-                CreatedOn = DateTime.UtcNow,
-                ExpiresOn = DateTime.UtcNow.AddMinutes(15),
+                CreatedOn = _systemClock.UtcNow,
+                ExpiresOn = _systemClock.UtcNow.AddMinutes(15),
                 IsUsed = false,
                 NumberOfTimesSent = 0
             };

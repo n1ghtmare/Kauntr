@@ -3,6 +3,7 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 
+using Kauntr.Core.Helpers;
 using Kauntr.Core.Interfaces;
 using Kauntr.Core.Repositories;
 using Kauntr.Core.Services;
@@ -14,10 +15,12 @@ namespace Kauntr.Ui.Web {
             var autofacBuilder = new ContainerBuilder();
 
             autofacBuilder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
+            autofacBuilder.RegisterType<CountdownRepository>().As<ICountdownRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<AuthenticationTokenRepository>().As<IAuthenticationTokenRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerRequest();
             autofacBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerRequest();
             autofacBuilder.RegisterType<ContextService>().As<IContextService>().InstancePerRequest();
+            autofacBuilder.RegisterType<SystemClock>().As<ISystemClock>().InstancePerRequest();
 
             autofacBuilder.RegisterControllers(typeof (MvcApplication).Assembly);
             IContainer container = autofacBuilder.Build();

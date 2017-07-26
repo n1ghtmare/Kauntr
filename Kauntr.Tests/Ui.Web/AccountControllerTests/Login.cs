@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -36,9 +37,11 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         }
 
         [Test]
-        public async Task PostFromUnAuthenticatedUser_RegistersUser() {
+        public async Task PostFromUnAuthenticatedUser_RegistersUserWithSystemGeneratedUsername() {
             TestableAccountController controller = TestableAccountController.Create();
+            var systemTime = new DateTime(2017, 5, 1, 9, 31, 57); // Ticks - 636292279170000000
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel {Email = email});
@@ -46,13 +49,16 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             Account account = await controller.AccountRepository.GetByEmailAsync(email);
             Assert.IsNotNull(account);
             Assert.AreEqual(email, account.Email);
-            Assert.IsNotNull(account.DisplayName);
+            Assert.AreEqual("user_7000000", account.DisplayName);
+            Assert.AreEqual(systemTime, account.CreatedOn);
         }
 
         [Test]
-        public async Task PostFromAnUnAuthenticatedUser_CreatesAnAuthenticationToken() {
+        public async Task PostFromAnUnAuthenticatedUser_CreatesAnAuthenticationTokenWithCorrectValues() {
             TestableAccountController controller = TestableAccountController.Create();
+            var systemTime = new DateTime(2017, 5, 1, 9, 31, 57);
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             await controller.Login(new LoginViewModel {Email = "test@test.com"});
 
@@ -60,12 +66,16 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             Assert.IsNotNull(authenticationToken);
             Assert.IsNotEmpty(authenticationToken.Token);
+            Assert.AreEqual(systemTime, authenticationToken.CreatedOn);
+            Assert.AreEqual(systemTime.AddMinutes(15), authenticationToken.ExpiresOn);
         }
 
         [Test]
         public async Task PostFromAnUnAuthenticatedUser_SendsAnEmailToTheUser() {
             TestableAccountController controller = TestableAccountController.Create();
+            var systemTime = new DateTime(2017, 5, 1, 9, 31, 57);
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel {Email = email});
@@ -82,7 +92,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         [Test]
         public async Task PostFromAnUnauthenticatedUser_UpdatesNumberOfTokensSentAndLastSendOn() {
             TestableAccountController controller = TestableAccountController.Create();
+            var systemTime = new DateTime(2017, 5, 1, 7, 31, 50);
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(false);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             const string email = "test@test.com";
             await controller.Login(new LoginViewModel { Email = email });
@@ -91,10 +103,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             Assert.IsNotNull(authenticationToken);
             Assert.AreEqual(1, authenticationToken.NumberOfTimesSent);
-            Assert.IsNotNull(authenticationToken.LastSentOn);
+            Assert.AreEqual(systemTime, authenticationToken.LastSentOn);
             Assert.AreEqual(1, controller.AuthenticationTokenRepository.NumberOfTimesUpdateWasInvoked);
         }
-
 
         [Test]
         public async Task PostFromAnAuthenticatedUserWithAnExistingUnusedToken_ResendsAnEmailToUser() {

@@ -166,6 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CountdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SharedContextController.cs" />
     <Compile Include="Global.asax.cs">
@@ -173,6 +174,7 @@
     </Compile>
     <Compile Include="Models\AccountUpdateViewModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />
+    <Compile Include="Models\CountdownViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\SharedContextViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
