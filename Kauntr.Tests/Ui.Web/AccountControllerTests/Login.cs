@@ -13,7 +13,7 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
     [TestFixture]
     public class Login {
         [Test]
-        public async Task PostFromAuthenticatedUser_ReturnsHttpStatusCode401BadRequest() {
+        public async Task PostFromAuthenticatedUser_ReturnsHttpStatusCode400BadRequest() {
             TestableAccountController controller = TestableAccountController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserIsAuthenticated).Returns(true);
 

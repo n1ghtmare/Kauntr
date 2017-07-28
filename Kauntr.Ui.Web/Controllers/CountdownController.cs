@@ -22,14 +22,20 @@ namespace Kauntr.Ui.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> Create(CountdownViewModel model) {
             if (ModelState.IsValid) {
+                DateTime endsOnDate = CreateEndsOnDate(model);
+
+                if (endsOnDate < _systemClock.UtcNow.AddMinutes(4)) {
+                    return new HttpStatusCodeResult(400, "Bad Request");
+                }
+
                 var countdown = new Countdown {
                     Description = model.Description,
                     CreatedOn = _systemClock.UtcNow,
                     CreatedByAccountId = (int) _contextService.CurrentUserAccountId,
-                    EndsOn =  CreateEndsOnDate(model)
+                    EndsOn =  endsOnDate
                 };
                 await _countdownRepository.CreateAsync(countdown);
-                return new EmptyResult();
+                return Json(new {countdown.Id});
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
