@@ -64,8 +64,8 @@ export class AccountDetails extends React.Component<AccountState, any> {
 
 function mapStateToProps(state: AppState, ownProps: any): AccountState {
     return {
-        ...state.accountDetails,
-        isPersonalAccount: state.sharedContext.currentUserAccountId === state.accountDetails.id
+        ...state.account,
+        isPersonalAccount: state.sharedContext.currentUserAccountId === state.account.id
     };
 }
 

@@ -21,7 +21,15 @@ interface CountdownFormState {
     isValid?: boolean;
 }
 
-export default class CountdownForm extends React.Component<any, CountdownFormState> {
+type CountdownFormSubmitDurationFunc = (description: string, durationType: DurationType, duration: number) => void;
+type CountdownFormSubmitDateSegmentsFunc = (description: string, day: number, month: number, year: number, hour: number, minute: number) => void;
+
+interface CountdownFormProps {
+    onSubmitDuration?: CountdownFormSubmitDurationFunc;
+    onSubmitDateSegments?: CountdownFormSubmitDateSegmentsFunc;
+}
+
+export default class CountdownForm extends React.Component<CountdownFormProps, CountdownFormState> {
     constructor() {
         super();
 
@@ -83,9 +91,17 @@ export default class CountdownForm extends React.Component<any, CountdownFormSta
 
     private handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        const { description } = this.state;
 
         if (this.state.isValid) {
-            console.log("Submitting the form - hook to parent");
+            if (this.state.countdownType === CountdownType.Duration) {
+                const { durationType, duration } = this.state;
+                this.props.onSubmitDuration(description, durationType, duration);
+            }
+            else {
+                const { day, month, year, hour, minute } = this.state;
+                this.props.onSubmitDateSegments(description, day, month, year, hour, minute);
+            }
         }
     }
 

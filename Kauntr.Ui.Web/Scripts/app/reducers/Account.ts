@@ -19,7 +19,7 @@ export const initialState: AccountState = {
     isUpdatingData: false
 };
 
-export default function accountDetails(state = initialState, action: AccountAction): AccountState {
+export default function account(state = initialState, action: AccountAction): AccountState {
     switch (action.type) {
         case ActionTypes.INVALIDATE_ACCOUNT_DETAILS:
             return {

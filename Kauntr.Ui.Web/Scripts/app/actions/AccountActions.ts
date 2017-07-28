@@ -37,11 +37,11 @@ export function fetchAccountDetailsIfNeeded(accountId?: number) {
 }
 
 function shouldProcessAccountDetailsResponse(state: AppState, token: number): boolean {
-    return state.accountDetails.token === token;
+    return state.account.token === token;
 }
 
 function shouldFetchAccountDetails(state: AppState): boolean {
-    const { isLoadingData, isInvalidated } = state.accountDetails;
+    const { isLoadingData, isInvalidated } = state.account;
     return !isLoadingData && isInvalidated;
 }
 
