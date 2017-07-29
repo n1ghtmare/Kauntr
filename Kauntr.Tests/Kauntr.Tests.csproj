@@ -92,6 +92,7 @@
     <Compile Include="Ui.Web\AccountControllerTests\TestableAccountController.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\Update.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Create.cs" />
+    <Compile Include="Ui.Web\CountdownControllerTests\Details.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\InMemoryCountdownRepository.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\TestableCountdownController.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />

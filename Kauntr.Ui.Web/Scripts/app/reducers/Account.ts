@@ -21,11 +21,6 @@ export const initialState: AccountState = {
 
 export default function account(state = initialState, action: AccountAction): AccountState {
     switch (action.type) {
-        case ActionTypes.INVALIDATE_ACCOUNT_DETAILS:
-            return {
-                ...state,
-                isInvalidated: true
-            };
         case ActionTypes.LOAD_ACCOUNT_DETAILS:
             return {
                 ...state,

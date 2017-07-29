@@ -1,9 +1,25 @@
+import { Moment } from "moment";
+
 interface CountdownState {
     isCreatingNew: boolean;
+    isLoadingData: boolean;
+    id?: number;
+    description?: string;
+    endsOn?: Moment;
+    commentsCount?: number;
+    createdOn?: Moment;
+    createdByAccountId?: number;
+    createdByDisplayName?: string;
+    voteScore?: number;
+    currentUserVote?: number;
 
-    // TODO - add rest of individual countdown properties (loading, description, endsOn etc.)
+    // TODO - Setup the comments and the way they'll be loaded
+    // comments?: any[];
+    // hasLoadedComments?: boolean
+    // isLoadingComments?: boolean
 
     dispatch?: Function;
+    router?: any;
 }
 
 export default CountdownState;

@@ -6,20 +6,13 @@ import * as ActionTypes from "../constants/ActionTypes";
 
 import { handleServerError } from "./ErrorActions";
 
-export function invalidatePersonalAccount() {
-    return {
-        type: ActionTypes.INVALIDATE_ACCOUNT_DETAILS
-    };
-}
-
 export function fetchAccountDetailsIfNeeded(accountId?: number) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchAccountDetails(getState())) {
             const token: number = moment().unix();
-            const fetchUrl: string = `/account/index?token=${token}&accountId=${accountId}`;
             dispatch(loadAccountDetails(token));
 
-            return fetch(fetchUrl)
+            return fetch(`/account/index?token=${token}&accountId=${accountId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -41,8 +34,7 @@ function shouldProcessAccountDetailsResponse(state: AppState, token: number): bo
 }
 
 function shouldFetchAccountDetails(state: AppState): boolean {
-    const { isLoadingData, isInvalidated } = state.account;
-    return !isLoadingData && isInvalidated;
+    return !state.account.isLoadingData;
 }
 
 function loadAccountDetails(token: number) {

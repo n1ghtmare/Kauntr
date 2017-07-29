@@ -48,6 +48,7 @@
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\AuthenticationToken.cs" />
     <Compile Include="Entities\Countdown.cs" />
+    <Compile Include="Entities\CountdownAggregate.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />
     <Compile Include="Interfaces\IAccountRepository.cs" />

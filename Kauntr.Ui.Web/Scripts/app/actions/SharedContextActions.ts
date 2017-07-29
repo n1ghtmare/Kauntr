@@ -42,7 +42,6 @@ function shouldProcessSharedContextResponse(state: AppState, token: number): boo
 
 function shouldFetchSharedContext(state: AppState): boolean {
     const { isLoadingData, isInvalidated } = state.sharedContext;
-    console.log(state.sharedContext);
     return !isLoadingData && isInvalidated;
 }
 

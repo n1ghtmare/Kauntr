@@ -69,5 +69,14 @@ namespace Kauntr.Ui.Web.Controllers {
                     throw new ArgumentException("Invalid duration");
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(long countdownId) {
+            CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, _contextService.CurrentUserAccountId);
+            if (countdownAggregate == null) {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+            return Json(countdownAggregate, JsonRequestBehavior.AllowGet);
+        }
     }
 }

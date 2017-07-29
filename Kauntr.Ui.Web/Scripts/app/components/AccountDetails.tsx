@@ -6,7 +6,6 @@ import {
 } from "../actions/SharedContextActions";
 
 import {
-    invalidatePersonalAccount,
     fetchAccountDetailsIfNeeded,
     updateAccountDisplayNameIfNeeded
 } from "../actions/AccountActions";
@@ -24,13 +23,12 @@ export class AccountDetails extends React.Component<AccountState, any> {
         const { id } = router.params;
 
         dispatch(updateSharedContextTitle("account"));
-
-        dispatch(invalidatePersonalAccount());
         dispatch(fetchAccountDetailsIfNeeded(typeof id === "undefined" ? null : id));
     }
 
     private handleOnDisplayNameUpdate = (displayName: string): void => {
-        this.props.dispatch(updateAccountDisplayNameIfNeeded(displayName));
+        const { dispatch } = this.props;
+        dispatch(updateAccountDisplayNameIfNeeded(displayName));
     }
 
     renderAccountDetails() {

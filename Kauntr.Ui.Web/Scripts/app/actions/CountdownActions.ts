@@ -33,10 +33,9 @@ export function createCountdownFromDateSegments(description: string, endsOnDay: 
 function createCountdownFromData(data: string) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldCreateCountdown(getState())) {
-            const fetchUrl: string = "/countdown/create";
             dispatch(createCountdown());
 
-            return fetch(fetchUrl, { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/countdown/create", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -73,3 +72,45 @@ function createCountdownFailure() {
         type: ActionTypes.CREATE_COUNTDOWN_FAILURE
     };
 }
+
+export function fetchCountdownIfNeeded(countdownId: number) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        if (shouldFetchCountdown(getState())) {
+            dispatch(loadCountdown());
+
+            return fetch(`/countdown/details?countdownId=${countdownId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    return response.json();
+                })
+                .then(json => dispatch(loadCountdownSuccess(json)))
+                .catch((response: Response) => handleServerError(response, dispatch, loadCountdownFailure));
+        }
+    };
+}
+
+function shouldFetchCountdown(state: AppState): boolean {
+    return !state.countdown.isLoadingData;
+}
+
+function loadCountdown() {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWN
+    };
+}
+
+function loadCountdownSuccess(json: any) {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWN_SUCCESS,
+        json
+    };
+}
+
+function loadCountdownFailure() {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWN_FAILURE
+    };
+}
+

@@ -31,7 +31,7 @@ export class App extends React.Component<SharedContextState, any> {
     }
 
     renderContent(): any {
-        if (this.props.isLoadingData) {
+        if (this.props.isLoadingData && !this.props.isInvalidated) {
             return null;
         }
         return (

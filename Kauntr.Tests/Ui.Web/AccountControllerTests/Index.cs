@@ -25,10 +25,11 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
 
             JsonResult result = await controller.Index(token) as JsonResult;
             dynamic accountJson = result?.Data;
-            dynamic accountResult = accountJson?.Account;
+            Account accountResult = accountJson?.Account as Account;
 
             Assert.IsNotNull(accountJson);
             Assert.IsNotNull(accountJson.Account);
+            Assert.IsNotNull(accountResult);
             Assert.AreEqual(account.Id, accountResult.Id);
             Assert.AreEqual(token, accountJson.Token);
         }
