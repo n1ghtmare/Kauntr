@@ -19,8 +19,9 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
         const { dispatch, router } = this.props;
         dispatch(updateSharedContextTitle("countdown"));
 
-        // TODO - Figure out why dispatching is not in the correct order (SharedContext should finish before doing any of this here)
-        // dispatch(fetchCountdownIfNeeded(router.params.id));
+        // TODO - Decide if comments should load simultaniously or after the
+        dispatch(fetchCountdownIfNeeded(router.params.id))
+            .then(() => console.log("Will now load comments, should they be separated?"));
     }
 
     render() {
