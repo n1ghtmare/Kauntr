@@ -28,8 +28,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <h3>countdown details </h3>
-                    <Countdown />
+                    <Countdown {...this.props} />
                 </div>
             </div>
         );

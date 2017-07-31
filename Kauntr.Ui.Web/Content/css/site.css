@@ -180,8 +180,40 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 
+/*
+    Countdown
+    ################################################################
+*/
+.avatar-image-container {
+    margin: 0.87em 0;
+}
 
+.countdown-score {
+    margin: 0.53em 0;
+}
 
+.countdown-score a {
+    border-bottom: none;
+    margin: 0 31px;
+}
+
+.vote-up:hover {
+    color: #339900;
+}
+
+.vote-down:hover {
+    color: #f00;
+}
+
+.voted {
+    color: #ff6600;
+}
+
+.voted:hover {
+    color: #ff6600;
+}
+
+/* ################################################################ */
 
 
 
@@ -246,35 +278,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 
-.countdown {
-    font-size: 2.618em;
-    letter-spacing: -2px;
-    font-weight: bold;
-    margin-bottom: 90px;
-}
-
-.countdown-vote a {
-    padding: 0 30px;
-    border-bottom: 0px;
-    font-size: 27px;
-    margin: 0 15px;
-}
-
-.vote-up:hover {
-    color: #339900;
-}
-
-.vote-down:hover {
-    color: #f00;
-}
-
-.voted {
-    color: #ff6600;
-}
-
-.voted:hover {
-    color: #ff6600;
-}
 
 .auth-message {
     display: none;
