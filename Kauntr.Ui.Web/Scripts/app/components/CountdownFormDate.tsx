@@ -36,12 +36,12 @@ export default class CountdownFormDate extends React.Component<CountdownFormDate
         };
     }
 
-    private validationInterval: number = null;
+    private validationIntervalId: number = null;
     private placeholderDate: string = moment().add(1, "years").format("D/M/YYYY HH:mm");
 
     componentWillUnmount() {
-        if (this.validationInterval !== null) {
-            clearInterval(this.validationInterval);
+        if (this.validationIntervalId !== null) {
+            clearInterval(this.validationIntervalId);
         }
     }
 
@@ -78,8 +78,8 @@ export default class CountdownFormDate extends React.Component<CountdownFormDate
         const { day, month, year, hour, minute, isValid } = this.state;
         this.props.onChange(day, month, year, hour, minute, isValid);
 
-        if (this.validationInterval === null) {
-            this.validationInterval = setInterval(() => this.validateDate(), 1000);
+        if (this.validationIntervalId === null) {
+            this.validationIntervalId = setInterval(() => this.validateDate(), 1000);
         }
     }
 

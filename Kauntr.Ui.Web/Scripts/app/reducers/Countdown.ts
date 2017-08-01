@@ -14,6 +14,8 @@ interface CountdownAction {
 export const initialState: CountdownState = {
     isCreatingNew: false,
     isLoadingData: false,
+    createdOn: null,
+    endsOn: null
 };
 
 export default function countdown(state = initialState, action: CountdownAction): CountdownState {
@@ -44,8 +46,9 @@ export default function countdown(state = initialState, action: CountdownAction)
                 endsOn: parseRawDate(action.json.EndsOn),
                 commentsCount: action.json.CommentsCount,
                 createdOn: parseRawDate(action.json.CreatedOn),
-                createdByAccountId: action.json.CreateByAccountId,
+                createdByAccountId: action.json.CreatedByAccountId,
                 createdByDisplayName: action.json.CreatedByDisplayName,
+                createdByGravatarUrl: action.json.CreatedByGravatarUrl,
                 voteScore: action.json.VoteScore,
                 currentUserVote: action.json.CurrentUserVote
             };

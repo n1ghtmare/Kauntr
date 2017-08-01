@@ -9,6 +9,7 @@ namespace Kauntr.Core.Entities {
         public DateTime CreatedOn { get; set; }
         public int CreatedByAccountId { get; set; }
         public string CreatedByDisplayName { get; set; }
+        public string CreatedByEmail { get; set; }
         public int VoteScore { get; set; }
         public short? CurrentUserVote { get; set; }
     }

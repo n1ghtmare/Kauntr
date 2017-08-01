@@ -16,11 +16,11 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             TestableCountdownController controller = TestableCountdownController.Create();
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
 
-            var model = new CountdownViewModel {
+            var model = new CountdownCreateViewModel {
                 Description = "Test Description",
-                SelectedCountdownType = CountdownViewModel.CountdownType.Duration,
+                SelectedCountdownType = CountdownCreateViewModel.CountdownType.Duration,
                 Duration = 300,
-                SelectedDurationType = CountdownViewModel.DurationType.Seconds
+                SelectedDurationType = CountdownCreateViewModel.DurationType.Seconds
             };
 
             JsonResult result = await controller.Create(model) as JsonResult;
@@ -35,27 +35,27 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             TestableCountdownController controller = TestableCountdownController.Create();
             controller.ModelState.AddModelError("LaBomba", "Error Message");
 
-            HttpStatusCodeResult result = await controller.Create(new CountdownViewModel()) as HttpStatusCodeResult;
+            HttpStatusCodeResult result = await controller.Create(new CountdownCreateViewModel()) as HttpStatusCodeResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
             Assert.AreEqual("Bad Request", result.StatusDescription);
         }
 
-        [TestCase("2017-03-01 19:11:33", CountdownViewModel.DurationType.Minutes, 5, "2017-03-01 19:16:33")]
-        [TestCase("2017-03-01 19:11:33", CountdownViewModel.DurationType.Hours, 3, "2017-03-01 22:11:33")]
-        [TestCase("2017-03-01 19:11:33", CountdownViewModel.DurationType.Days, 5, "2017-03-06 19:11:33")]
-        [TestCase("2017-03-01 19:11:33", CountdownViewModel.DurationType.Months, 2, "2017-05-01 19:11:33")]
-        [TestCase("2017-03-01 19:11:33", CountdownViewModel.DurationType.Years, 4, "2021-03-01 19:11:33")]
-        public async Task PostFromAnAuthenticatedUserWithValidViewModel_CreatesACountdownFromDurationWithCorrectTime(DateTime systemTime, CountdownViewModel.DurationType durationType, int duration, DateTime expectedEndDate) {
+        [TestCase("2017-03-01 19:11:33", CountdownCreateViewModel.DurationType.Minutes, 5, "2017-03-01 19:16:33")]
+        [TestCase("2017-03-01 19:11:33", CountdownCreateViewModel.DurationType.Hours, 3, "2017-03-01 22:11:33")]
+        [TestCase("2017-03-01 19:11:33", CountdownCreateViewModel.DurationType.Days, 5, "2017-03-06 19:11:33")]
+        [TestCase("2017-03-01 19:11:33", CountdownCreateViewModel.DurationType.Months, 2, "2017-05-01 19:11:33")]
+        [TestCase("2017-03-01 19:11:33", CountdownCreateViewModel.DurationType.Years, 4, "2021-03-01 19:11:33")]
+        public async Task PostFromAnAuthenticatedUserWithValidViewModel_CreatesACountdownFromDurationWithCorrectTime(DateTime systemTime, CountdownCreateViewModel.DurationType durationType, int duration, DateTime expectedEndDate) {
             TestableCountdownController controller = TestableCountdownController.Create();
             const int currentUserAccountId = 7;
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(currentUserAccountId);
             controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
-            var model = new CountdownViewModel {
+            var model = new CountdownCreateViewModel {
                 Description = "Test Description",
-                SelectedCountdownType = CountdownViewModel.CountdownType.Duration,
+                SelectedCountdownType = CountdownCreateViewModel.CountdownType.Duration,
                 Duration = duration,
                 SelectedDurationType = durationType
             };
@@ -77,9 +77,9 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             const int currentUserAccountId = 7;
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(currentUserAccountId);
 
-            var model = new CountdownViewModel {
+            var model = new CountdownCreateViewModel {
                 Description = "Test Description",
-                SelectedCountdownType = CountdownViewModel.CountdownType.Date,
+                SelectedCountdownType = CountdownCreateViewModel.CountdownType.Date,
                 EndsOnDay = 7,
                 EndsOnMonth = 3,
                 EndsOnYear = 2017,
@@ -105,9 +105,9 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
             controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
-            var model = new CountdownViewModel {
+            var model = new CountdownCreateViewModel {
                 Description = "Test Description",
-                SelectedCountdownType = CountdownViewModel.CountdownType.Date,
+                SelectedCountdownType = CountdownCreateViewModel.CountdownType.Date,
                 EndsOnDay = 1,
                 EndsOnMonth = 1,
                 EndsOnYear = 2016,
@@ -130,11 +130,11 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
             controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
-            var model = new CountdownViewModel {
+            var model = new CountdownCreateViewModel {
                 Description = "Test Description",
-                SelectedCountdownType = CountdownViewModel.CountdownType.Duration,
+                SelectedCountdownType = CountdownCreateViewModel.CountdownType.Duration,
                 Duration = 71,
-                SelectedDurationType = CountdownViewModel.DurationType.Seconds
+                SelectedDurationType = CountdownCreateViewModel.DurationType.Seconds
             };
 
             HttpStatusCodeResult result = await controller.Create(model) as HttpStatusCodeResult;

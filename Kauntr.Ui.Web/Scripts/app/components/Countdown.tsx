@@ -1,25 +1,95 @@
 import * as React from "react";
+import { Link } from "react-router";
+import * as moment from "moment";
 
 import CountdownState from "../interfaces/CountdownState";
 
-export default class Countdown extends React.Component<CountdownState, any> {
-    // TODO - write the actual implementation of the countdown here (load comments if necessary)
-    // TODO - get the gravatar url from server
+export default class Countdown extends React.Component<CountdownState, { remainingTime: string }> {
+    constructor(props: CountdownState) {
+        super(props);
+
+        this.state = {
+            remainingTime: ""
+        };
+    }
+
+    private countdownIntervalId: number = null;
+
+    componentDidMount() {
+        this.updateRemainingTime();
+
+        if (this.countdownIntervalId === null) {
+            this.countdownIntervalId = setInterval(this.updateRemainingTime, 1000);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.countdownIntervalId !== null) {
+            clearInterval(this.countdownIntervalId);
+        }
+    }
+
+    generateTimeSegment(value: number, name: string): string {
+        const label: string = (value === 1) ? name : `${name}s`;
+        return (value > 0) ? `${value} ${label} ` : "";
+    }
+
+    generateRemainingTime(): string {
+        if (this.props.endsOn === null) {
+            return null;
+        }
+
+        const currentDate: moment.Moment = moment();
+        const duration: moment.Duration = moment.duration(this.props.endsOn.utc().diff(currentDate));
+
+        return this.generateTimeSegment(Math.floor(duration.asDays()), "day")
+            + this.generateTimeSegment(duration.hours(), "hour")
+            + this.generateTimeSegment(duration.minutes(), "minute")
+            + this.generateTimeSegment(duration.seconds(), "second");
+    }
+
+    private updateRemainingTime = () => {
+        this.setState({
+            remainingTime: this.generateRemainingTime()
+        });
+    }
+
+    // TODO - Include pulse here as well (that slows down based on negative votes with the same rate as the opacity)
+    getOpacity(): number {
+        const { voteScore } = this.props;
+        if (voteScore <= -10) {
+            return 0.1;
+        }
+
+        if (voteScore <= -5) {
+            return 0.3;
+        }
+
+        if (voteScore < 0) {
+            return 0.7;
+        }
+        return 1;
+    }
+
     render() {
+        const { createdOn, voteScore } = this.props;
+        const style = {
+            opacity: this.getOpacity()
+        };
         return (
             <div>
-                <div className="text-medium">
-                    <div>3 days 4 hours 33 minutes 5 seconds</div>
-                    <div>until <a href="#">{this.props.description}</a></div>
+                <div className="text-medium" style={style}>
+                    <div>{this.state.remainingTime}</div>
+                    <div>until <Link to={`/countdown/${this.props.id}`}>{this.props.description}</Link></div>
                 </div>
-                <div>created 3 days ago</div>
-                <div>by <a href="#">Haxor</a></div>
+                <div>created {createdOn === null ? "?" : createdOn.fromNow()}</div>
+                <div>by <Link to={`/account/${this.props.createdByAccountId}`}>{this.props.createdByDisplayName}</Link></div>
                 <div className="avatar-image-container">
-                    <img width="52" height="52" alt="Avatar Image" src="http://www.gravatar.com/avatar/3c65be11257c594389753a6b5de12569?s=52&amp;d=mm" />
+                    <img width="52" height="52" alt="Avatar Image" src={this.props.createdByGravatarUrl} />
                 </div>
                 <div className="text-medium countdown-score">
                     <a title="This is awesome" className="vote-up" href="#">&#43;</a>
-                    <span>0</span>
+                    <span>{this.props.voteScore}</span>
                     <a title="I don't like it" className="vote-down" href="#">&minus;</a>
                 </div>
             </div>

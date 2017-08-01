@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 using Kauntr.Core.Entities;
 using Kauntr.Core.Interfaces;
+using Kauntr.Ui.Web.Helpers;
 using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {
@@ -20,7 +21,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
 //        [Authorize] // TODO - Uncomment after Debug
         [HttpPost]
-        public async Task<ActionResult> Create(CountdownViewModel model) {
+        public async Task<ActionResult> Create(CountdownCreateViewModel model) {
             if (ModelState.IsValid) {
                 DateTime endsOnDate = CreateEndsOnDate(model);
 
@@ -40,30 +41,30 @@ namespace Kauntr.Ui.Web.Controllers {
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
-        private DateTime CreateEndsOnDate(CountdownViewModel model) {
+        private DateTime CreateEndsOnDate(CountdownCreateViewModel model) {
             switch (model.SelectedCountdownType) {
-                case CountdownViewModel.CountdownType.Duration:
+                case CountdownCreateViewModel.CountdownType.Duration:
                     return CreateDateFromDuration(model);
-                case CountdownViewModel.CountdownType.Date:
+                case CountdownCreateViewModel.CountdownType.Date:
                     return new DateTime(model.EndsOnYear, model.EndsOnMonth, model.EndsOnDay, model.EndsOnHour ?? 0, model.EndsOnMinute ?? 0, 0);
                 default:
                     throw new Exception("Can't generate EndsOnDate");
             }
         }
 
-        private DateTime CreateDateFromDuration(CountdownViewModel model) {
+        private DateTime CreateDateFromDuration(CountdownCreateViewModel model) {
             switch (model.SelectedDurationType) {
-                case CountdownViewModel.DurationType.Seconds:
+                case CountdownCreateViewModel.DurationType.Seconds:
                     return _systemClock.UtcNow.AddSeconds(model.Duration);
-                case CountdownViewModel.DurationType.Minutes:
+                case CountdownCreateViewModel.DurationType.Minutes:
                     return _systemClock.UtcNow.AddMinutes(model.Duration);
-                case CountdownViewModel.DurationType.Hours:
+                case CountdownCreateViewModel.DurationType.Hours:
                     return _systemClock.UtcNow.AddHours(model.Duration);
-                case CountdownViewModel.DurationType.Days:
+                case CountdownCreateViewModel.DurationType.Days:
                     return _systemClock.UtcNow.AddDays(model.Duration);
-                case CountdownViewModel.DurationType.Months:
+                case CountdownCreateViewModel.DurationType.Months:
                     return _systemClock.UtcNow.AddMonths(model.Duration);
-                case CountdownViewModel.DurationType.Years:
+                case CountdownCreateViewModel.DurationType.Years:
                     return _systemClock.UtcNow.AddYears(model.Duration);
                 default:
                     throw new ArgumentException("Invalid duration");
@@ -76,7 +77,9 @@ namespace Kauntr.Ui.Web.Controllers {
             if (countdownAggregate == null) {
                 return new HttpStatusCodeResult(404, "Not Found");
             }
-            return Json(countdownAggregate, JsonRequestBehavior.AllowGet);
+
+            CountdownViewModel model = countdownAggregate.ToCountdownViewModel();
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

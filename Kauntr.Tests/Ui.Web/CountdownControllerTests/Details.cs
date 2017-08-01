@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using NUnit.Framework;
 
 using Kauntr.Core.Entities;
+using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
     [TestFixture]
@@ -30,17 +31,18 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
 
             Assert.IsNotNull(result);
 
-            CountdownAggregate countdownAggregateResult = result.Data as CountdownAggregate;
-            Assert.IsNotNull(countdownAggregateResult);
-            Assert.AreEqual(countdownAggregate.Id, countdownAggregateResult.Id);
-            Assert.AreEqual(countdownAggregate.CreatedOn, countdownAggregateResult.CreatedOn);
-            Assert.AreEqual(countdownAggregate.Description, countdownAggregateResult.Description);
-            Assert.AreEqual(countdownAggregate.EndsOn, countdownAggregateResult.EndsOn);
-            Assert.AreEqual(countdownAggregate.CreatedByAccountId, countdownAggregateResult.CreatedByAccountId);
-            Assert.AreEqual(countdownAggregate.CommentsCount, countdownAggregateResult.CommentsCount);
-            Assert.AreEqual(countdownAggregate.CreatedByDisplayName, countdownAggregateResult.CreatedByDisplayName);
-            Assert.AreEqual(countdownAggregate.CurrentUserVote, countdownAggregateResult.CurrentUserVote);
-            Assert.AreEqual(countdownAggregate.VoteScore, countdownAggregateResult.VoteScore);
+            CountdownViewModel countdownViewModel = result.Data as CountdownViewModel;
+            Assert.IsNotNull(countdownViewModel);
+            Assert.AreEqual(countdownAggregate.Id, countdownViewModel.Id);
+            Assert.AreEqual(countdownAggregate.CreatedOn, countdownViewModel.CreatedOn);
+            Assert.AreEqual(countdownAggregate.Description, countdownViewModel.Description);
+            Assert.AreEqual(countdownAggregate.EndsOn, countdownViewModel.EndsOn);
+            Assert.AreEqual(countdownAggregate.CreatedByAccountId, countdownViewModel.CreatedByAccountId);
+            Assert.AreEqual(countdownAggregate.CommentsCount, countdownViewModel.CommentsCount);
+            Assert.AreEqual(countdownAggregate.CreatedByDisplayName, countdownViewModel.CreatedByDisplayName);
+            Assert.AreEqual(countdownAggregate.CurrentUserVote, countdownViewModel.CurrentUserVote);
+            Assert.AreEqual(countdownAggregate.VoteScore, countdownViewModel.VoteScore);
+            Assert.IsNotNull(countdownViewModel.CreatedByGravatarUrl);
         }
 
         [Test]

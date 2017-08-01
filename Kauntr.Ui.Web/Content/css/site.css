@@ -194,7 +194,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 .countdown-score a {
     border-bottom: none;
-    margin: 0 31px;
+    margin: 0 51px;
 }
 
 .vote-up:hover {
@@ -214,6 +214,9 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 }
 
 /* ################################################################ */
+
+
+
 
 
 

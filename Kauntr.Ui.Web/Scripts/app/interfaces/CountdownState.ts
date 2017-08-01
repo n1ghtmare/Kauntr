@@ -10,6 +10,7 @@ interface CountdownState {
     createdOn?: Moment;
     createdByAccountId?: number;
     createdByDisplayName?: string;
+    createdByGravatarUrl?: string;
     voteScore?: number;
     currentUserVote?: number;
 

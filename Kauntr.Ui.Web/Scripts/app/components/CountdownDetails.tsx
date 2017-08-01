@@ -13,6 +13,7 @@ import AppState from "../interfaces/AppState";
 import CountdownState from "../interfaces/CountdownState";
 
 import Countdown from "./Countdown";
+import LoadingIndicator from "./LoadingIndicator";
 
 export class CountdownDetails extends React.Component<CountdownState, any> {
     componentDidMount() {
@@ -24,7 +25,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
             .then(() => console.log("Will now load comments, should they be separated?"));
     }
 
-    render() {
+    renderCountdown() {
         return (
             <div className="animated fadeIn">
                 <div className="row">
@@ -33,10 +34,20 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
             </div>
         );
     }
+
+    render() {
+        const { isLoadingData } = this.props;
+        return isLoadingData
+            ? <LoadingIndicator isActive={isLoadingData} />
+            : this.renderCountdown();
+    }
 }
 
 function mapStateToProps(state: AppState, ownProps: any): CountdownState {
-    return state.countdown;
+    return {
+        ...state.countdown,
+        voteScore: -5
+    };
 }
 
 export default connect(mapStateToProps)(CountdownDetails);

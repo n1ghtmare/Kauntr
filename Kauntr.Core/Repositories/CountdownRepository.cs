@@ -37,6 +37,7 @@ namespace Kauntr.Core.Repositories {
                         c.CreatedOn,
                         c.EndsOn,
                         a.DisplayName AS CreatedByDisplayName,
+                        a.Email AS CreatedByEmail,
                         ISNULL((SELECT SUM(Value) FROM Votes WHERE CountdownId = c.Id), 0) AS VoteScore,
                         (SELECT Value FROM Votes WHERE CountdownId = c.Id AND CastedByAccountId = @currentUserAccountId) AS CurrentUserVote,
                         (SELECT COUNT(Id) FROM Comments WHERE CountdownId = c.Id) AS CommentsCount
