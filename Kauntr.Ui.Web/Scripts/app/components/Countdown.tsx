@@ -16,10 +16,12 @@ export default class Countdown extends React.Component<CountdownState, { remaini
     private countdownIntervalId: number = null;
 
     componentDidMount() {
-        this.updateRemainingTime();
+        if (this.props.endsOn > moment()) {
+            this.updateRemainingTime();
 
-        if (this.countdownIntervalId === null) {
-            this.countdownIntervalId = setInterval(this.updateRemainingTime, 1000);
+            if (this.countdownIntervalId === null) {
+                this.countdownIntervalId = setInterval(this.updateRemainingTime, 1000);
+            }
         }
     }
 
@@ -71,17 +73,32 @@ export default class Countdown extends React.Component<CountdownState, { remaini
         return 1;
     }
 
+    renderTitle() {
+        const titleLink = <Link to={`/countdown/${this.props.id}`}>{this.props.description}</Link>;
+        const { endsOn } = this.props;
+
+        if (endsOn !== null && endsOn < moment()) {
+            return (
+                <div className="text-medium">
+                    <div>{titleLink} completed</div>
+                    <div>{endsOn.fromNow()}</div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="text-medium">
+                <div>{this.state.remainingTime}</div>
+                <div>until {titleLink}</div>
+            </div>
+        );
+    }
+
     render() {
-        const { createdOn, voteScore } = this.props;
-        const style = {
-            opacity: this.getOpacity()
-        };
+        const { createdOn } = this.props;
         return (
             <div>
-                <div className="text-medium" style={style}>
-                    <div>{this.state.remainingTime}</div>
-                    <div>until <Link to={`/countdown/${this.props.id}`}>{this.props.description}</Link></div>
-                </div>
+                {this.renderTitle()}
                 <div>created {createdOn === null ? "?" : createdOn.fromNow()}</div>
                 <div>by <Link to={`/account/${this.props.createdByAccountId}`}>{this.props.createdByDisplayName}</Link></div>
                 <div className="avatar-image-container">

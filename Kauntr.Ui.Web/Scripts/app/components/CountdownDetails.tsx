@@ -44,10 +44,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
 }
 
 function mapStateToProps(state: AppState, ownProps: any): CountdownState {
-    return {
-        ...state.countdown,
-        voteScore: -5
-    };
+    return state.countdown;
 }
 
 export default connect(mapStateToProps)(CountdownDetails);
