@@ -184,6 +184,14 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     Countdown
     ################################################################
 */
+.countdown-pulse {
+    -webkit-animation: pulse 1s ease-in-out infinite;
+    -moz-animation: pulse 1s ease-in-out infinite;
+    -ms-animation: pulse 1s ease-in-out infinite;
+    -o-animation: pulse 1s ease-in-out infinite;
+    animation: pulse 1s ease-in-out infinite;
+}
+
 .avatar-image-container {
     margin: 0.87em 0;
 }
@@ -213,6 +221,47 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     color: #ff6600;
 }
 
+@-moz-keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    9% {
+        transform: scale(1.05);
+    }
+
+    91% {
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    9% {
+        transform: scale(1.05);
+    }
+
+    91% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    9% {
+        transform: scale(1.05);
+    }
+
+    91% {
+        transform: scale(1);
+    }
+}
 /* ################################################################ */
 
 

@@ -56,26 +56,9 @@ export default class Countdown extends React.Component<CountdownState, { remaini
         });
     }
 
-    // TODO - Include pulse here as well (that slows down based on negative votes with the same rate as the opacity)
-    getOpacity(): number {
-        const { voteScore } = this.props;
-        if (voteScore <= -10) {
-            return 0.1;
-        }
-
-        if (voteScore <= -5) {
-            return 0.3;
-        }
-
-        if (voteScore < 0) {
-            return 0.7;
-        }
-        return 1;
-    }
-
     renderTitle() {
         const titleLink = <Link to={`/countdown/${this.props.id}`}>{this.props.description}</Link>;
-        const { endsOn } = this.props;
+        const { endsOn, voteScore } = this.props;
 
         if (endsOn !== null && endsOn < moment()) {
             return (
@@ -86,9 +69,13 @@ export default class Countdown extends React.Component<CountdownState, { remaini
             );
         }
 
+        const durations: string[] = ["1s", "2s", "4s", "6s"];
+        const animationDuration = voteScore < 0 ? durations[Math.floor((10 + Math.abs(voteScore < -10 ? -10 : voteScore)) * 0.2) - 1] : durations[0];
+        const opacity: number = voteScore < 0 ? (10 - Math.abs(voteScore < -9 ? -9 : voteScore)) / 10 : 1;
+
         return (
-            <div className="text-medium">
-                <div>{this.state.remainingTime}</div>
+            <div className="text-medium" style={{ opacity }}>
+                <div className="countdown-pulse" style={{ animationDuration }}>{this.state.remainingTime}</div>
                 <div>until {titleLink}</div>
             </div>
         );
