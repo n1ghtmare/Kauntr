@@ -16,6 +16,11 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
 
+        private Func<int?, Task<int>> AggregateCountFuncAsync => x => _countdownRepository.GetTotalActiveCountAsync();
+        private Func<int, int, int?, Task<IEnumerable<CountdownAggregate>>> TrendingFunc => (page, limit, accountId) => _countdownRepository.GetTrendingAsync(page, limit, accountId);
+        private Func<int, int, int?, Task<IEnumerable<CountdownAggregate>>> LatestFunc => (page, limit, accountId) => _countdownRepository.GetLatestAsync(page, limit, accountId);
+        private Func<int, int, int?, Task<IEnumerable<CountdownAggregate>>> MineFunc => (page, limit, accountId) => _countdownRepository.GetMineAsync(page, limit, (int) accountId);
+
         public CountdownController(ICountdownRepository countdownRepository, IContextService contextService, ISystemClock systemClock) {
             _countdownRepository = countdownRepository;
             _contextService = contextService;
@@ -86,13 +91,36 @@ namespace Kauntr.Ui.Web.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult> Trending(int page = 1) {
-            IEnumerable<CountdownAggregate> countdowns = await _countdownRepository.GetTrendingAsync(page, CountdownLimit, _contextService.CurrentUserAccountId);
-            var model = new CountdownListViewModel {
-                Countdowns = countdowns,
-                Page = page
-            };
+        public async Task<ActionResult> Trending(int token, int page = 1) {
+            CountdownListViewModel model = await GetCountdownListAsync(TrendingFunc, AggregateCountFuncAsync, page, token);
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Latest(int token, int page = 1) {
+            CountdownListViewModel model = await GetCountdownListAsync(LatestFunc, AggregateCountFuncAsync, page, token);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+//        [Authorize] // TODO - Uncomment after Debug
+        [HttpGet]
+        public async Task<ActionResult> Mine(int token, int page = 1) {
+            CountdownListViewModel model = await GetCountdownListAsync(MineFunc, (accountId) => _countdownRepository.GetTotalActiveCountAsync(accountId), page, token);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task<CountdownListViewModel> GetCountdownListAsync(Func<int, int, int?, Task<IEnumerable<CountdownAggregate>>> aggregateFuncAsync, Func<int?, Task<int>> aggregateCountFuncAsync, int page, int token) {
+            Task<int> count = aggregateCountFuncAsync(_contextService.CurrentUserAccountId);
+            Task<IEnumerable<CountdownAggregate>> results = aggregateFuncAsync(page, CountdownLimit, _contextService.CurrentUserAccountId);
+
+            await Task.WhenAll(count, results);
+
+            return new CountdownListViewModel {
+                Page = page,
+                Total = await count,
+                Countdowns = (await results).ToCountdownViewModels(),
+                Token = token
+            };
         }
     }
 }

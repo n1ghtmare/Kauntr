@@ -9,12 +9,13 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
     [TestFixture]
-    public class Trending {
+    public class Mine {
         [Test]
         public async Task GetRequest_ReturnsCountdownListViewModel() {
             TestableCountdownController controller = TestableCountdownController.Create();
+            controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
 
-            JsonResult result = await controller.Trending(123) as JsonResult;
+            JsonResult result = await controller.Mine(123) as JsonResult;
 
             Assert.IsNotNull(result);
 
@@ -25,6 +26,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         [Test]
         public async Task GetRequest_ReturnsCorrectAModelWithCorrectNumberOfCountdowns() {
             TestableCountdownController controller = TestableCountdownController.Create();
+            controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(1);
 
             controller.CountdownRepository.CountdownAggregates.Add(new CountdownAggregate());
             controller.CountdownRepository.CountdownAggregates.Add(new CountdownAggregate());
@@ -32,7 +34,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
 
             const int token = 123;
             const int page = 5;
-            JsonResult result = await controller.Trending(token, page) as JsonResult;
+            JsonResult result = await controller.Mine(token, page) as JsonResult;
 
             Assert.IsNotNull(result);
 

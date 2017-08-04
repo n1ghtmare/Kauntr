@@ -9,12 +9,12 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
     [TestFixture]
-    public class Trending {
+    public class Latest {
         [Test]
         public async Task GetRequest_ReturnsCountdownListViewModel() {
             TestableCountdownController controller = TestableCountdownController.Create();
 
-            JsonResult result = await controller.Trending(123) as JsonResult;
+            JsonResult result = await controller.Latest(123) as JsonResult;
 
             Assert.IsNotNull(result);
 
@@ -32,7 +32,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
 
             const int token = 123;
             const int page = 5;
-            JsonResult result = await controller.Trending(token, page) as JsonResult;
+            JsonResult result = await controller.Latest(token, page) as JsonResult;
 
             Assert.IsNotNull(result);
 

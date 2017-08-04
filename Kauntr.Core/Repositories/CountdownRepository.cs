@@ -52,5 +52,17 @@ namespace Kauntr.Core.Repositories {
         public Task<IEnumerable<CountdownAggregate>> GetTrendingAsync(int page, int limit, int? currentUserAccountId = null) {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<CountdownAggregate>> GetLatestAsync(int page, int limit, int? currentAccountId = null) {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CountdownAggregate>> GetMineAsync(int page, int limit, int currentAccountId) {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<int> GetTotalActiveCountAsync(int? currentUserAccountId = null) {
+            throw new System.NotImplementedException();
+        }
     }
 }
