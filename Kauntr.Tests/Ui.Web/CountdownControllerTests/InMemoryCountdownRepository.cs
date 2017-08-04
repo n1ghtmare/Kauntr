@@ -20,5 +20,9 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         public Task<CountdownAggregate> GetAggregateAsync(long id, int? currentUserAccountId = null) {
             return Task.Run(() => CountdownAggregates.FirstOrDefault(x => x.Id == id));
         }
+
+        public Task<IEnumerable<CountdownAggregate>> GetTrendingAsync(int page, int limit, int? currentUserAccountId = null) {
+            return Task.Run(() => CountdownAggregates.AsEnumerable());
+        }
     }
 }

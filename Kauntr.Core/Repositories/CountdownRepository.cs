@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -46,6 +47,10 @@ namespace Kauntr.Core.Repositories {
                     WHERE c.Id = @id";
                 return await connection.QueryFirstOrDefaultAsync<CountdownAggregate>(sql, new {id, currentUserAccountId});
             }
+        }
+
+        public Task<IEnumerable<CountdownAggregate>> GetTrendingAsync(int page, int limit, int? currentUserAccountId = null) {
+            throw new System.NotImplementedException();
         }
     }
 }

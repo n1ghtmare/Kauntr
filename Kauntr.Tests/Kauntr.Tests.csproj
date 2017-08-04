@@ -95,6 +95,7 @@
     <Compile Include="Ui.Web\CountdownControllerTests\Details.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\InMemoryCountdownRepository.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\TestableCountdownController.cs" />
+    <Compile Include="Ui.Web\CountdownControllerTests\Trending.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\TestableSharedContextController.cs" />
   </ItemGroup>

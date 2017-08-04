@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -9,6 +10,8 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class CountdownController : Controller {
+        private const int CountdownLimit = 10;
+
         private readonly ICountdownRepository _countdownRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
@@ -73,12 +76,22 @@ namespace Kauntr.Ui.Web.Controllers {
 
         [HttpGet]
         public async Task<ActionResult> Details(long countdownId) {
-            CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, _contextService.CurrentUserAccountId);
-            if (countdownAggregate == null) {
+            CountdownAggregate countdown = await _countdownRepository.GetAggregateAsync(countdownId, _contextService.CurrentUserAccountId);
+            if (countdown == null) {
                 return new HttpStatusCodeResult(404, "Not Found");
             }
 
-            CountdownViewModel model = countdownAggregate.ToCountdownViewModel();
+            CountdownViewModel model = countdown.ToCountdownViewModel();
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Trending(int page = 1) {
+            IEnumerable<CountdownAggregate> countdowns = await _countdownRepository.GetTrendingAsync(page, CountdownLimit, _contextService.CurrentUserAccountId);
+            var model = new CountdownListViewModel {
+                Countdowns = countdowns,
+                Page = page
+            };
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
