@@ -267,7 +267,28 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 
+/*
+    Comments
+    ################################################################
+*/
+.comment {
+    margin: 2.287em 0 0.5em;
+    border-bottom: 1px dotted #CACACA;
+}
 
+.comment-score {
+    font-weight: bold;
+    margin: 1em 0;
+}
+
+.comment-score a {
+    border-bottom: none;
+    margin: 0 31px;
+}
+
+.comment-text {
+    padding: 17px;
+}
 
 
 
@@ -359,19 +380,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 --------------------------------------
 */
 
-.comment {
-    border-bottom: 1px dotted #bbb;
-    padding: 15px 11px;
-    background: #efefef;
-}
-
-.comment-text {
-    margin-bottom: 15px;
-}
-
-.comment-score {
-    font-weight: bold;
-}
 
 .comment-flag {
     display: none;
