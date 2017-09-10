@@ -34,40 +34,51 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
                     <DiamondsSeparator />
 
                     {/* TODO - Remove these prototype comments left for design purposes */}
-                    <div><h4>23 comments</h4></div>
+                    <h4>23 comments</h4>
 
-                    <div className="comment">
-                        <div>created 3 days ago</div>
-                        <div>by <a href="#">Haxor</a></div>
-                        <div className="avatar-image-container">
-                            <img width="42" height="42" alt="Avatar Image" src="http://www.gravatar.com/avatar/3c65be11257c594389753a6b5de12569?s=42&d=mm" />
+                    <div className="comments">
+                        <div className="comment">
+                            <div>created 3 days ago</div>
+                            <div>by <a href="#">Haxor</a></div>
+                            <div className="avatar-image-container">
+                                <img width="42" height="42" alt="Avatar Image" src="http://www.gravatar.com/avatar/3c65be11257c594389753a6b5de12569?s=42&d=mm" />
+                            </div>
+                            <div className="comment-text">
+                                My test comment here yo My test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yo
                         </div>
-                        <div className="comment-text">
-                            My test comment here yo My test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yo
+                            <div className="comment-score">
+                                <a title="This is awesome" className="vote-up" href="#">&#43;</a>
+                                <span>0</span>
+                                <a title="I don't like it" className="vote-down" href="#">&minus;</a>
+                            </div>
                         </div>
-                        <div className="comment-score">
-                            <a title="This is awesome" className="vote-up" href="#">&#43;</a>
-                            <span>0</span>
-                            <a title="I don't like it" className="vote-down" href="#">&minus;</a>
+
+
+                        <div className="comment">
+                            <div>created 3 days ago</div>
+                            <div>by <a href="#">Haxor</a></div>
+                            <div className="avatar-image-container">
+                                <img width="42" height="42" alt="Avatar Image" src="http://www.gravatar.com/avatar/3c65be11257c594389753a6b5de12569?s=42&d=mm" />
+                            </div>
+                            <div>
+                                My test comment here yo My test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yo
+                        </div>
+                            <div className="comment-score">
+                                <a title="This is awesome" className="vote-up" href="#">&#43;</a>
+                                <span>0</span>
+                                <a title="I don't like it" className="vote-down" href="#">&minus;</a>
+                            </div>
                         </div>
                     </div>
 
-
-                    <div className="comment">
-                        <div>created 3 days ago</div>
-                        <div>by <a href="#">Haxor</a></div>
-                        <div className="avatar-image-container">
-                            <img width="42" height="42" alt="Avatar Image" src="http://www.gravatar.com/avatar/3c65be11257c594389753a6b5de12569?s=42&d=mm" />
+                    <form className="form-section">
+                        <div>
+                            <textarea className="textarea-large"></textarea>
                         </div>
                         <div>
-                            My test comment here yo My test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yoMy test comment here yo
+                            <button type="submit" className="button button-medium">Add Comment</button>
                         </div>
-                        <div className="comment-score">
-                            <a title="This is awesome" className="vote-up" href="#">&#43;</a>
-                            <span>0</span>
-                            <a title="I don't like it" className="vote-down" href="#">&minus;</a>
-                        </div>
-                    </div>
+                    </form>
 
                 </div>
             </div>

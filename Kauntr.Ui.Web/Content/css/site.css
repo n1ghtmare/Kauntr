@@ -276,6 +276,10 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     border-bottom: 1px dotted #CACACA;
 }
 
+.comments {
+    margin-bottom: 3.7em;
+}
+
 .comment-score {
     font-weight: bold;
     margin: 1em 0;
@@ -375,37 +379,8 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     opacity: 0.3;
 }
 
-/*
-    Comments
---------------------------------------
-*/
 
 
-.comment-flag {
-    display: none;
-    margin-left: 5px;
-}
-
-.comment-vote a {
-    margin: 0 15px;
-    padding: 0 10px;
-    font-size: 12px;
-}
-
-.text-comment {
-    font-size: 15px;
-    line-height: 24px;
-    width: 97%;
-    overflow: auto;
-    -moz-resize: vertical;
-    -ms-resize: vertical;
-    -o-resize: vertical;
-    resize: vertical;
-}
-
-/*
----------------------------------------
-*/
 
 
 

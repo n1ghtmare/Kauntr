@@ -201,7 +201,6 @@ input[type=text], input[type=email], input[type=password], textarea, select, .in
     -webkit-border-radius: 5px;
     -ms-border-radius: 5px;
     border-radius: 5px;
-    font-weight: bold;
     letter-spacing: -2px;
 }
 
@@ -229,9 +228,15 @@ select {
 }
 
 textarea {
-    width: 300px;
-    height: 70px;
-    padding: 5px;
+    padding: 7px 21px;
+    font-weight: normal;
+    font-size: 1em;
+    letter-spacing: 0;
+}
+
+.textarea-large {
+    width: 611px;
+    height: 144px;
 }
 
 form.inline p {
