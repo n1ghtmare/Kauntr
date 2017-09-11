@@ -15,6 +15,7 @@ import CountdownState from "../interfaces/CountdownState";
 import Countdown from "./Countdown";
 import LoadingIndicator from "./LoadingIndicator";
 import DiamondsSeparator from "./DiamondsSeparator";
+import CommentForm from "./CommentForm";
 
 export class CountdownDetails extends React.Component<CountdownState, any> {
     componentDidMount() {
@@ -71,14 +72,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
                         </div>
                     </div>
 
-                    <form className="form-section">
-                        <div>
-                            <textarea className="textarea-large"></textarea>
-                        </div>
-                        <div>
-                            <button type="submit" className="button button-medium">Add Comment</button>
-                        </div>
-                    </form>
+                    <CommentForm />
 
                 </div>
             </div>
