@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-type AccountSettingsSubmitFunc = (displayName: string) => void;
+type AccountSettingsFormSubmitFunc = (displayName: string) => void;
 
 interface AccountSettingsFormProps {
     isAutoSetup: boolean;
     displayName: string;
-    onSubmit: AccountSettingsSubmitFunc;
+    onSubmit: AccountSettingsFormSubmitFunc;
     isActive: boolean;
 }
 

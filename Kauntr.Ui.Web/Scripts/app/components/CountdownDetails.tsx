@@ -72,7 +72,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
                         </div>
                     </div>
 
-                    <CommentForm />
+                    <CommentForm isActive={this.props.isLoadingData} onSubmit={(content) => console.log(content)} />
 
                 </div>
             </div>
