@@ -8,7 +8,7 @@ interface CommentFormProps {
 }
 
 interface CommentFormState {
-    content: string;
+    text: string;
     isValid: boolean;
 }
 
@@ -17,7 +17,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
         super(props);
 
         this.state = {
-            content: "",
+            text: "",
             isValid: false
         };
     }
@@ -25,7 +25,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
     validateForm(): void {
         // TODO - add validation for longer comments and add an indicator below the box showing the allowed characters left
         this.setState({
-            isValid: this.state.content.length > 2
+            isValid: this.state.text.length > 2
         });
     }
 
@@ -33,7 +33,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
         e.preventDefault();
 
         this.setState({
-            content: e.target.value
+            text: e.target.value
         }, this.validateForm);
     }
 
@@ -41,7 +41,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
         e.preventDefault();
 
         if (this.state.isValid) {
-            this.props.onSubmit(this.state.content);
+            this.props.onSubmit(this.state.text);
         }
     }
 
