@@ -170,6 +170,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CountdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SharedContextController.cs" />
@@ -180,6 +181,8 @@
     <Compile Include="Helpers\AvatarHelpers.cs" />
     <Compile Include="Models\AccountUpdateViewModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />
+    <Compile Include="Models\CommentListViewModel.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\CountdownCreateViewModel.cs" />
     <Compile Include="Models\CountdownListViewModel.cs" />
     <Compile Include="Models\CountdownViewModel.cs" />

@@ -35,10 +35,12 @@ app.get("/Home/*", forwardRequestFunc);
 app.get("/SharedContext/*", forwardRequestFunc);
 app.get("/Account/*", forwardRequestFunc);
 app.get("/Countdown/*", forwardRequestFunc);
+app.get("/Comment/*", forwardRequestFunc);
 
 // HTTP POST
 app.post("/Account/*", forwardRequestFunc);
 app.post("/Countdown/*", forwardRequestFunc);
+app.post("/Comment/*", forwardRequestFunc);
 
 app.use("/Content", express.static(__dirname + "/Content"));
 app.use("/fonts", express.static(__dirname + "/fonts"));

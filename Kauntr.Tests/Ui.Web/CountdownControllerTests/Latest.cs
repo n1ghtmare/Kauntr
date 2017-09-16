@@ -23,7 +23,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         }
 
         [Test]
-        public async Task GetRequest_ReturnsCorrectAModelWithCorrectNumberOfCountdowns() {
+        public async Task GetRequest_ReturnsAModelWithCorrectNumberOfCountdowns() {
             TestableCountdownController controller = TestableCountdownController.Create();
 
             controller.CountdownRepository.CountdownAggregates.Add(new CountdownAggregate());

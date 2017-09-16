@@ -91,6 +91,9 @@
     <Compile Include="Ui.Web\AccountControllerTests\Logout.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\TestableAccountController.cs" />
     <Compile Include="Ui.Web\AccountControllerTests\Update.cs" />
+    <Compile Include="Ui.Web\CommentControllerTests\Index.cs" />
+    <Compile Include="Ui.Web\CommentControllerTests\InMemoryCommentRepository.cs" />
+    <Compile Include="Ui.Web\CommentControllerTests\TestableCommentController.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Create.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Details.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\InMemoryCountdownRepository.cs" />

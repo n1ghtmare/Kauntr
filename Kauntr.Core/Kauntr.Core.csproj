@@ -47,9 +47,12 @@
   <ItemGroup>
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\AuthenticationToken.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\CommentAggregate.cs" />
     <Compile Include="Entities\Countdown.cs" />
     <Compile Include="Entities\CountdownAggregate.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
+    <Compile Include="Interfaces\ICommentRepository.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />
     <Compile Include="Interfaces\IAccountRepository.cs" />
     <Compile Include="Interfaces\IAuthenticationTokenRepository.cs" />
