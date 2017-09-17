@@ -13,7 +13,7 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             return Task.Run(() => CommentAggregates.Count);
         }
 
-        public Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(long countdownId, int? currentUserAccountId = null) {
+        public Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(long countdownId, int page, int limit, int? currentUserAccountId = null) {
             return Task.Run(() => CommentAggregates.AsEnumerable());
         }
     }

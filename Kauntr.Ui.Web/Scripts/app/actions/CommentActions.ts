@@ -22,6 +22,7 @@ export function fetchCommentsIfNeeded(countdownId: number, page: number) {
                     return response.json();
                 })
                 .then(json => {
+                    console.log("WILL PROCESS COMMENTS");
                     if (shouldProcessComments(getState(), json.Token)) {
                         dispatch(loadCommentsSuccess(json));
                     }

@@ -9,6 +9,8 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class CommentController : Controller {
+        private const int CommentLimit = 10;
+
         private readonly ICommentRepository _commentRepository;
         private readonly IContextService _contextService;
 
@@ -19,7 +21,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
             Task<int> count = _commentRepository.GetTotalAsync(model.CountdownId);
-            Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(model.CountdownId, _contextService.CurrentUserAccountId);
+            Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(model.CountdownId, model.Page, CommentLimit, _contextService.CurrentUserAccountId);
 
             await Task.WhenAll(count, results);
 

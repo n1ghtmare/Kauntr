@@ -9,6 +9,10 @@ import {
     fetchCountdownIfNeeded
 } from "../actions/CountdownActions";
 
+import {
+    fetchCommentsIfNeeded
+} from "../actions/CommentActions";
+
 import AppState from "../interfaces/AppState";
 import CountdownState from "../interfaces/CountdownState";
 
@@ -19,12 +23,13 @@ import CommentForm from "./CommentForm";
 
 export class CountdownDetails extends React.Component<CountdownState, any> {
     componentDidMount() {
-        const { dispatch, router } = this.props;
+        const { dispatch } = this.props;
+        const { params } = this.props.router;
         dispatch(updateSharedContextTitle("countdown"));
 
         // TODO - Decide if comments should load simultaniously or after the
-        dispatch(fetchCountdownIfNeeded(router.params.id))
-            .then(() => console.log("Will now load comments, should they be separated?"));
+        dispatch(fetchCountdownIfNeeded(params.id))
+            .then(() => dispatch(fetchCommentsIfNeeded(params.id, 1)));
     }
 
     renderCountdown() {
@@ -72,6 +77,7 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
                         </div>
                     </div>
 
+                    {/* TODO - Add a check for when the current user is authenticated (otherwise add a message with a link to login) */}
                     <CommentForm isActive={this.props.isLoadingData} onSubmit={(content) => console.log(content)} />
 
                 </div>

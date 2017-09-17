@@ -16,6 +16,7 @@ namespace Kauntr.Ui.Web {
 
             autofacBuilder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<CountdownRepository>().As<ICountdownRepository>().InstancePerRequest();
+            autofacBuilder.RegisterType<CommentRepository>().As<ICommentRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<AuthenticationTokenRepository>().As<IAuthenticationTokenRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerRequest();
             autofacBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerRequest();
