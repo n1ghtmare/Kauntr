@@ -7,14 +7,14 @@ import * as ActionTypes from "../constants/ActionTypes";
 import { handleServerError } from "./ErrorActions";
 
 // TODO - Add pagination logic and ability to order by "recent", "top", "oldest"
-export function fetchCommentsIfNeeded(countdownId: number) {
+export function fetchCommentsIfNeeded(countdownId: number, page: number) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchComments(getState())) {
             const token: number = moment().unix();
 
             dispatch(loadComments(token));
 
-            return fetch(`/comment/index?countdownId=${countdownId}`)
+            return fetch(`/comment/index?CountdownId=${countdownId}&Page=${page}&Token=${token}`)
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -28,17 +28,15 @@ export function fetchCommentsIfNeeded(countdownId: number) {
                 })
                 .catch((response: Response) => handleServerError(response, dispatch, loadCommentsFailure));
         }
-    }
+    };
 }
 
 function shouldProcessComments(state: AppState, token: number): boolean {
-    // return state.countdown.comments.token === token;
-    return true;
+    return state.countdown.commentList.token === token;
 }
 
 function shouldFetchComments(state: AppState): boolean {
-    return true;
-    // return !state.countdown.comments.isLoadingData;
+    return !state.countdown.commentList.isLoadingData;
 }
 
 function loadComments(token: number) {

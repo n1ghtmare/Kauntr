@@ -1,4 +1,5 @@
 import { Moment } from "moment";
+import CommentListState from "./CommentListState";
 
 interface CountdownState {
     isCreatingNew: boolean;
@@ -13,12 +14,7 @@ interface CountdownState {
     createdByGravatarUrl?: string;
     voteScore?: number;
     currentUserVote?: number;
-
-    // TODO - Setup the comments and the way they'll be loaded
-    // comments?: any[];
-    // hasLoadedComments?: boolean
-    // isLoadingComments?: boolean
-
+    commentList?: CommentListState;
     dispatch?: Function;
     router?: any;
 }
