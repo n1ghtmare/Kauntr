@@ -1,5 +1,6 @@
 import CountdownState from "../interfaces/CountdownState";
 import CommentListState from "../interfaces/CommentListState";
+import CommentState from "../interfaces/CommentState";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
@@ -92,16 +93,34 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
             return {
                 ...state,
                 isLoadingData: false,
-                token: null
-                // TODO - parse the comment results
+                token: null,
+                page: parseInt(action.json.Page, 10),
+                total: parseInt(action.json.Total, 10),
+                comments: parseComments(action.json.Comments)
             };
         case ActionTypes.LOAD_COMMENTS_FAILURE:
             return {
                 ...state,
                 isLoadingData: false,
-                token: null
+                page: 1,
+                total: null,
+                token: null,
+                comments: []
             };
         default:
             return state;
     }
+}
+
+function parseComments(comments: Array<any>): Array<CommentState> {
+    return comments.map(x => ({
+        id: parseInt(x.Id, 10),
+        text: x.Text,
+        createdByAccountId: x.CreatedByAccountId,
+        createdByDisplayName: x.CreatedByDisplayName,
+        createdOn: parseRawDate(x.CreatedOn),
+        currentUserVote: parseInt(x.CurrentUserVote, 10),
+        voteScore: parseInt(x.VoteScore, 10),
+        createdByGravatarUrl: x.CreatedByGravatarUrl
+    }) as CommentState);
 }
