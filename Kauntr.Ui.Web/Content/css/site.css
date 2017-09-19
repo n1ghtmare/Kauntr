@@ -175,6 +175,10 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .form-endson {
     width: 53px !important;
 }
+
+.comment-form {
+    margin: 5.414em 0 0.5em;
+}
 /* ################################################################ */
 
 
@@ -272,8 +276,9 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     ################################################################
 */
 .comment {
-    margin: 2.287em 0 0.5em;
-    border-bottom: 1px dotted #CACACA;
+    padding: 1.618em 0;
+    margin: 0 0.5em;
+    border-top: 1px dotted #CACACA;
 }
 
 .comments {
@@ -293,6 +298,43 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .comment-text {
     padding: 17px;
 }
+/* ################################################################ */
+
+
+
+
+/*
+    Comments
+    ################################################################
+*/
+.pagination {
+
+}
+
+.pagination li {
+    display: inline;
+    padding: 0 0.381em;
+}
+
+.pagination li.active a {
+    color: #ff6600 !important;
+    border-bottom: none;
+}
+
+.pagination li.disabled a {
+    border-bottom: none;
+}
+
+.pagination-medium {
+    font-size: 1.618em;
+    margin-bottom: 2.287em;
+}
+
+/* ################################################################ */
+
+
+
+
 
 
 
@@ -330,19 +372,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     margin: 55px 0;
 }
 
-#countdown-pagination {
-    margin-bottom: 30px;
-}
-
-#countdown-pagination ul li {
-    display: inline;
-    font-size: 55px;
-    padding: 0px 15px;
-}
-
-.page-active a {
-    color: #ff6600 !important;
-}
 
 #countdown-collection {
     margin: 50px 0;

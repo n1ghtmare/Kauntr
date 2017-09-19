@@ -28,7 +28,6 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
         const { params } = this.props.router;
         dispatch(updateSharedContextTitle("countdown"));
 
-        // TODO - Decide if comments should load simultaniously or after the
         dispatch(fetchCountdownIfNeeded(params.id))
             .then(() => dispatch(fetchCommentsIfNeeded(params.id, 1)));
     }
@@ -39,9 +38,6 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
                 <div className="row">
                     <Countdown {...this.props} />
                     <DiamondsSeparator />
-
-                    {/* TODO - Remove these prototype comments left for design purposes */}
-
                     <CommentList {...this.props.commentList} />
                     {/* TODO - Add a check for when the current user is authenticated (otherwise add a message with a link to login) */}
                     <CommentForm isActive={this.props.isLoadingData} onSubmit={(content) => console.log(content)} />

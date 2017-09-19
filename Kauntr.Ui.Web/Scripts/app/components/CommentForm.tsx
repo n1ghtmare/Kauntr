@@ -48,9 +48,11 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
     render() {
         const { isActive } = this.props;
         return (
-            <form className="form-section" onSubmit={this.handleFormSubmit}>
+            <form className="comment-form form-section" onSubmit={this.handleFormSubmit}>
+                <h4>your own comment</h4>
                 <div>
-                    <textarea className="textarea-large" disabled={isActive} onChange={this.handleContentInputChange} placeholder="your comment here ..."></textarea>
+                    <div className="text-muted">oh, by the way - we support markdown ... and we don't tolerate spam</div>
+                    <textarea className="textarea-large" disabled={isActive} onChange={this.handleContentInputChange} placeholder="your comment goes here ..."></textarea>
                 </div>
                 <div>
                     <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>Add Comment</button>
