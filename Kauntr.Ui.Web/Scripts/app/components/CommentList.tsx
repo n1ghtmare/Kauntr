@@ -5,7 +5,12 @@ import CommentListState from "../interfaces/CommentListState";
 import Comment from "./Comment";
 import Pagination from "./Pagination";
 
-export default class CommentList extends React.Component<CommentListState, any> {
+
+interface CommentListStateExtended extends CommentListState {
+    onPageChange: (page: number) => void;
+}
+
+export default class CommentList extends React.Component<CommentListStateExtended, any> {
     render() {
         const { total } = this.props;
         const comments = this.props.comments.map(x =>
@@ -17,7 +22,7 @@ export default class CommentList extends React.Component<CommentListState, any> 
                 <div className="comments">
                     {comments}
                 </div>
-                <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={p => console.log("Will change to page: " + p)} className="pagination text-medium-sub" />
+                <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={this.props.onPageChange} className="pagination text-medium-sub" />
             </div>
         );
     }

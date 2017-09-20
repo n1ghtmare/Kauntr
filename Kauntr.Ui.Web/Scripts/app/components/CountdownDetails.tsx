@@ -32,16 +32,23 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
             .then(() => dispatch(fetchCommentsIfNeeded(params.id, 1)));
     }
 
+    private handleCommentListPageChange = (page: number): void => {
+        const { dispatch } = this.props;
+        dispatch(fetchCommentsIfNeeded(this.props.router.params.id, page));
+    }
+
     renderCountdown() {
         return (
             <div className="animated fadeIn">
                 <div className="row">
                     <Countdown {...this.props} />
                     <DiamondsSeparator />
-                    <CommentList {...this.props.commentList} />
+                    <CommentList {...this.props.commentList} onPageChange={this.handleCommentListPageChange} />
+
+                    {/* TODO - Add a loading indicator for the comment list */}
+
                     {/* TODO - Add a check for when the current user is authenticated (otherwise add a message with a link to login) */}
                     <CommentForm isActive={this.props.isLoadingData} onSubmit={(content) => console.log(content)} />
-
                 </div>
             </div>
         );

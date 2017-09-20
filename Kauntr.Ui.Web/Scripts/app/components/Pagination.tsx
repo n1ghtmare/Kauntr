@@ -17,7 +17,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
         pageListSize: 7
     };
 
-    handlePageChange(pageNumber: number, e: React.MouseEvent<HTMLAnchorElement>) {
+    private handlePageChange = (pageNumber: number, e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
         this.props.onPageChange(pageNumber);
     }
