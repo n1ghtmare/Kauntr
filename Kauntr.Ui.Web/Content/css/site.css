@@ -65,9 +65,15 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     transform: translate(-50%, -50%);
 }
 
+.loader-mini {
+    margin: 3.7em 0;
+}
+
 .loader-message {
     padding: 15px 0;
 }
+
+
 /* ################################################################ */
 
 
@@ -304,13 +310,9 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 /*
-    Comments
+    Pagination
     ################################################################
 */
-.pagination {
-
-}
-
 .pagination li {
     display: inline;
     padding: 0 0.381em;

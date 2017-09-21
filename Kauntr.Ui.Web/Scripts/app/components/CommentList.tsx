@@ -35,7 +35,7 @@ export default class CommentList extends React.Component<CommentListStateExtende
     render() {
         const { isLoadingData } = this.props;
         return isLoadingData
-            ? <LoadingIndicator isActive={isLoadingData} />
+            ? <LoadingIndicator isActive={isLoadingData} className="loader-mini" />
             : this.renderList();
     }
 }

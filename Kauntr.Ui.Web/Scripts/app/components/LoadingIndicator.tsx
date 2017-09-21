@@ -1,11 +1,16 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-interface LoadingIndicatorState {
+interface LoadingIndicatorProps {
     isActive: boolean;
+    className?: string;
 }
 
-export default class LoadingIndicator extends React.Component<LoadingIndicatorState, any> {
+export default class LoadingIndicator extends React.Component<LoadingIndicatorProps, any> {
+    public static defaultProps: Partial<LoadingIndicatorProps> = {
+        className: "loader"
+    };
+
     private loaderMessages: Array<string> = [
         "Reticulating splines...",
         "Generating witty dialog...",
@@ -156,7 +161,7 @@ export default class LoadingIndicator extends React.Component<LoadingIndicatorSt
 
     render() {
         return (
-            <div className={classNames("loader", { "hidden": !this.props.isActive })}>
+            <div className={classNames(this.props.className, { "hidden": !this.props.isActive })}>
                 <img src="/Content/images/loader-pendulum.gif" />
                 <div className="loader-message">
                     {this.loaderMessages[Math.floor(Math.random() * this.loaderMessages.length)]}
