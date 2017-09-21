@@ -20,9 +20,12 @@ import Countdown from "./Countdown";
 import LoadingIndicator from "./LoadingIndicator";
 import DiamondsSeparator from "./DiamondsSeparator";
 import CommentList from "./CommentList";
-import CommentForm from "./CommentForm";
 
-export class CountdownDetails extends React.Component<CountdownState, any> {
+interface CountdownStateExtended extends CountdownState {
+    isAuthenticated?: boolean;
+}
+
+export class CountdownDetails extends React.Component<CountdownStateExtended, any> {
     componentDidMount() {
         const { dispatch } = this.props;
         const { params } = this.props.router;
@@ -38,17 +41,13 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
     }
 
     renderCountdown() {
+        const { location } = this.props.router;
         return (
             <div className="animated fadeIn">
                 <div className="row">
                     <Countdown {...this.props} />
                     <DiamondsSeparator />
-                    <CommentList {...this.props.commentList} onPageChange={this.handleCommentListPageChange} />
-
-                    {/* TODO - Add a loading indicator for the comment list */}
-
-                    {/* TODO - Add a check for when the current user is authenticated (otherwise add a message with a link to login) */}
-                    <CommentForm isActive={this.props.isLoadingData} onSubmit={(content) => console.log(content)} />
+                    <CommentList {...this.props.commentList} onPageChange={this.handleCommentListPageChange} isAuthenticated={this.props.isAuthenticated} returnUrl={location.pathname} />
                 </div>
             </div>
         );
@@ -62,8 +61,11 @@ export class CountdownDetails extends React.Component<CountdownState, any> {
     }
 }
 
-function mapStateToProps(state: AppState, ownProps: any): CountdownState {
-    return state.countdown;
+function mapStateToProps(state: AppState, ownProps: any): CountdownStateExtended {
+    return {
+        isAuthenticated: state.sharedContext.currentUserAccountId !== null,
+        ...state.countdown
+    };
 }
 
 export default connect(mapStateToProps)(CountdownDetails);

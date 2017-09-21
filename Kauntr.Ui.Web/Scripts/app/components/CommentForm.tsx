@@ -1,10 +1,13 @@
 import * as React from "react";
+import { Link } from "react-router";
 
 type CommentSubmitFunc = (content: string) => void;
 
 interface CommentFormProps {
+    isAuthenticated: boolean;
     isActive: boolean;
     onSubmit: CommentSubmitFunc;
+    returnUrl?: string;
 }
 
 interface CommentFormState {
@@ -45,7 +48,15 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
         }
     }
 
-    render() {
+    renderLoginMessage() {
+        return (
+            <div className="comment-form">
+                to add your own comment you need to <Link to={"/login?returnUrl=" + this.props.returnUrl}>login</Link> first
+            </div>
+        );
+    }
+
+    renderForm() {
         const { isActive } = this.props;
         return (
             <form className="comment-form form-section" onSubmit={this.handleFormSubmit}>
@@ -59,5 +70,11 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
                 </div>
             </form>
         );
+    }
+
+    render() {
+        return !this.props.isAuthenticated
+            ? this.renderForm()
+            : this.renderLoginMessage();
     }
 }
