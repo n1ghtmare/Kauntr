@@ -24,7 +24,7 @@ namespace Kauntr.Core.Repositories {
                     @"INSERT INTO Countdowns (Description, EndsOn, CreatedOn, CreatedByAccountId)
                     OUTPUT INSERTED.Id
                     VALUES (@Description, @EndsOn, @CreatedOn, @CreatedByAccountId)";
-                countdown.Id = await connection.QueryFirstOrDefaultAsync<long>(sql, countdown);
+                countdown.Id = await connection.QuerySingleOrDefaultAsync<long>(sql, countdown);
             }
         }
 

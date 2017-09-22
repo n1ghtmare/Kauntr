@@ -13,14 +13,16 @@ namespace Kauntr.Ui.Web.Controllers {
 
         private readonly ICommentRepository _commentRepository;
         private readonly IContextService _contextService;
+        private readonly ISystemClock _systemClock;
 
-        public CommentController(ICommentRepository commentRepository, IContextService contextService) {
+        public CommentController(ICommentRepository commentRepository, IContextService contextService, ISystemClock systemClock) {
             _commentRepository = commentRepository;
             _contextService = contextService;
+            _systemClock = systemClock;
         }
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
-            await Task.Delay(3000);
+//            await Task.Delay(3000);
             Task<int> count = _commentRepository.GetTotalAsync(model.CountdownId);
             Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(model.CountdownId, model.Page, CommentLimit, _contextService.CurrentUserAccountId);
 
@@ -34,6 +36,23 @@ namespace Kauntr.Ui.Web.Controllers {
                 Token = model.Token
             };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+//        [Authorize] // TODO - Uncomment after Debug
+        [HttpPost]
+        public async Task<ActionResult> Create(CommentCreateViewModel model) {
+            if (ModelState.IsValid) {
+                var comment = new Comment {
+                    CountdownId = model.CountdownId,
+                    Text = model.Text,
+                    CreatedOn = _systemClock.UtcNow,
+                    CreatedByAccountId = (int) _contextService.CurrentUserAccountId
+                };
+
+                await _commentRepository.CreateAsync(comment);
+                return new EmptyResult();
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
         }
     }
 }

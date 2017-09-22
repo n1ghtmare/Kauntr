@@ -73,7 +73,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
     }
 
     render() {
-        return !this.props.isAuthenticated
+        return this.props.isAuthenticated
             ? this.renderForm()
             : this.renderLoginMessage();
     }

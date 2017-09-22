@@ -181,6 +181,7 @@
     <Compile Include="Helpers\AvatarHelpers.cs" />
     <Compile Include="Models\AccountUpdateViewModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />
+    <Compile Include="Models\CommentCreateViewModel.cs" />
     <Compile Include="Models\CommentListViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\CountdownCreateViewModel.cs" />

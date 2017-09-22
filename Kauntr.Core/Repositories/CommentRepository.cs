@@ -19,6 +19,16 @@ namespace Kauntr.Core.Repositories {
             _connectionString = configurationService.DatabaseConnectionString;
         }
 
+        public async Task CreateAsync(Comment comment) {
+            using (IDbConnection connection = Connnection) {
+                const string sql =
+                    @"INSERT INTO Comments (CountdownId, Text, CreatedByAccountId, CreatedOn)
+                    OUTPUT INSERTED.Id
+                    VALUES (@CountdownId, @Text, @CreatedByAccountId, @CreatedOn)";
+                comment.Id = await connection.QuerySingleOrDefaultAsync<long>(sql, comment);
+            }
+        }
+
         public async Task<int> GetTotalAsync(long countdownId) {
             using (IDbConnection connection = Connnection) {
                 const string sql = "SELECT COUNT(Id) FROM Comments WHERE CountdownId = @countdownId";
