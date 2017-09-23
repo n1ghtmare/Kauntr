@@ -28,7 +28,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
             const sr: JSX.Element = i === currentPage ? (<span className="sr-only">(current)</span>) : null;
             links.push(
                 <li key={i} className={classNames({ "active": i === currentPage })}>
-                    <a href="#" onClick={this.handlePageChange.bind(this, i)} disabled={i === currentPage}>{i} {sr}</a>
+                    <a href="#" onClick={this.handlePageChange.bind(this, i)} className="disabled">{i} {sr}</a>
                 </li>
             );
         }
@@ -46,7 +46,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
         }
 
         links.push(<li key="s_2"><a href="#" onClick={this.handlePageChange.bind(this, 1)} title="First" data-toggle="tooltip">{1}</a></li>);
-        links.push(<li key="s_3" className="disabled"><a onClick={(e) => e.preventDefault()} disabled={true} href="#" >...</a></li>);
+        links.push(<li key="s_3" className="disabled"><a onClick={(e) => e.preventDefault()} className="disabled" href="#" >...</a></li>);
         return links;
     }
 
@@ -63,7 +63,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
         }
 
         links.unshift(<li key="e_3"><a href="#" onClick={this.handlePageChange.bind(this, totalPages)} title="Last" data-toggle="tooltip">{totalPages}</a></li>);
-        links.unshift(<li key="e_2" className="disabled"><a onClick={(e) => e.preventDefault()} href="#" disabled={true}>...</a></li>);
+        links.unshift(<li key="e_2" className="disabled"><a onClick={(e) => e.preventDefault()} href="#" className="disabled">...</a></li>);
         return links;
     }
 
