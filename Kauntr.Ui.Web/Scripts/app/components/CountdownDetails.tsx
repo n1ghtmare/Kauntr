@@ -40,6 +40,11 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         dispatch(fetchCommentsIfNeeded(this.props.router.params.id, page));
     }
 
+    private handleCommentCreation = (text: string): void => {
+        console.log("Will dispatch call to backend");
+        console.log(text);
+    }
+
     renderCountdown() {
         const { location } = this.props.router;
         return (
@@ -47,7 +52,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
                 <div className="row">
                     <Countdown {...this.props} />
                     <DiamondsSeparator />
-                    <CommentList {...this.props.commentList} onPageChange={this.handleCommentListPageChange} isAuthenticated={this.props.isAuthenticated} returnUrl={location.pathname} />
+                    <CommentList {...this.props.commentList} onPageChange={this.handleCommentListPageChange} onCommentCreation={this.handleCommentCreation} isAuthenticated={this.props.isAuthenticated} returnUrl={location.pathname} />
                 </div>
             </div>
         );

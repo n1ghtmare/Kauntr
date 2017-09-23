@@ -4,6 +4,7 @@ import CommentListState from "../interfaces/CommentListState";
 
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
+import CommentOrderControls from "./CommentOrderControls";
 import Pagination from "./Pagination";
 import LoadingIndicator from "./LoadingIndicator";
 
@@ -11,6 +12,7 @@ interface CommentListStateExtended extends CommentListState {
     isAuthenticated?: boolean;
     returnUrl?: string;
     onPageChange: (page: number) => void;
+    onCommentCreation: (text: string) => void;
 }
 
 export default class CommentList extends React.Component<CommentListStateExtended, any> {
@@ -23,11 +25,12 @@ export default class CommentList extends React.Component<CommentListStateExtende
         return (
             <div>
                 <h4>{total} comments</h4>
+                <CommentOrderControls />
                 <div className="comments">
                     {comments}
                 </div>
                 <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={this.props.onPageChange} className="pagination text-medium-sub" />
-                <CommentForm isActive={this.props.isLoadingData} isAuthenticated={this.props.isAuthenticated} onSubmit={(content) => console.log(content)} returnUrl={this.props.returnUrl} />
+                <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={this.props.isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
             </div>
         );
     }

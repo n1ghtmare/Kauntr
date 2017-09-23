@@ -22,7 +22,6 @@ export function fetchCommentsIfNeeded(countdownId: number, page: number) {
                     return response.json();
                 })
                 .then(json => {
-                    console.log("WILL PROCESS COMMENTS");
                     if (shouldProcessComments(getState(), json.Token)) {
                         dispatch(loadCommentsSuccess(json));
                     }
@@ -60,3 +59,44 @@ function loadCommentsFailure() {
     };
 }
 
+export default function submitComment(countdownId: number, text: string) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        if (shouldCreateComment(getState())) {
+            dispatch(createComment());
+
+            let data: string = JSON.stringify({ CountdownId: countdownId, Text: text });
+
+            return fetch("/comment/create", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    return response.json();
+                })
+                .then(json => dispatch(createCommentSuccess()))
+                .catch((response: Response) => handleServerError(response, dispatch, createCommentFailure));
+        }
+    };
+}
+
+function shouldCreateComment(state: AppState) {
+    return !state.countdown.commentList.isCreatingNew;
+}
+
+function createComment() {
+    return {
+        type: ActionTypes.CREATE_COMMENT
+    };
+}
+
+function createCommentSuccess() {
+    return {
+        type: ActionTypes.CREATE_COMMENT_SUCCESS
+    };
+}
+
+function createCommentFailure() {
+    return {
+        type: ActionTypes.CREATE_COMMENT_FAILURE
+    };
+}

@@ -17,6 +17,7 @@ interface CountdownAction {
 export const initialCommentState: CommentListState = {
     comments: [],
     isLoadingData: false,
+    isCreatingNew: false,
     page: 1,
     token: null,
     total: null

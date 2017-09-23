@@ -282,7 +282,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     ################################################################
 */
 .comment {
-    padding: 1.618em 0;
+    padding: 1.414em 0;
     margin: 0 0.5em;
     border-top: 1px dotted #CACACA;
 }
@@ -304,6 +304,21 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .comment-text {
     padding: 17px;
 }
+
+.comments-order-controls {
+    margin-bottom: 1.414em;
+}
+
+.comments-order-controls li {
+    display: inline;
+    padding: 0 0.381em;
+}
+
+.comments-order-controls li.active a {
+    color: #ff6600 !important;
+    border-bottom: none;
+}
+
 /* ################################################################ */
 
 
