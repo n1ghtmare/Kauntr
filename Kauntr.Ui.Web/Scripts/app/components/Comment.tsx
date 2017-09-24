@@ -9,7 +9,7 @@ export default class Comment extends React.Component<CommentState, any> {
         return (
             <div className="comment">
                 <div className="comment-avatar">
-                    <div>created {createdOn === null ? "?" : createdOn.fromNow()}</div>
+                    <div>created {createdOn === null ? "?" : createdOn.local().fromNow()}</div>
                     <div>by <Link to={`/account/${this.props.createdByAccountId}`}>{this.props.createdByDisplayName}</Link></div>
                     <div className="avatar-image-container">
                         <img width="42" height="42" alt="Avatar Image" src={this.props.createdByGravatarUrl} />

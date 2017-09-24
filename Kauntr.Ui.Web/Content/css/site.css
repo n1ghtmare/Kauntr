@@ -303,6 +303,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 .comment-text {
     padding: 17px;
+    word-wrap: break-word;
 }
 
 .comments-order-controls {

@@ -22,7 +22,7 @@ namespace Kauntr.Ui.Web.Controllers {
         }
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
-//            await Task.Delay(3000);
+            await Task.Delay(3000);
             Task<int> count = _commentRepository.GetTotalAsync(model.CountdownId);
             Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(model.CountdownId, model.Page, CommentLimit, _contextService.CurrentUserAccountId);
 
@@ -41,6 +41,7 @@ namespace Kauntr.Ui.Web.Controllers {
 //        [Authorize] // TODO - Uncomment after Debug
         [HttpPost]
         public async Task<ActionResult> Create(CommentCreateViewModel model) {
+            await Task.Delay(3000);
             if (ModelState.IsValid) {
                 var comment = new Comment {
                     CountdownId = model.CountdownId,

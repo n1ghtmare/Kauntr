@@ -28,7 +28,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
             const sr: JSX.Element = i === currentPage ? (<span className="sr-only">(current)</span>) : null;
             links.push(
                 <li key={i} className={classNames({ "active": i === currentPage })}>
-                    <a href="#" onClick={this.handlePageChange.bind(this, i)} className="disabled">{i} {sr}</a>
+                    <a href="#" onClick={this.handlePageChange.bind(this, i)} className={classNames({ "disabled": i === currentPage })}>{i} {sr}</a>
                 </li>
             );
         }

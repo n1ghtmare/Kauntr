@@ -59,7 +59,7 @@ function loadCommentsFailure() {
     };
 }
 
-export default function submitComment(countdownId: number, text: string) {
+export function submitComment(countdownId: number, text: string) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldCreateComment(getState())) {
             dispatch(createComment());
@@ -71,9 +71,8 @@ export default function submitComment(countdownId: number, text: string) {
                     if (!response.ok) {
                         throw response;
                     }
-                    return response.json();
                 })
-                .then(json => dispatch(createCommentSuccess()))
+                .then(() => dispatch(createCommentSuccess()))
                 .catch((response: Response) => handleServerError(response, dispatch, createCommentFailure));
         }
     };

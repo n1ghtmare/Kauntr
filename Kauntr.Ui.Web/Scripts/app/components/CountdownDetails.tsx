@@ -10,7 +10,8 @@ import {
 } from "../actions/CountdownActions";
 
 import {
-    fetchCommentsIfNeeded
+    fetchCommentsIfNeeded,
+    submitComment
 } from "../actions/CommentActions";
 
 import AppState from "../interfaces/AppState";
@@ -36,13 +37,14 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
     }
 
     private handleCommentListPageChange = (page: number): void => {
-        const { dispatch } = this.props;
-        dispatch(fetchCommentsIfNeeded(this.props.router.params.id, page));
+        const { dispatch, router } = this.props;
+        dispatch(fetchCommentsIfNeeded(router.params.id, page));
     }
 
     private handleCommentCreation = (text: string): void => {
-        console.log("Will dispatch call to backend");
-        console.log(text);
+        const { dispatch, id } = this.props;
+        dispatch(submitComment(id, text))
+            .then(() => dispatch(fetchCommentsIfNeeded(id, 1)));
     }
 
     renderCountdown() {

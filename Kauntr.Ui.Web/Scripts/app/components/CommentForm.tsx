@@ -66,7 +66,9 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
                     <textarea className="textarea-large" disabled={isActive} onChange={this.handleContentInputChange} placeholder="your comment goes here ..."></textarea>
                 </div>
                 <div>
-                    <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>Add Comment</button>
+                    <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>
+                        {isActive ? "Adding Comment ..." : "Add Comment"}
+                    </button>
                 </div>
             </form>
         );

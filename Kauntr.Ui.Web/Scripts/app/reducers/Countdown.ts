@@ -73,6 +73,9 @@ export default function countdown(state = initialState, action: CountdownAction)
         case ActionTypes.LOAD_COMMENTS:
         case ActionTypes.LOAD_COMMENTS_SUCCESS:
         case ActionTypes.LOAD_COMMENTS_FAILURE:
+        case ActionTypes.CREATE_COMMENT:
+        case ActionTypes.CREATE_COMMENT_SUCCESS:
+        case ActionTypes.CREATE_COMMENT_FAILURE:
             return {
                 ...state,
                 commentList: commentList(state.commentList, action)
@@ -107,6 +110,17 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
                 total: null,
                 token: null,
                 comments: []
+            };
+        case ActionTypes.CREATE_COMMENT:
+            return {
+                ...state,
+                isCreatingNew: true
+            };
+        case ActionTypes.CREATE_COMMENT_SUCCESS:
+        case ActionTypes.CREATE_COMMENT_FAILURE:
+            return {
+                ...state,
+                isCreatingNew: false
             };
         default:
             return state;
