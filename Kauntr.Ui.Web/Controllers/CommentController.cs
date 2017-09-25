@@ -23,8 +23,15 @@ namespace Kauntr.Ui.Web.Controllers {
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
             await Task.Delay(3000);
+
             Task<int> count = _commentRepository.GetTotalAsync(model.CountdownId);
-            Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(model.CountdownId, model.Page, CommentLimit, _contextService.CurrentUserAccountId);
+            Task<IEnumerable<CommentAggregate>> results = _commentRepository.GetAggregatesAsync(new CommentFilter {
+                CountdownId = model.CountdownId,
+                Page = model.Page,
+                Limit = CommentLimit,
+                CurrentUserAccountId = _contextService.CurrentUserAccountId,
+                DisplayOrderType = model.DisplayOrderType
+            });
 
             await Task.WhenAll(count, results);
 
@@ -33,6 +40,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 Comments = (await results).ToCommentViewModels(),
                 Page = model.Page,
                 CountdownId = model.CountdownId,
+                DisplayOrderType = model.DisplayOrderType,
                 Token = model.Token
             };
             return Json(result, JsonRequestBehavior.AllowGet);

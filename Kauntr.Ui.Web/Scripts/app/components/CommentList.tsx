@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import CommentListState from "../interfaces/CommentListState";
+import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
@@ -12,6 +13,7 @@ interface CommentListStateExtended extends CommentListState {
     isAuthenticated?: boolean;
     returnUrl?: string;
     onPageChange: (page: number) => void;
+    onDisplayOrderChange: (displayOrder: CommentDisplayOrderType) => void;
     onCommentCreation: (text: string) => void;
 }
 
@@ -25,7 +27,7 @@ export default class CommentList extends React.Component<CommentListStateExtende
         return (
             <div>
                 <h4>{total} comments</h4>
-                <CommentOrderControls />
+                <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} />
                 <div className="comments">
                     {comments}
                 </div>

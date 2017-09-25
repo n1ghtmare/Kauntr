@@ -36,12 +36,12 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public async Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(long countdownId, int page, int limit, int? currentUserAccountId = null) {
+        public async Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(CommentFilter commentFilter) {
             using (IDbConnection connection = Connnection) {
                 // TODO - Add dynamic "ORDER BY"
                 string sql =
-                    $@"SELECT TOP {limit} Q.* FROM (
-	                    SELECT T.*, ROW_NUMBER() OVER (ORDER BY T.CreatedOn DESC) AS RN FROM (
+                    $@"SELECT TOP {commentFilter.Limit} Q.* FROM (
+	                    SELECT T.*, ROW_NUMBER() OVER ({BuildAggregateOrderBy(commentFilter.DisplayOrderType)}) AS RN FROM (
 		                    SELECT
 			                    c.Id,
 			                    c.CountdownId,
@@ -51,14 +51,25 @@ namespace Kauntr.Core.Repositories {
 			                    a.DisplayName AS CreatedByDisplayName,
 			                    a.Email AS CreatedByEmail,
 			                    ISNULL((SELECT SUM(Value) FROM Votes WHERE CommentId = c.Id), 0) AS VoteScore,
-			                    (SELECT VALUE FROM Votes WHERE CommentId = c.Id AND CastedByAccountId = @currentUserAccountId) AS CurrentUserVote
+			                    (SELECT VALUE FROM Votes WHERE CommentId = c.Id AND CastedByAccountId = @CurrentUserAccountId) AS CurrentUserVote
 		                    FROM Comments c
 		                    INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
-                            WHERE c.CountdownId = @countdownId
+                            WHERE c.CountdownId = @CountdownId
 	                    ) AS T
                     ) AS Q
-                    WHERE Q.RN > {(page - 1) * limit} ORDER BY Q.RN";
-                return await connection.QueryAsync<CommentAggregate>(sql, new {countdownId, currentUserAccountId});
+                    WHERE Q.RN > {(commentFilter.Page - 1) * commentFilter.Limit} ORDER BY Q.RN";
+                return await connection.QueryAsync<CommentAggregate>(sql, commentFilter);
+            }
+        }
+
+        private static string BuildAggregateOrderBy(CommentDisplayOrderType displayOrderType) {
+            switch (displayOrderType) {
+                case CommentDisplayOrderType.Best:
+                    return "ORDER BY T.VoteScore DESC";
+                case CommentDisplayOrderType.Oldest:
+                    return "ORDER BY T.CreatedOn ASC";
+                default: // Latest
+                    return "ORDER BY T.CreatedOn DESC";
             }
         }
     }

@@ -1,3 +1,5 @@
+import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
+
 import CommentState from "./CommentState";
 
 interface CommentListState {
@@ -6,6 +8,7 @@ interface CommentListState {
     comments: Array<CommentState>;
     total: number;
     page: number;
+    displayOrderType: CommentDisplayOrderType;
     token?: number;
 }
 

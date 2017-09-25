@@ -1,20 +1,21 @@
 import * as moment from "moment";
 
 import AppState from "../interfaces/AppState";
+import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
 import { handleServerError } from "./ErrorActions";
 
 // TODO - Add pagination logic and ability to order by "recent", "top", "oldest"
-export function fetchCommentsIfNeeded(countdownId: number, page: number) {
+export function fetchCommentsIfNeeded(countdownId: number, page: number, displayOrderType: CommentDisplayOrderType) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchComments(getState())) {
             const token: number = moment().unix();
 
             dispatch(loadComments(token));
 
-            return fetch(`/comment/index?CountdownId=${countdownId}&Page=${page}&Token=${token}`)
+            return fetch(`/comment/index?CountdownId=${countdownId}&Page=${page}&DisplayOrderType=${displayOrderType}&Token=${token}`)
                 .then(response => {
                     if (!response.ok) {
                         throw response;

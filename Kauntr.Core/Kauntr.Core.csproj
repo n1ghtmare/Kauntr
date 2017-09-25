@@ -49,6 +49,8 @@
     <Compile Include="Entities\AuthenticationToken.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\CommentAggregate.cs" />
+    <Compile Include="Entities\CommentDisplayOrderType.cs" />
+    <Compile Include="Entities\CommentFilter.cs" />
     <Compile Include="Entities\Countdown.cs" />
     <Compile Include="Entities\CountdownAggregate.cs" />
     <Compile Include="Helpers\SystemClock.cs" />

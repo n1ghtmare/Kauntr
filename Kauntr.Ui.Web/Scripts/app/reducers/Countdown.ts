@@ -1,6 +1,7 @@
 import CountdownState from "../interfaces/CountdownState";
 import CommentListState from "../interfaces/CommentListState";
 import CommentState from "../interfaces/CommentState";
+import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
@@ -19,6 +20,7 @@ export const initialCommentState: CommentListState = {
     isLoadingData: false,
     isCreatingNew: false,
     page: 1,
+    displayOrderType: CommentDisplayOrderType.Latest,
     token: null,
     total: null
 };
@@ -100,6 +102,7 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
                 token: null,
                 page: parseInt(action.json.Page, 10),
                 total: parseInt(action.json.Total, 10),
+                displayOrderType: parseInt(action.json.DisplayOrderType),
                 comments: parseComments(action.json.Comments)
             };
         case ActionTypes.LOAD_COMMENTS_FAILURE:
@@ -107,6 +110,7 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
                 ...state,
                 isLoadingData: false,
                 page: 1,
+                displayOrderType: CommentDisplayOrderType.Latest,
                 total: null,
                 token: null,
                 comments: []
