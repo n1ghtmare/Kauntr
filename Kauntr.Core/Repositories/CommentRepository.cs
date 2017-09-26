@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public async Task<int> GetTotalAsync(long countdownId) {
+        public async Task<int> GetTotalCountAsync(long countdownId) {
             using (IDbConnection connection = Connnection) {
                 const string sql = "SELECT COUNT(Id) FROM Comments WHERE CountdownId = @countdownId";
                 return await connection.ExecuteScalarAsync<int>(sql, new {countdownId});

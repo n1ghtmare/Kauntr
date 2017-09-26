@@ -54,6 +54,7 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             Assert.AreEqual(3, resultModel.Total);
             Assert.AreEqual(model.Page, resultModel.Page);
             Assert.AreEqual(model.Token, resultModel.Token);
+            Assert.AreEqual(model.DisplayOrderType, resultModel.DisplayOrderType);
         }
     }
 }

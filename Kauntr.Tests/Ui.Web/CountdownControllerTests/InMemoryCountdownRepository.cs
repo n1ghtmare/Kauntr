@@ -21,19 +21,19 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             return Task.Run(() => CountdownAggregates.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetTrendingAsync(int page, int limit, int? currentUserAccountId = null) {
+        public Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter countdownFilter) {
             return Task.Run(() => CountdownAggregates.AsEnumerable());
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetLatestAsync(int page, int limit, int? currentAccountId = null) {
+        public Task<IEnumerable<CountdownAggregate>> GetAggregatesByAccountIdAsync(int page, int limit, int currentAccountId) {
             return Task.Run(() => CountdownAggregates.AsEnumerable());
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetMineAsync(int page, int limit, int currentAccountId) {
-            return Task.Run(() => CountdownAggregates.AsEnumerable());
+        public Task<int> GetTotalCountAsync() {
+            return Task.Run(() => CountdownAggregates.Count);
         }
 
-        public Task<int> GetTotalActiveCountAsync(int? currentUserAccountId = null) {
+        public Task<int> GetTotalCountByAccountId(int currentAccountId) {
             return Task.Run(() => CountdownAggregates.Count);
         }
     }

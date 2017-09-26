@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -49,20 +50,20 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetTrendingAsync(int page, int limit, int? currentUserAccountId = null) {
+        public async Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter countdownFilter) {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CountdownAggregate>> GetAggregatesByAccountIdAsync(int page, int limit, int currentAccountId) {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetLatestAsync(int page, int limit, int? currentAccountId = null) {
-            throw new System.NotImplementedException();
+        public Task<int> GetTotalCountAsync() {
+            throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetMineAsync(int page, int limit, int currentAccountId) {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<int> GetTotalActiveCountAsync(int? currentUserAccountId = null) {
-            throw new System.NotImplementedException();
+        public Task<int> GetTotalCountByAccountId(int currentAccountId) {
+            throw new NotImplementedException();
         }
     }
 }

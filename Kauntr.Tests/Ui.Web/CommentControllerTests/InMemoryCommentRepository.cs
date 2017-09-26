@@ -14,7 +14,7 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             return Task.Run(() => Comments.Add(comment));
         }
 
-        public Task<int> GetTotalAsync(long countdownId) {
+        public Task<int> GetTotalCountAsync(long countdownId) {
             return Task.Run(() => CommentAggregates.Count);
         }
 

@@ -53,6 +53,8 @@
     <Compile Include="Entities\CommentFilter.cs" />
     <Compile Include="Entities\Countdown.cs" />
     <Compile Include="Entities\CountdownAggregate.cs" />
+    <Compile Include="Entities\CountdownDisplayOrderType.cs" />
+    <Compile Include="Entities\CountdownFilter.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
     <Compile Include="Interfaces\ICommentRepository.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />

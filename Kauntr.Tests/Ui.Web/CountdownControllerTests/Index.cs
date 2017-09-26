@@ -9,12 +9,12 @@ using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
     [TestFixture]
-    public class Trending {
+    public class Index {
         [Test]
         public async Task GetRequest_ReturnsCountdownListViewModel() {
             TestableCountdownController controller = TestableCountdownController.Create();
 
-            JsonResult result = await controller.Trending(123) as JsonResult;
+            JsonResult result = await controller.Index(new CountdownListViewModel()) as JsonResult;
 
             Assert.IsNotNull(result);
 
@@ -30,18 +30,23 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             controller.CountdownRepository.CountdownAggregates.Add(new CountdownAggregate());
             controller.CountdownRepository.CountdownAggregates.Add(new CountdownAggregate());
 
-            const int token = 123;
-            const int page = 5;
-            JsonResult result = await controller.Trending(token, page) as JsonResult;
+            var model = new CountdownListViewModel {
+                Page = 1,
+                Token = 123,
+                DisplayOrderType = CountdownDisplayOrderType.Latest,
+            };
+
+            JsonResult result = await controller.Index(model) as JsonResult;
 
             Assert.IsNotNull(result);
 
-            CountdownListViewModel model = result.Data as CountdownListViewModel;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(3, model.Countdowns.Count());
-            Assert.AreEqual(3, model.Total);
-            Assert.AreEqual(page, model.Page);
-            Assert.AreEqual(token, model.Token);
+            CountdownListViewModel resultModel = result.Data as CountdownListViewModel;
+            Assert.IsNotNull(resultModel);
+            Assert.AreEqual(3, resultModel.Countdowns.Count());
+            Assert.AreEqual(3, resultModel.Total);
+            Assert.AreEqual(model.Page, resultModel.Page);
+            Assert.AreEqual(model.Token, resultModel.Token);
+            Assert.AreEqual(model.DisplayOrderType, resultModel.DisplayOrderType);
         }
     }
 }
