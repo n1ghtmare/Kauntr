@@ -6,7 +6,7 @@ import {
 } from "../actions/SharedContextActions";
 
 import {
-    fetchCountdownIfNeeded
+    fetchCountdownDetailsIfNeeded
 } from "../actions/CountdownActions";
 
 import {
@@ -33,7 +33,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         const { params } = this.props.router;
         dispatch(updateSharedContextTitle("countdown"));
 
-        dispatch(fetchCountdownIfNeeded(params.id))
+        dispatch(fetchCountdownDetailsIfNeeded(params.id))
             .then(() => dispatch(fetchCommentsIfNeeded(params.id, 1, commentList.displayOrderType)));
     }
 

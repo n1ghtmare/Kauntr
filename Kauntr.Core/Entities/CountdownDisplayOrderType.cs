@@ -3,6 +3,6 @@
         Trending,
         Latest,
         Oldest,
-        EndingSoon
+        EndingOn
     }
 }

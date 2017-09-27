@@ -1,10 +1,12 @@
+import * as moment from "moment";
 import { hashHistory } from "react-router";
 
+import { handleServerError } from "./ErrorActions";
+
 import AppState from "../interfaces/AppState";
+import CountdownDisplayOrderType from "../interfaces/CountdownDisplayOrderType";
 
 import * as ActionTypes from "../constants/ActionTypes";
-
-import { handleServerError } from "./ErrorActions";
 
 import CountdownType from "../constants/CountdownType";
 import DurationType from "../constants/DurationType";
@@ -73,10 +75,10 @@ function createCountdownFailure() {
     };
 }
 
-export function fetchCountdownIfNeeded(countdownId: number) {
+export function fetchCountdownDetailsIfNeeded(countdownId: number) {
     return (dispatch: Function, getState: Function): Promise<void> => {
-        if (shouldFetchCountdown(getState())) {
-            dispatch(loadCountdown());
+        if (shouldFetchCountdownDetails(getState())) {
+            dispatch(loadCountdownDetails());
 
             return fetch(`/countdown/details?countdownId=${countdownId}`)
                 .then(response => {
@@ -85,32 +87,85 @@ export function fetchCountdownIfNeeded(countdownId: number) {
                     }
                     return response.json();
                 })
-                .then(json => dispatch(loadCountdownSuccess(json)))
-                .catch((response: Response) => handleServerError(response, dispatch, loadCountdownFailure));
+                .then(json => dispatch(loadCountdownDetailsSuccess(json)))
+                .catch((response: Response) => handleServerError(response, dispatch, loadCountdownDetailsFailure));
         }
     };
 }
 
-function shouldFetchCountdown(state: AppState): boolean {
+function shouldFetchCountdownDetails(state: AppState): boolean {
     return !state.countdown.isLoadingData;
 }
 
-function loadCountdown() {
+function loadCountdownDetails() {
     return {
-        type: ActionTypes.LOAD_COUNTDOWN
+        type: ActionTypes.LOAD_COUNTDOWN_DETAILS
     };
 }
 
-function loadCountdownSuccess(json: any) {
+function loadCountdownDetailsSuccess(json: any) {
     return {
-        type: ActionTypes.LOAD_COUNTDOWN_SUCCESS,
+        type: ActionTypes.LOAD_COUNTDOWN_DETAILS_SUCCESS,
         json
     };
 }
 
-function loadCountdownFailure() {
+function loadCountdownDetailsFailure() {
     return {
-        type: ActionTypes.LOAD_COUNTDOWN_FAILURE
+        type: ActionTypes.LOAD_COUNTDOWN_DETAILS_FAILURE
     };
 }
 
+
+// TODO - Add the ability to filter Countdowns created by the current user (if authenticated)
+export function fetchCountdownsIfNeeded(page: number, displayOrderType: CountdownDisplayOrderType) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        if (shouldFetchCountdowns(getState())) {
+            const token: number = moment().unix();
+
+            dispatch(loadCountdowns(token));
+
+            return fetch(`/countdown/index?Page=${page}&DisplayOrderType=${displayOrderType}&Token=${token}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (shouldProcessCountdowns(getState(), json.Token)) {
+                        dispatch(loadCountdownsSuccess(json));
+                    }
+                })
+                .catch((response: Response) => handleServerError(response, dispatch, loadCountdownsFailure));
+        }
+    }
+}
+
+function shouldProcessCountdowns(state: AppState, token: number): boolean {
+    return state.countdownList.token === token;
+}
+
+function shouldFetchCountdowns(state: AppState): boolean {
+    return !state.countdownList.isLoadingData;
+}
+
+function loadCountdowns(token: number) {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWNS,
+        token
+    };
+}
+
+function loadCountdownsSuccess(json: any) {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWNS_SUCCESS,
+        json
+    };
+}
+
+function loadCountdownsFailure() {
+    return {
+        type: ActionTypes.LOAD_COUNTDOWNS_FAILURE
+    };
+}

@@ -5,9 +5,7 @@ import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
 import * as ActionTypes from "../constants/ActionTypes";
 
-import {
-    parseRawDate
-} from "../helpers/DateHelpers";
+import { parseRawDate } from "../helpers/DateHelpers";
 
 interface CountdownAction {
     type: string;
@@ -22,7 +20,7 @@ export const initialCommentState: CommentListState = {
     page: 1,
     displayOrderType: CommentDisplayOrderType.Latest,
     token: null,
-    total: null
+    total: 0
 };
 
 export const initialState: CountdownState = {
@@ -47,27 +45,27 @@ export default function countdown(state = initialState, action: CountdownAction)
                 isCreatingNew: false
             };
 
-        case ActionTypes.LOAD_COUNTDOWN:
+        case ActionTypes.LOAD_COUNTDOWN_DETAILS:
             return {
                 ...state,
                 isLoadingData: true
             };
-        case ActionTypes.LOAD_COUNTDOWN_SUCCESS:
+        case ActionTypes.LOAD_COUNTDOWN_DETAILS_SUCCESS:
             return {
                 ...state,
                 isLoadingData: false,
-                id: action.json.Id,
+                id: parseInt(action.json.Id, 10),
                 description: action.json.Description,
                 endsOn: parseRawDate(action.json.EndsOn),
-                commentsCount: action.json.CommentsCount,
+                commentsCount: parseInt(action.json.CommentsCount, 10),
                 createdOn: parseRawDate(action.json.CreatedOn),
-                createdByAccountId: action.json.CreatedByAccountId,
+                createdByAccountId: parseInt(action.json.CreatedByAccountId, 10),
                 createdByDisplayName: action.json.CreatedByDisplayName,
                 createdByGravatarUrl: action.json.CreatedByGravatarUrl,
-                voteScore: action.json.VoteScore,
+                voteScore: parseInt(action.json.VoteScore, 10),
                 currentUserVote: action.json.CurrentUserVote
             };
-        case ActionTypes.LOAD_COUNTDOWN_FAILURE:
+        case ActionTypes.LOAD_COUNTDOWN_DETAILS_FAILURE:
             return {
                 ...state,
                 isLoadingData: false

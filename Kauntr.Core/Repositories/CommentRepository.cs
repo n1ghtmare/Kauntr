@@ -37,7 +37,6 @@ namespace Kauntr.Core.Repositories {
 
         public async Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(CommentFilter commentFilter) {
             using (IDbConnection connection = Connnection) {
-                // TODO - Add dynamic "ORDER BY"
                 string sql =
                     $@"SELECT TOP {commentFilter.Limit} Q.* FROM (
 	                    SELECT T.*, ROW_NUMBER() OVER ({BuildAggregateOrderBy(commentFilter.DisplayOrderType)}) AS RN FROM (
@@ -56,7 +55,7 @@ namespace Kauntr.Core.Repositories {
                             WHERE c.CountdownId = @CountdownId
 	                    ) AS T
                     ) AS Q
-                    WHERE Q.RN > {(commentFilter.Page - 1) * commentFilter.Limit} ORDER BY Q.RN";
+                    WHERE Q.RN > {(commentFilter.Page - 1)*commentFilter.Limit} ORDER BY Q.RN";
                 return await connection.QueryAsync<CommentAggregate>(sql, commentFilter);
             }
         }

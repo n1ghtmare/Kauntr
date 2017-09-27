@@ -98,7 +98,6 @@
     <Compile Include="Ui.Web\CountdownControllerTests\Create.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Details.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\InMemoryCountdownRepository.cs" />
-    <Compile Include="Ui.Web\CountdownControllerTests\Mine.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\TestableCountdownController.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Index.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />

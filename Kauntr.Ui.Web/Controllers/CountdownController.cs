@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -93,7 +92,8 @@ namespace Kauntr.Ui.Web.Controllers {
                 Page = model.Page,
                 Limit = CountdownLimit,
                 CurrentUserAccountId = _contextService.CurrentUserAccountId,
-                DisplayOrderType = model.DisplayOrderType
+                DisplayOrderType = model.DisplayOrderType,
+                EndsAfter = _systemClock.UtcNow
             });
 
             await Task.WhenAll(count, aggregates);
@@ -104,25 +104,6 @@ namespace Kauntr.Ui.Web.Controllers {
                 Page = model.Page,
                 DisplayOrderType = model.DisplayOrderType,
                 Token = model.Token
-            };
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-//        [Authorize] // TODO - Uncomment after Debug
-        [HttpGet]
-        public async Task<ActionResult> Mine(int token, int page = 1) {
-            Task<int> count = _countdownRepository.GetTotalCountByAccountId((int) _contextService.CurrentUserAccountId);
-            Task<IEnumerable<CountdownAggregate>> aggregates = _countdownRepository.GetAggregatesByAccountIdAsync(page, CountdownLimit, (int) _contextService.CurrentUserAccountId);
-
-            await Task.WhenAll(count, aggregates);
-
-            var result = new CountdownListViewModel {
-                Total = await count,
-                Countdowns = (await aggregates).ToCountdownViewModels(),
-                Page = page,
-                Token = token,
-                DisplayOrderType = CountdownDisplayOrderType.Trending
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }

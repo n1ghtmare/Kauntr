@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,15 +26,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             return Task.Run(() => CountdownAggregates.AsEnumerable());
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetAggregatesByAccountIdAsync(int page, int limit, int currentAccountId) {
-            return Task.Run(() => CountdownAggregates.AsEnumerable());
-        }
-
-        public Task<int> GetTotalCountAsync() {
-            return Task.Run(() => CountdownAggregates.Count);
-        }
-
-        public Task<int> GetTotalCountByAccountId(int currentAccountId) {
+        public Task<int> GetTotalCountAsync(DateTime? endsAfter = null) {
             return Task.Run(() => CountdownAggregates.Count);
         }
     }
