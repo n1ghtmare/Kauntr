@@ -31,6 +31,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
     componentDidMount() {
         const { dispatch, commentList } = this.props;
         const { params } = this.props.router;
+
         dispatch(updateSharedContextTitle("countdown"));
 
         dispatch(fetchCountdownDetailsIfNeeded(params.id))

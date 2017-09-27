@@ -9,6 +9,8 @@ interface CountdownListState {
     page: number;
     displayOrderType: CountdownDisplayOrderType;
     token?: number;
+    dispatch?: Function;
+    router?: any;
 }
 
 export default CountdownListState;

@@ -120,6 +120,7 @@ function loadCountdownDetailsFailure() {
 // TODO - Add the ability to filter Countdowns created by the current user (if authenticated)
 export function fetchCountdownsIfNeeded(page: number, displayOrderType: CountdownDisplayOrderType) {
     return (dispatch: Function, getState: Function): Promise<void> => {
+        console.log("SUP");
         if (shouldFetchCountdowns(getState())) {
             const token: number = moment().unix();
 

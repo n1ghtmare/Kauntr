@@ -87,7 +87,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
         [HttpGet]
         public async Task<ActionResult> Index(CountdownListViewModel model) {
-            Task<int> count = _countdownRepository.GetTotalCountAsync();
+            Task<int> count = _countdownRepository.GetTotalCountAsync(endsAfter: _systemClock.UtcNow);
             Task<IEnumerable<CountdownAggregate>> aggregates = _countdownRepository.GetAggregatesAsync(new CountdownFilter {
                 Page = model.Page,
                 Limit = CountdownLimit,
