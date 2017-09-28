@@ -14,6 +14,7 @@ interface PaginationProps {
 
 export default class Pagination extends React.Component<PaginationProps, any> {
     public static defaultProps: Partial<PaginationProps> = {
+        className: "pagination text-medium",
         pageListSize: 7
     };
 

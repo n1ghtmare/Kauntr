@@ -59,7 +59,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <Countdown {...this.props} />
+                    <Countdown {...this.props} isExpanded={true} />
                     <DiamondsSeparator />
                     <CommentList {...this.props.commentList}
                         onPageChange={this.handleCommentListPageChange}

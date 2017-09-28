@@ -181,10 +181,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 .form-endson {
     width: 53px !important;
 }
-
-.comment-form {
-    margin: 5.414em 0;
-}
 /* ################################################################ */
 
 
@@ -194,6 +190,11 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     Countdown
     ################################################################
 */
+
+.countdowns .countdown {
+    padding-bottom: 1.414em;
+}
+
 .countdown-pulse {
     -webkit-animation: pulse 1s ease-in-out infinite;
     -moz-animation: pulse 1s ease-in-out infinite;
@@ -307,7 +308,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 }
 
 .comments-order-controls {
-    margin-bottom: 1.414em;
+    margin: 2.287em 0;
 }
 
 .comments-order-controls li {

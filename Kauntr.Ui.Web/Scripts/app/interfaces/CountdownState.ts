@@ -4,6 +4,7 @@ import CommentListState from "./CommentListState";
 interface CountdownState {
     isCreatingNew: boolean;
     isLoadingData: boolean;
+    isExpanded: boolean;
     id?: number;
     description?: string;
     endsOn?: Moment;

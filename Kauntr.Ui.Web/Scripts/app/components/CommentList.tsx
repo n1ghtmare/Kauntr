@@ -1,5 +1,9 @@
 import * as React from "react";
 
+import {
+    pluralizeNaive
+} from "../helpers/StringHelpers";
+
 import CommentListState from "../interfaces/CommentListState";
 import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
@@ -26,13 +30,13 @@ export default class CommentList extends React.Component<CommentListStateExtende
 
         return (
             <div>
-                <h4>{total} comments</h4>
-                <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} />
+                <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={this.props.isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
+                <h4>{total} {pluralizeNaive(total, "comment")} {total === 0 ? "... yet" : null}</h4>
+                <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                 <div className="comments">
                     {comments}
                 </div>
                 <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={this.props.onPageChange} className="pagination text-medium-sub" />
-                <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={this.props.isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
             </div>
         );
     }

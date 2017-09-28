@@ -2,6 +2,10 @@ import * as React from "react";
 import { Link } from "react-router";
 import * as moment from "moment";
 
+import {
+    pluralizeNaive
+} from "../helpers/StringHelpers";
+
 import CountdownState from "../interfaces/CountdownState";
 
 export default class Countdown extends React.Component<CountdownState, { remainingTime: string }> {
@@ -81,10 +85,17 @@ export default class Countdown extends React.Component<CountdownState, { remaini
         );
     }
 
+    renderCommentsCountLink() {
+        const { commentsCount } = this.props;
+        return this.props.isExpanded
+            ? null
+            : (<Link to={`/countdown/${this.props.id}`}>{commentsCount} {pluralizeNaive(commentsCount, "comment")}</Link>);
+    }
+
     render() {
         const { createdOn } = this.props;
         return (
-            <div>
+            <div className="countdown">
                 {this.renderTitle()}
                 <div>created {createdOn === null ? "?" : createdOn.fromNow()}</div>
                 <div>by <Link to={`/account/${this.props.createdByAccountId}`}>{this.props.createdByDisplayName}</Link></div>
@@ -96,6 +107,7 @@ export default class Countdown extends React.Component<CountdownState, { remaini
                     <span>{this.props.voteScore}</span>
                     <a title="I don't like it" className="vote-down" href="#">&minus;</a>
                 </div>
+                {this.renderCommentsCountLink()}
             </div>
         );
     }

@@ -4,6 +4,7 @@ import * as classNames from "classnames";
 import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
 
 interface CommentOrderControlsProps {
+    itemsTotalCount: number;
     onChange: (displayOrder: CommentDisplayOrderType) => void;
     displayOrderType: CommentDisplayOrderType;
 }
@@ -15,6 +16,10 @@ export default class CommentOrderControls extends React.Component<CommentOrderCo
     }
 
     render() {
+        if (this.props.itemsTotalCount < 3) {
+            return null;
+        }
+
         const { displayOrderType } = this.props;
         const items = Object.keys(CommentDisplayOrderType)
             .map(x => parseInt(x))
@@ -26,9 +31,9 @@ export default class CommentOrderControls extends React.Component<CommentOrderCo
             );
 
         return (
-            <div>
+            <div className="comments-order-controls">
                 <div>display order:</div>
-                <ul className="comments-order-controls">
+                <ul>
                     {items}
                 </ul>
             </div>

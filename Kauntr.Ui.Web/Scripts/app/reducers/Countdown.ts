@@ -26,6 +26,7 @@ export const initialCommentState: CommentListState = {
 export const initialState: CountdownState = {
     isCreatingNew: false,
     isLoadingData: false,
+    isExpanded: false,
     createdOn: null,
     endsOn: null,
     commentList: initialCommentState
