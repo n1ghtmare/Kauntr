@@ -306,21 +306,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     padding: 17px;
     word-wrap: break-word;
 }
-
-.comments-order-controls {
-    margin: 2.287em 0;
-}
-
-.comments-order-controls li {
-    display: inline;
-    padding: 0 0.381em;
-}
-
-.comments-order-controls li.active a {
-    color: #ff6600 !important;
-    border-bottom: none;
-}
-
 /* ################################################################ */
 
 
@@ -354,14 +339,29 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     font-size: 1.618em;
     margin-bottom: 2.287em;
 }
-
 /* ################################################################ */
 
 
 
 
+/*
+    Order Controls
+    ################################################################
+*/
+.order-controls {
+    margin: 2.287em 0;
+}
 
+.order-controls li {
+    display: inline;
+    padding: 0 0.381em;
+}
 
+.order-controls li.active a {
+    color: #ff6600 !important;
+    border-bottom: none;
+}
+/* ################################################################ */
 
 
 

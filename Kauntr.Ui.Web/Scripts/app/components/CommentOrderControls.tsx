@@ -31,7 +31,7 @@ export default class CommentOrderControls extends React.Component<CommentOrderCo
             );
 
         return (
-            <div className="comments-order-controls">
+            <div className="order-controls">
                 <div>display order:</div>
                 <ul>
                     {items}

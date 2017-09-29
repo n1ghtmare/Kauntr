@@ -15,8 +15,10 @@ import {
 
 import AppState from "../interfaces/AppState";
 import CountdownListState from "../interfaces/CountdownListState";
+import CountdownDisplayOrderType from "../interfaces/CountdownDisplayOrderType";
 
 import Countdown from "./Countdown";
+import CountdownOrderControls from "./CountdownOrderControls";
 import Pagination from "./Pagination";
 import LoadingIndicator from "./LoadingIndicator";
 
@@ -32,8 +34,13 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         dispatch(fetchCountdownsIfNeeded(1, displayOrderType));
     }
 
-    private handleCountdownListPageChange = (page: number): void => {
+    private handlePageChange = (page: number): void => {
         const { dispatch, displayOrderType } = this.props;
+        dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
+    }
+
+    private handleDisplayOrderChange = (displayOrderType: CountdownDisplayOrderType): void => {
+        const { dispatch, page } = this.props;
         dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
     }
 
@@ -47,10 +54,11 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
             <div className="animated fadeIn">
                 <div className="row">
                     <h3>{total} {pluralizeNaive(total, "countdown")}</h3>
+                    <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     <div className="countdowns">
                         {countdowns}
                     </div>
-                    <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={this.handleCountdownListPageChange} />
+                    <Pagination page={this.props.page} pageSize={10} itemsTotalCount={total} onPageChange={this.handlePageChange} />
                 </div>
             </div>
         );

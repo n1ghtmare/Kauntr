@@ -29,7 +29,7 @@ export default class CommentList extends React.Component<CommentListStateExtende
         );
 
         return (
-            <div>
+            <div className="animated fadeIn">
                 <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={this.props.isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
                 <h4>{total} {pluralizeNaive(total, "comment")} {total === 0 ? "... yet" : null}</h4>
                 <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
