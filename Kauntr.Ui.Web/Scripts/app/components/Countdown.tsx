@@ -67,7 +67,7 @@ export default class Countdown extends React.Component<CountdownState, { remaini
         if (endsOn !== null && endsOn < moment()) {
             return (
                 <div className="text-medium">
-                    <div>{titleLink} completed</div>
+                    <div>{titleLink} ended</div>
                     <div>{endsOn.fromNow()}</div>
                 </div>
             );
