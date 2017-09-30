@@ -38,7 +38,8 @@ export default function account(state = initialState, action: AccountAction): Ac
                 email: action.json.Account.Email,
                 reputation: action.json.Account.Reputation,
                 createdOn: parseRawDate(action.json.Account.CreatedOn),
-                isAutoSetup: action.json.Account.IsAutoSetup
+                isAutoSetup: action.json.Account.IsAutoSetup,
+                gravatarUrl: action.json.Account.GravatarUrl
             };
         case ActionTypes.LOAD_ACCOUNT_DETAILS_FAILURE:
             return {

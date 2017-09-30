@@ -38,6 +38,9 @@ export class AccountDetails extends React.Component<AccountState, any> {
                 <div className="row">
                     <h3>account details</h3>
                     <h4>{displayName} {isPersonalAccount ? "(personal)" : null}</h4>
+                    <div className="avatar-image-container">
+                        <img width="52" height="52" alt="Avatar Image" src={this.props.gravatarUrl} />
+                    </div>
                     <ul>
                         <li>email - {isPersonalAccount ? this.props.email : "?"}</li>
                         <li>joined - {typeof createdOn !== "undefined" ? createdOn.fromNow() : "-"}</li>

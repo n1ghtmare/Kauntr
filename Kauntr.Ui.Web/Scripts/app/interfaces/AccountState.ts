@@ -11,6 +11,7 @@ interface AccountState {
     reputation?: number;
     createdOn?: moment.Moment;
     isAutoSetup?: boolean;
+    gravatarUrl?: string;
     token?: number;
 
     // TODO - add stats here (number of countdowns created? reputation changes? comments count? etc.)

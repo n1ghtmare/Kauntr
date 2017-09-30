@@ -8,5 +8,6 @@ namespace Kauntr.Core.Entities {
         public int Reputation { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsAutoSetup { get; set; }
+        public string GravatarUrl { get; set; }
     }
 }
