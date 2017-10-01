@@ -294,7 +294,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 .comment-score {
     font-weight: bold;
-    margin-top: 1.618em;
 }
 
 .comment-score a {
@@ -366,8 +365,15 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 
-
-
+/*
+    Markdown
+    ################################################################
+*/
+.markdown-body h1, h2, h3, h4 {
+    margin: 1.414em 0 0.5em;
+    font-size: 1.618em !important;
+}
+/* ################################################################ */
 
 
 

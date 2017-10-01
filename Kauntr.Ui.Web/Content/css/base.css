@@ -49,6 +49,25 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+em {
+    font-style: italic;
+}
+
+
+pre, code {
+  font-family: Consolas, Inconsolata, Courier, monospace;
+}
+
+code {
+    white-space: nowrap;
+    margin: 1.2em 0;
+    display: inline-block;
+}
+
+pre code {
+    white-space: pre-wrap;
+}
 /* ################################################################ */
 
 

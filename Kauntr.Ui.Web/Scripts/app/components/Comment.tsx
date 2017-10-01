@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Link } from "react-router";
 
+import * as marked from "marked";
+
 import CommentState from "../interfaces/CommentState";
 
 export default class Comment extends React.Component<CommentState, any> {
@@ -15,9 +17,7 @@ export default class Comment extends React.Component<CommentState, any> {
                         <img width="42" height="42" alt="Avatar Image" src={this.props.createdByGravatarUrl} />
                     </div>
                 </div>
-                <div className="comment-text">
-                    {this.props.text}
-                </div>
+                <div className="comment-text markdown-body" dangerouslySetInnerHTML={{ __html: marked(this.props.text) }} />
                 <div className="comment-score">
                     <a title="This is awesome" className="vote-up" href="#">&#43;</a>
                     <span>{this.props.voteScore}</span>

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.2.5",
+    "marked": "^0.3.6",
     "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.3",
     "@types/jquery": "^3.2.12",
+    "@types/marked": "^0.3.0",
     "@types/react": "^15.6.2",
     "@types/react-dom": "^15.5.4",
     "@types/react-redux": "^4.4.47",
