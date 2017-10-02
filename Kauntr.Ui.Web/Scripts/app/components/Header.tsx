@@ -8,15 +8,6 @@ import AppState from "../interfaces/AppState";
 import SharedContextState from "../interfaces/SharedContextState";
 
 export class Header extends React.Component<SharedContextState, any> {
-    constructor() {
-        super();
-
-        this.state = {
-            isInSearchMode: false,
-            searchQuery: ""
-        };
-    }
-
     componentDidMount() {
         $(ReactDOM.findDOMNode(this)).find(".has-sub-menu").click(function (e) {
             $(this).next(".sub-menu").slideToggle(300);
@@ -32,26 +23,10 @@ export class Header extends React.Component<SharedContextState, any> {
         });
     }
 
-    componentDidUpdate(prevProps: any, prevState: any) {
-        if (this.state.isInSearchMode && !prevState.isInSearchMode) {
-            this.searchInput.focus();
-        }
-    }
-
-    private searchInput: HTMLInputElement;
-
-    private handleSearchClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        this.setState({ isInSearchMode: !this.state.isInSearchMode, searchQuery: "" });
-    }
-
     render() {
         let isAuthenticated: boolean = this.props.currentUserAccountId !== null;
         return (
             <div id="header">
-                <div className={classNames({ "hidden": !this.state.isInSearchMode })}>
-                    <input type="text" className="search-query" value={this.state.searchQuery} onChange={(e) => this.setState({ searchQuery: e.target.value })} ref={(input) => this.searchInput = input} />
-                </div>
                 <div className="container">
                     <div className="row">
                         <div className="fivecol first">
@@ -60,7 +35,6 @@ export class Header extends React.Component<SharedContextState, any> {
                         <div className="sevencol last">
                             <ul id="header-menu">
                                 <li><Link to="/notifications" className="notifications-indicator">13</Link></li>
-                                <li><a href="#" onClick={this.handleSearchClick}>search</a></li>
                                 <li className={classNames({ "hidden": isAuthenticated })}><Link to="/login">login</Link></li>
                                 <li className={classNames({ "hidden": !isAuthenticated })}>
                                     <a className="has-sub-menu" href="#">account</a>
@@ -69,15 +43,7 @@ export class Header extends React.Component<SharedContextState, any> {
                                         <li><Link to="/logout">logout</Link></li>
                                     </ul>
                                 </li>
-
-                                <li>
-                                    <a className="has-sub-menu" href="#">countdowns</a>
-                                    <ul className="sub-menu">
-                                        <li><Link to="/countdowns/latest">latest</Link></li>
-                                        <li><Link to="/countdowns/trending">trending</Link></li>
-                                        <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdowns/mine">mine</Link></li>
-                                    </ul>
-                                </li>
+                                <li><Link to="/countdowns/latest">countdowns</Link></li>
                                 <li className={classNames({ "hidden": !isAuthenticated })}><Link to="/countdown/create" className="menu-link-special">+</Link></li>
                             </ul>
                         </div>

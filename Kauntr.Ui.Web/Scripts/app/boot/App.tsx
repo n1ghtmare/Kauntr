@@ -40,7 +40,8 @@ const routes = (
                     <Route component={AccountDetails} path="/account" />
                     <Route component={NotificationList} path="/notifications" />
                 </Route>
-                <Redirect from="/" to="countdowns/trending" />
+                <Redirect from="/" to="countdowns" />
+                <Route component={CountdownList} path="/countdowns" />
                 <Route component={CountdownList} path="/countdowns/:category" />
                 <Route component={CountdownDetails} path="/countdown/:id" />
                 <Route component={Login} path="/login" />

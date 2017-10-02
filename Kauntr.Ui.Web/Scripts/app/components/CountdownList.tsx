@@ -42,6 +42,10 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
     private handleDisplayOrderChange = (displayOrderType: CountdownDisplayOrderType): void => {
         const { dispatch, page } = this.props;
         dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
+
+        // TODO - Have the display order changes be saved in the URL -> countdowns/latest/?page=1&q=test
+        // const order: string = CountdownDisplayOrderType[displayOrderType].toLowerCase();
+        // this.props.router.push(`/countdowns/${order}`);
     }
 
     renderList() {
@@ -53,7 +57,8 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <h3>{total} {pluralizeNaive(total, "countdown")}</h3>
+                    <h3>{total} {pluralizeNaive(total, "countdown")} (<a href="#">filter <i className="fa fa-filter"></i></a>)</h3>
+                    <input type="text" className="input input-medium" placeholder="filter by countdown title ..." />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     <div className="countdowns">
                         {countdowns}
@@ -69,7 +74,6 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return isLoadingData
             ? <LoadingIndicator isActive={isLoadingData} />
             : this.renderList();
-
     }
 }
 
