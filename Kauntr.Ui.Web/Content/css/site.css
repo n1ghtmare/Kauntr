@@ -366,6 +366,25 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
 
 /*
+    Filter Controls
+    ################################################################
+*/
+.filter-controls ul {
+    margin-top: 0.23em;
+}
+
+.filter-controls li {
+    display: inline;
+    padding: 0 0.618em;
+}
+/* ################################################################ */
+
+
+
+
+
+
+/*
     Markdown
     ################################################################
 */
@@ -502,21 +521,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     #header-menu > li {
         margin: 0 3px;
     }
-
-
-    #countdown-collection {
-        margin: 50px 0;
-    }
-
-    #countdown-date {
-        display: none;
-    }
-
-
-    .countdown {
-        font-size: 34px;
-        line-height: 47px;
-    }
 }
 
 @media handheld, only screen and (max-width: 650px) {
@@ -526,10 +530,6 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
 
     .main-content {
         padding-top: 185px;
-    }
-
-    .countdown {
-        margin: 70px 10px;
     }
 
     #header {
