@@ -369,6 +369,10 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     Filter Controls
     ################################################################
 */
+.filter-controls {
+    margin: 0.618em 0;
+}
+
 .filter-controls ul {
     margin-top: 0.23em;
 }

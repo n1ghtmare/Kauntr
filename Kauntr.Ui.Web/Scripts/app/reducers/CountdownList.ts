@@ -15,6 +15,7 @@ interface CountdownListAction {
 export const initialState: CountdownListState = {
     countdowns: [],
     isLoadingData: false,
+    isInFilterMode: false,
     page: 1,
     displayOrderType: CountdownDisplayOrderType.Trending,
     token: null,
@@ -48,6 +49,11 @@ export default function countdownList(state = initialState, action: CountdownLis
                 total: 0,
                 token: null,
                 countdowns: []
+            };
+        case ActionTypes.TOGGLE_FILTER_MODE:
+            return {
+                ...state,
+                isInFilterMode: !state.isInFilterMode
             };
         default:
             return state;

@@ -7,25 +7,28 @@ import {
 
 interface CountdownFilterControlsProps {
     totalCount: number;
+    isInFilterMode: boolean;
+    onFilterModeToggle: Function;
     isAuthenticated?: boolean;
 }
 
-interface CountdownFilterControlsState {
-    isInFilterMode: boolean;
-}
+export default class CountdownFilterControls extends React.Component<CountdownFilterControlsProps, any> {
+    private handleFilterToggleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onFilterModeToggle();
+    }
 
-export default class CountdownFilterControls extends React.Component<CountdownFilterControlsProps, CountdownFilterControlsState> {
-    constructor(props: CountdownFilterControlsProps) {
-        super(props);
-
-        // TODO - Toggle into the Redux store rather than the local state (should persist between component re-renders)
-        this.state = {
-            isInFilterMode: false
-        };
+    componentDidUpdate(prevProps: CountdownFilterControlsProps, prevState: any) {
+        if (this.props.isInFilterMode && !prevProps.isInFilterMode) {
+            const filterInput: HTMLInputElement = this.refs["filter-input"] as HTMLInputElement;
+            if (filterInput) {
+                filterInput.focus();
+            }
+        }
     }
 
     renderFilters() {
-        if (!this.state.isInFilterMode) {
+        if (!this.props.isInFilterMode) {
             return null;
         }
 
@@ -40,8 +43,8 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
                             <label htmlFor="filter-created-by-me">created by me</label>
                         </li>
                         <li>
-                            <input type="checkbox" id="filter-include-expired" />
-                            <label htmlFor="filter-include-expired">include expired</label>
+                            <input type="checkbox" id="filter-include-expired" defaultChecked={true} />
+                            <label htmlFor="filter-include-expired">exclude ended</label>
                         </li>
                     </ul>
                 </div>
@@ -50,25 +53,8 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
         );
     }
 
-    filterInputFocusToggle(): void {
-        const filterInput: HTMLInputElement = this.refs["filter-input"] as HTMLInputElement;
-        if (filterInput) {
-            filterInput.focus();
-        }
-    };
-
-    private handleFilterToggleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
-        e.preventDefault();
-
-        this.setState({
-            isInFilterMode: !this.state.isInFilterMode
-        }, this.filterInputFocusToggle);
-    }
-
     render() {
-        const { totalCount } = this.props;
-        const { isInFilterMode } = this.state;
-
+        const { totalCount, isInFilterMode } = this.props;
         const toggleLink = (
             <a href="#" onClick={this.handleFilterToggleClick} title="filter">
                 {isInFilterMode ? "cancel" : "filter"}

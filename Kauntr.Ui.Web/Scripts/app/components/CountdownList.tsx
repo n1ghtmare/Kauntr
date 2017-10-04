@@ -1,14 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-
-
 import {
     updateSharedContextTitle
 } from "../actions/SharedContextActions";
 
 import {
-    fetchCountdownsIfNeeded
+    fetchCountdownsIfNeeded,
+    toggleFilterMode
 } from "../actions/CountdownActions";
 
 import AppState from "../interfaces/AppState";
@@ -44,6 +43,8 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
     }
 
+    private handleFilterModeToggle = (): void => this.props.dispatch(toggleFilterMode());
+
     renderList() {
         const { total } = this.props;
         const countdowns = this.props.countdowns.map(x =>
@@ -53,7 +54,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <CountdownFilterControls totalCount={total} />
+                    <CountdownFilterControls totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     <div className="countdowns">
                         {countdowns}

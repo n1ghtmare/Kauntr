@@ -4,6 +4,7 @@ import CountdownState from "./CountdownState";
 
 interface CountdownListState {
     isLoadingData: boolean;
+    isInFilterMode: boolean;
     countdowns: Array<CountdownState>;
     total: number;
     page: number;

@@ -169,3 +169,9 @@ function loadCountdownsFailure() {
         type: ActionTypes.LOAD_COUNTDOWNS_FAILURE
     };
 }
+
+export function toggleFilterMode() {
+    return {
+        type: ActionTypes.TOGGLE_FILTER_MODE
+    };
+}
