@@ -81,7 +81,7 @@ export default class CountdownForm extends React.Component<CountdownFormProps, C
         }, this.validateForm);
     }
 
-    private handleDescriptionInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    private handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
 
         this.setState({
@@ -116,7 +116,7 @@ export default class CountdownForm extends React.Component<CountdownFormProps, C
             <form className="form-section countdown-form" onSubmit={this.handleFormSubmit}>
                 <h4>what is happening?</h4>
                 <div>
-                    <input type="text" className="input input-medium" value={this.state.description} onChange={this.handleDescriptionInputChange} placeholder="describe the event" maxLength={50} autoComplete={"off"} />
+                    <input type="text" className="input input-medium" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="describe the event" maxLength={50} autoComplete={"off"} />
                 </div>
                 <h4>when?</h4>
                 <select className="input input-medium form-countdown-type" value={this.state.countdownType} onChange={this.handleCountdownTypeChange}>

@@ -32,7 +32,7 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
         });
     }
 
-    private handleDisplayNameInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    private handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
 
         this.setState({
@@ -57,7 +57,7 @@ export default class AccountSettingsForm extends React.Component<AccountSettings
                     (your display name was auto-setup by the system, you might want to change it ... or not, it's cool)
                 </div>
                 <div>
-                    <input type="text" className="input input-medium" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameInputChange} maxLength={25} autoComplete={"off"} disabled={isActive} />
+                    <input type="text" className="input input-medium" id="displayName" placeholder="display name" value={this.state.displayName} onChange={this.handleDisplayNameChange} maxLength={25} autoComplete={"off"} disabled={isActive} />
                 </div>
                 <div>
                     <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>Update</button>

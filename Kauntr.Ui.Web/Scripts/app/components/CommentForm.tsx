@@ -32,7 +32,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
         });
     }
 
-    private handleContentInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    private handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         e.preventDefault();
 
         this.setState({
@@ -63,7 +63,7 @@ export default class CommentForm extends React.Component<CommentFormProps, Comme
                 <h4>your own comment</h4>
                 <div>
                     <div className="text-muted">oh, by the way - we support markdown ... and we don't tolerate spam</div>
-                    <textarea className="textarea-large" disabled={isActive} onChange={this.handleContentInputChange} placeholder="your comment goes here ..."></textarea>
+                    <textarea className="textarea-large" disabled={isActive} onChange={this.handleContentChange} placeholder="your comment goes here ..."></textarea>
                 </div>
                 <div>
                     <button type="submit" className="button button-medium" disabled={!this.state.isValid || isActive}>

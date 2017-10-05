@@ -43,6 +43,11 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
     }
 
+    private handleFilterChange = (query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean): void => {
+        // TODO - Filter on server side as well ->
+        console.log("WILL FILTER COUNTDOWN ITEMS");
+    }
+
     private handleFilterModeToggle = (): void => this.props.dispatch(toggleFilterMode());
 
     renderList() {
@@ -54,7 +59,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <CountdownFilterControls totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} />
+                    <CountdownFilterControls totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} onFilterChange={(a, b, c) => console.log(a)} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     <div className="countdowns">
                         {countdowns}
