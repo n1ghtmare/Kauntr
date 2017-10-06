@@ -83,9 +83,9 @@ export default class Pagination extends React.Component<PaginationProps, any> {
         if (startRange <= 2) {
             startRange = 1;
             endRange = startRange + (mid * 2);
-            endRange = endRange > totalPages ? totalPages : endRange;
+            endRange = endRange > totalPages - 1 ? totalPages : endRange;
         }
-        else if (endRange > totalPages) {
+        else if (endRange >= totalPages - 1) {
             endRange = totalPages;
             startRange = endRange - (mid * 2);
             startRange = startRange < 1 ? 1 : startRange;
