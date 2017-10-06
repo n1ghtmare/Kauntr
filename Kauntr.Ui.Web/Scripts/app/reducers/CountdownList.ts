@@ -1,6 +1,7 @@
 import CountdownListState from "../interfaces/CountdownListState";
 import CountdownState from "../interfaces/CountdownState";
 import CountdownDisplayOrderType from "../interfaces/CountdownDisplayOrderType";
+import CountdownListFilterState from "../interfaces/CountdownListFilterState";
 
 import { parseRawDate } from "../helpers/DateHelpers";
 
@@ -10,6 +11,12 @@ interface CountdownListAction {
     type: string;
     token?: number;
     json?: any;
+}
+
+export const initialFilterState: CountdownListFilterState = {
+    query: "",
+    isCreatedByCurrentUser: false,
+    isCurrentlyActive: true
 };
 
 export const initialState: CountdownListState = {
@@ -18,6 +25,7 @@ export const initialState: CountdownListState = {
     isInFilterMode: false,
     page: 1,
     displayOrderType: CountdownDisplayOrderType.Trending,
+    filters: initialFilterState,
     token: null,
     total: 0
 };
@@ -38,6 +46,7 @@ export default function countdownList(state = initialState, action: CountdownLis
                 page: parseInt(action.json.Page, 10),
                 total: parseInt(action.json.Total, 10),
                 displayOrderType: parseInt(action.json.DisplayOrderType),
+                filters: parseFilter(action.json.Filter),
                 countdowns: parseCountdowns(action.json.Countdowns)
             };
         case ActionTypes.LOAD_COUNTDOWN_DETAILS_FAILURE:
@@ -58,6 +67,14 @@ export default function countdownList(state = initialState, action: CountdownLis
         default:
             return state;
     }
+}
+
+function parseFilter(filter: any): CountdownListFilterState {
+    return {
+        query: filter.Query,
+        isCreatedByCurrentUser: filter.IsCreatedByCurrentUser,
+        isCurrentlyActive: filter.IsCurrentlyActive
+    };
 }
 
 function parseCountdowns(countdowns: Array<any>): Array<CountdownState> {

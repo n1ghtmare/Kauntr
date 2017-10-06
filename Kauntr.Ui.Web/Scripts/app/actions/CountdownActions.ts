@@ -116,16 +116,14 @@ function loadCountdownDetailsFailure() {
     };
 }
 
-
-// TODO - Add the ability to filter Countdowns created by the current user (if authenticated)
-export function fetchCountdownsIfNeeded(page: number, displayOrderType: CountdownDisplayOrderType) {
+export function fetchCountdownsIfNeeded(page: number, displayOrderType: CountdownDisplayOrderType, query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchCountdowns(getState())) {
             const token: number = moment().unix();
 
             dispatch(loadCountdowns(token));
 
-            return fetch(`/countdown/index?Page=${page}&DisplayOrderType=${displayOrderType}&Token=${token}`)
+            return fetch(`/countdown/index?Page=${page}&DisplayOrderType=${displayOrderType}&Filter.Query=${query === null ? "" : query}&Filter.IsCurrentlyActive=${isCurrentlyActive}&Filter.IsCreatedByCurrentUser=${isCreatedByCurrentUser}&Token=${token}`)
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -139,7 +137,7 @@ export function fetchCountdownsIfNeeded(page: number, displayOrderType: Countdow
                 })
                 .catch((response: Response) => handleServerError(response, dispatch, loadCountdownsFailure));
         }
-    }
+    };
 }
 
 function shouldProcessCountdowns(state: AppState, token: number): boolean {

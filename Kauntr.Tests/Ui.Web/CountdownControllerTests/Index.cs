@@ -14,12 +14,13 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         public async Task GetRequest_ReturnsCountdownListViewModel() {
             TestableCountdownController controller = TestableCountdownController.Create();
 
-            JsonResult result = await controller.Index(new CountdownListViewModel()) as JsonResult;
+            var model = new CountdownListViewModel { Filter = new CountdownListFilter()};
+            JsonResult result = await controller.Index(model) as JsonResult;
 
             Assert.IsNotNull(result);
 
-            CountdownListViewModel model = result.Data as CountdownListViewModel;
-            Assert.IsNotNull(model);
+            CountdownListViewModel resultModel = result.Data as CountdownListViewModel;
+            Assert.IsNotNull(resultModel);
         }
 
         [Test]
@@ -34,6 +35,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
                 Page = 1,
                 Token = 123,
                 DisplayOrderType = CountdownDisplayOrderType.Latest,
+                Filter = new CountdownListFilter()
             };
 
             JsonResult result = await controller.Index(model) as JsonResult;

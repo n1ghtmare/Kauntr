@@ -1,6 +1,7 @@
 import CountdownDisplayOrderType from "../interfaces/CountdownDisplayOrderType";
 
 import CountdownState from "./CountdownState";
+import CountdownListFilterState from "./CountdownListFilterState";
 
 interface CountdownListState {
     isLoadingData: boolean;
@@ -9,6 +10,7 @@ interface CountdownListState {
     total: number;
     page: number;
     displayOrderType: CountdownDisplayOrderType;
+    filters: CountdownListFilterState;
     token?: number;
     dispatch?: Function;
     router?: any;

@@ -5,6 +5,9 @@ import {
 } from "../helpers/StringHelpers";
 
 interface CountdownFilterControlsProps {
+    query: string;
+    isCurrentlyActive: boolean;
+    isCreatedByCurrentUser: boolean;
     totalCount: number;
     isInFilterMode: boolean;
     onFilterModeToggle: Function;
@@ -23,9 +26,9 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
         super(props);
 
         this.state = {
-            query: "",
-            isCurrentlyActive: true,
-            isCreatedByCurrentUser: false
+            query: props.query === null ? "" : props.query,
+            isCurrentlyActive: props.isCurrentlyActive,
+            isCreatedByCurrentUser: props.isCreatedByCurrentUser
         };
     }
 

@@ -87,13 +87,15 @@ namespace Kauntr.Ui.Web.Controllers {
 
         [HttpGet]
         public async Task<ActionResult> Index(CountdownListViewModel model) {
-            Task<int> count = _countdownRepository.GetTotalCountAsync(endsAfter: _systemClock.UtcNow);
+            CountdownSubFilter subFilter = CreateCountdownSubFilter(model.Filter);
+
+            Task<int> count = _countdownRepository.GetTotalCountAsync(subFilter);
             Task<IEnumerable<CountdownAggregate>> aggregates = _countdownRepository.GetAggregatesAsync(new CountdownFilter {
                 Page = model.Page,
                 Limit = CountdownLimit,
                 CurrentUserAccountId = _contextService.CurrentUserAccountId,
                 DisplayOrderType = model.DisplayOrderType,
-                EndsAfter = _systemClock.UtcNow
+                SubFilter = subFilter
             });
 
             await Task.WhenAll(count, aggregates);
@@ -103,9 +105,18 @@ namespace Kauntr.Ui.Web.Controllers {
                 Countdowns = (await aggregates).ToCountdownViewModels(),
                 Page = model.Page,
                 DisplayOrderType = model.DisplayOrderType,
+                Filter = model.Filter,
                 Token = model.Token
             };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private CountdownSubFilter CreateCountdownSubFilter(CountdownListFilter filter) {
+            return new CountdownSubFilter {
+                Query = filter.Query,
+                CreatedByUserAccountId = filter.IsCreatedByCurrentUser ? _contextService.CurrentUserAccountId : null,
+                EndsAfter = filter.IsCurrentlyActive ? (DateTime?) _systemClock.UtcNow : null
+            };
         }
     }
 }

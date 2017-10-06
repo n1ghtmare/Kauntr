@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,12 +21,12 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             return Task.Run(() => CountdownAggregates.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter countdownFilter) {
-            return Task.Run(() => CountdownAggregates.AsEnumerable());
+        public Task<int> GetTotalCountAsync(CountdownSubFilter subFilter) {
+            return Task.Run(() => CountdownAggregates.Count);
         }
 
-        public Task<int> GetTotalCountAsync(DateTime? endsAfter = null) {
-            return Task.Run(() => CountdownAggregates.Count);
+        public Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter filter) {
+            return Task.Run(() => CountdownAggregates.AsEnumerable());
         }
     }
 }

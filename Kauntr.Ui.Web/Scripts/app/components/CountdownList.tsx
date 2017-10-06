@@ -26,26 +26,26 @@ interface CountdownListStateExtended extends CountdownListState {
 
 export class CountdownList extends React.Component<CountdownListStateExtended, any> {
     componentDidMount() {
-        const { dispatch, displayOrderType } = this.props;
+        const { dispatch, displayOrderType, filters } = this.props;
 
         dispatch(updateSharedContextTitle("countdowns")); // TODO - make this fancier
-        dispatch(fetchCountdownsIfNeeded(1, displayOrderType));
+        dispatch(fetchCountdownsIfNeeded(1, displayOrderType, filters.query, filters.isCurrentlyActive, filters.isCreatedByCurrentUser));
     }
 
     private handlePageChange = (page: number): void => {
-        const { dispatch, displayOrderType } = this.props;
-        dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
+        const { dispatch, displayOrderType, filters } = this.props;
+        dispatch(fetchCountdownsIfNeeded(page, displayOrderType, filters.query, filters.isCurrentlyActive, filters.isCreatedByCurrentUser));
     }
 
     private handleDisplayOrderChange = (displayOrderType: CountdownDisplayOrderType): void => {
         // TODO - Have the display order changes be saved in the URL -> countdowns/latest/?page=1&q=test
-        const { dispatch, page } = this.props;
-        dispatch(fetchCountdownsIfNeeded(page, displayOrderType));
+        const { dispatch, filters } = this.props;
+        dispatch(fetchCountdownsIfNeeded(1, displayOrderType, filters.query, filters.isCurrentlyActive, filters.isCreatedByCurrentUser));
     }
 
     private handleFilterChange = (query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean): void => {
-        // TODO - Filter on server side as well ->
-        console.log("WILL FILTER COUNTDOWN ITEMS");
+        const { dispatch, displayOrderType } = this.props;
+        dispatch(fetchCountdownsIfNeeded(1, displayOrderType, query, isCurrentlyActive, isCreatedByCurrentUser));
     }
 
     private handleFilterModeToggle = (): void => this.props.dispatch(toggleFilterMode());
@@ -59,7 +59,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <CountdownFilterControls totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} onFilterChange={(a, b, c) => console.log(a)} />
+                    <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} onFilterChange={this.handleFilterChange} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     <div className="countdowns">
                         {countdowns}

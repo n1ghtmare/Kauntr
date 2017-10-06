@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -50,18 +49,28 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public async Task<int> GetTotalCountAsync(DateTime? endsAfter) {
+        public async Task<int> GetTotalCountAsync(CountdownSubFilter subFilter) {
             using (IDbConnection connection = Connection) {
-                const string sql = "SELECT COUNT(Id) FROM Countdowns WHERE EndsOn >= ISNULL(@endsAfter, EndsOn)";
-                return await connection.ExecuteScalarAsync<int>(sql, new {endsAfter});
+                const string sql =
+                    @"SELECT
+                        COUNT(Id)
+                    FROM Countdowns
+                    WHERE EndsOn >= ISNULL(@EndsAfter, EndsOn)
+                    AND CreatedByAccountId = ISNULL(@CreatedByUserAccountId, CreatedByAccountId)
+                    AND Description LIKE @query";
+                return await connection.ExecuteScalarAsync<int>(sql, new {
+                    subFilter.EndsAfter,
+                    subFilter.CreatedByUserAccountId,
+                    query = $"%{subFilter.Query}%"
+                });
             }
         }
 
-        public async Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter countdownFilter) {
+        public async Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter filter) {
             using (IDbConnection connection = Connection) {
                 string sql =
-                    $@"SELECT TOP {countdownFilter.Limit} Q.* FROM (
-	                    SELECT T.*, ROW_NUMBER() OVER ({BuildAggregateOrderBy(countdownFilter.DisplayOrderType)}) AS RN FROM (
+                    $@"SELECT TOP {filter.Limit} Q.* FROM (
+	                    SELECT T.*, ROW_NUMBER() OVER ({BuildAggregateOrderBy(filter.DisplayOrderType)}) AS RN FROM (
 		                    SELECT
 			                    c.Id,
 			                    c.Description,
@@ -76,10 +85,17 @@ namespace Kauntr.Core.Repositories {
 		                    FROM Countdowns c
 		                    INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
                             WHERE c.EndsOn >= ISNULL(@EndsAfter, EndsOn)
+                            AND c.CreatedByAccountId = ISNULL(@CreatedByUserAccountId, CreatedByAccountId)
+                            AND c.Description LIKE @query
 	                    ) AS T
                     ) AS Q
-                    WHERE Q.RN > {(countdownFilter.Page - 1)*countdownFilter.Limit} ORDER BY Q.RN";
-                return await connection.QueryAsync<CountdownAggregate>(sql, countdownFilter);
+                    WHERE Q.RN > {(filter.Page - 1)*filter.Limit} ORDER BY Q.RN";
+                return await connection.QueryAsync<CountdownAggregate>(sql, new {
+                    filter.CurrentUserAccountId,
+                    filter.SubFilter.EndsAfter,
+                    filter.SubFilter.CreatedByUserAccountId,
+                    query = $"%{filter.SubFilter.Query}%"
+                });
             }
         }
 

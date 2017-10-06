@@ -185,6 +185,7 @@
     <Compile Include="Models\CommentListViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\CountdownCreateViewModel.cs" />
+    <Compile Include="Models\CountdownListFilter.cs" />
     <Compile Include="Models\CountdownListViewModel.cs" />
     <Compile Include="Models\CountdownViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
