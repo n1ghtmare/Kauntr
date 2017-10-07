@@ -55,12 +55,22 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
                 filterInput.focus();
             }
         }
+        // TODO - cancel filter (reset to default) * perhaps in another lifecycle event (componentWillUpdate?)
     }
 
     renderFiltersForm() {
         if (!this.props.isInFilterMode) {
             return null;
         }
+
+        const createdByFilter = this.props.isAuthenticated
+            ? (
+                <li>
+                    <input type="checkbox" id="filter-created-by-me" checked={this.state.isCreatedByCurrentUser} onChange={this.handleCreatedByCurrentUserChange} />
+                    <label htmlFor="filter-created-by-me">created by me</label>
+                </li>
+            )
+            : null;
 
         return (
             <form className="form-section" onSubmit={this.handleFormSubmit}>
@@ -72,10 +82,7 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
                             <input type="checkbox" id="filter-currently-active" checked={this.state.isCurrentlyActive} onChange={this.handleCurrentlyActiveChange} />
                             <label htmlFor="filter-currently-active">currently active</label>
                         </li>
-                        <li>
-                            <input type="checkbox" id="filter-created-by-me" checked={this.state.isCreatedByCurrentUser} onChange={this.handleCreatedByCurrentUserChange} />
-                            <label htmlFor="filter-created-by-me">created by me</label>
-                        </li>
+                        {createdByFilter}
                     </ul>
                 </div>
                 <button className="button button-medium">filter away</button>

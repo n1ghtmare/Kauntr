@@ -52,6 +52,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
 
     renderList() {
         const { total } = this.props;
+        const statusTitle = total === 0 ? <h3>nope, nothing here ...</h3> : null;
         const countdowns = this.props.countdowns.map(x =>
             <Countdown {...x} key={x.id} />
         );
@@ -61,6 +62,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
                 <div className="row">
                     <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} onFilterChange={this.handleFilterChange} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
+                    {statusTitle}
                     <div className="countdowns">
                         {countdowns}
                     </div>
