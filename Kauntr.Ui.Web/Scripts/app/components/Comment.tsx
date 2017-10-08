@@ -5,7 +5,21 @@ import * as marked from "marked";
 
 import CommentState from "../interfaces/CommentState";
 
-export default class Comment extends React.Component<CommentState, any> {
+interface CommentStateExtended extends CommentState {
+    onVoteCast: (id: number, vote: number) => void;
+}
+
+export default class Comment extends React.Component<CommentStateExtended, any> {
+    private handleUpVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onVoteCast(this.props.id, 1);
+    }
+
+    private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onVoteCast(this.props.id, -1);
+    }
+
     render() {
         const { createdOn } = this.props;
         return (
@@ -19,9 +33,9 @@ export default class Comment extends React.Component<CommentState, any> {
                 </div>
                 <div className="comment-text markdown-body" dangerouslySetInnerHTML={{ __html: marked(this.props.text) }} />
                 <div className="comment-score">
-                    <a title="This is awesome" className="vote-up" href="#">&#43;</a>
+                    <a title="This is awesome" className="vote-up" href="#" onClick={this.handleUpVoteClick}>&#43;</a>
                     <span>{this.props.voteScore}</span>
-                    <a title="I don't like it" className="vote-down" href="#">&minus;</a>
+                    <a title="I don't like it" className="vote-down" href="#" onClick={this.handleDownVoteClick}>&minus;</a>
                 </div>
             </div>
         );

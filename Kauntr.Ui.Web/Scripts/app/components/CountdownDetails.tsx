@@ -54,6 +54,12 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
             .then(() => dispatch(fetchCommentsIfNeeded(id, 1, CommentDisplayOrderType.Latest)));
     }
 
+    private handleCommentVoteCast = (commentId: number, vote: number): void => {
+        console.log("WILL NOW CAST A VOTE");
+        console.log(commentId);
+        console.log(vote);
+    }
+
     renderCountdown() {
         const { location } = this.props.router;
         return (
@@ -65,6 +71,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
                         onPageChange={this.handleCommentListPageChange}
                         onDisplayOrderChange={this.handleCommentDisplayOrderChange}
                         onCommentCreation={this.handleCommentCreation}
+                        onCommentVoteCast={this.handleCommentVoteCast}
                         isAuthenticated={this.props.isAuthenticated}
                         returnUrl={location.pathname} />
                 </div>

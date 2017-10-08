@@ -19,13 +19,14 @@ interface CommentListStateExtended extends CommentListState {
     onPageChange: (page: number) => void;
     onDisplayOrderChange: (displayOrder: CommentDisplayOrderType) => void;
     onCommentCreation: (text: string) => void;
+    onCommentVoteCast: (commentId: number, vote: number) => void;
 }
 
 export default class CommentList extends React.Component<CommentListStateExtended, any> {
     renderList() {
         const { total } = this.props;
         const comments = this.props.comments.map(x =>
-            <Comment {...x} key={x.id} />
+            <Comment {...x} key={x.id} onVoteCast={this.props.onCommentVoteCast} />
         );
 
         return (
