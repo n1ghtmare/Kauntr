@@ -65,7 +65,7 @@ export function submitComment(countdownId: number, text: string) {
         if (shouldCreateComment(getState())) {
             dispatch(createComment());
 
-            let data: string = JSON.stringify({ CountdownId: countdownId, Text: text });
+            const data: string = JSON.stringify({ CountdownId: countdownId, Text: text });
 
             return fetch("/comment/create", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
                 .then(response => {
@@ -98,5 +98,26 @@ function createCommentSuccess() {
 function createCommentFailure() {
     return {
         type: ActionTypes.CREATE_COMMENT_FAILURE
+    };
+}
+
+
+
+// TODO - ? Split into "VoteActions" instead
+function commentVoteCast() {
+    return {
+        type: ActionTypes.COMMENT_VOTE_CAST
+    };
+}
+
+function commentVoteCastSuccess() {
+    return {
+        type: ActionTypes.COMMENT_VOTE_CAST_SUCCESS
+    };
+}
+
+function commentVoteCastFailure() {
+    return {
+        type: ActionTypes.COMMENT_VOTE_CAST_FAILURE
     };
 }
