@@ -1,6 +1,7 @@
 import { Moment } from "moment";
 
 interface CommentState {
+    isCastingVote: boolean;
     id: number;
     text: string;
     createdOn: Moment;

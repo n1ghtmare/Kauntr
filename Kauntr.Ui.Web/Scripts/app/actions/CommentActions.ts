@@ -100,24 +100,3 @@ function createCommentFailure() {
         type: ActionTypes.CREATE_COMMENT_FAILURE
     };
 }
-
-
-
-// TODO - ? Split into "VoteActions" instead
-function commentVoteCast() {
-    return {
-        type: ActionTypes.COMMENT_VOTE_CAST
-    };
-}
-
-function commentVoteCastSuccess() {
-    return {
-        type: ActionTypes.COMMENT_VOTE_CAST_SUCCESS
-    };
-}
-
-function commentVoteCastFailure() {
-    return {
-        type: ActionTypes.COMMENT_VOTE_CAST_FAILURE
-    };
-}

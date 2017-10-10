@@ -11,6 +11,7 @@ interface CountdownAction {
     type: string;
     token?: number;
     json?: any;
+    commentId?: number;
 }
 
 export const initialCommentState: CommentListState = {
@@ -77,6 +78,9 @@ export default function countdown(state = initialState, action: CountdownAction)
         case ActionTypes.CREATE_COMMENT:
         case ActionTypes.CREATE_COMMENT_SUCCESS:
         case ActionTypes.CREATE_COMMENT_FAILURE:
+        case ActionTypes.COMMENT_VOTE_CAST:
+        case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
+        case ActionTypes.COMMENT_VOTE_CAST_FAILURE:
             return {
                 ...state,
                 commentList: commentList(state.commentList, action)
@@ -125,6 +129,46 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
                 ...state,
                 isCreatingNew: false
             };
+        case ActionTypes.COMMENT_VOTE_CAST:
+        case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
+        case ActionTypes.COMMENT_VOTE_CAST_FAILURE:
+            return {
+                ...state,
+                comments: commentSubList(state.comments, action)
+            };
+        default:
+            return state;
+    }
+}
+
+function commentSubList(state: Array<CommentState> = [], action: CountdownAction): Array<CommentState> {
+    switch (action.type) {
+        case ActionTypes.COMMENT_VOTE_CAST:
+            return state.map(x => x.id === action.commentId
+                ? {
+                    ...x,
+                    isCastingVote: true
+                }
+                : x);
+        case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
+            return state.map(x => {
+                const value: number = parseInt(action.json.Value, 10);
+                return x.id === parseInt(action.json.CommentId, 10)
+                    ? {
+                        ...x,
+                        isCastingVote: false,
+                        voteScore: x.voteScore + value,
+                        currentUserVote: value
+                    }
+                    : x;
+            });
+        case ActionTypes.COMMENT_VOTE_CAST_FAILURE:
+            return state.map(x => x.id === action.commentId
+                ? {
+                    ...x,
+                    isCastingVote: false
+                }
+                : x);
         default:
             return state;
     }
@@ -132,6 +176,7 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
 
 function parseComments(comments: Array<any>): Array<CommentState> {
     return comments.map(x => ({
+        isCastingVote: false,
         id: parseInt(x.Id, 10),
         text: x.Text,
         createdByAccountId: x.CreatedByAccountId,

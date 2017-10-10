@@ -14,6 +14,10 @@ import {
     submitComment
 } from "../actions/CommentActions";
 
+import {
+    submitCommentVote
+} from "../actions/VoteActions";
+
 import AppState from "../interfaces/AppState";
 import CountdownState from "../interfaces/CountdownState";
 import CommentDisplayOrderType from "../interfaces/CommentDisplayOrderType";
@@ -54,10 +58,9 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
             .then(() => dispatch(fetchCommentsIfNeeded(id, 1, CommentDisplayOrderType.Latest)));
     }
 
-    private handleCommentVoteCast = (commentId: number, vote: number): void => {
-        console.log("WILL NOW CAST A VOTE");
-        console.log(commentId);
-        console.log(vote);
+    private handleCommentVoteCast = (commentId: number, value: number): void => {
+        const { dispatch } = this.props;
+        dispatch(submitCommentVote(commentId, value));
     }
 
     renderCountdown() {

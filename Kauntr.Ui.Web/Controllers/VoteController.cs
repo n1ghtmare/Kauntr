@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+
 using Kauntr.Core.Interfaces;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class VoteController : Controller {
         private readonly IVoteRepository _voteRepository;
+        private readonly ISystemClock _systemClock;
 
-        public VoteController(IVoteRepository voteRepository) {
+        public VoteController(IVoteRepository voteRepository, ISystemClock systemClock) {
             _voteRepository = voteRepository;
+            _systemClock = systemClock;
         }
 
         [HttpPost]
-        public ActionResult Comment() {
-            throw new NotImplementedException();
+        public async Task<ActionResult> Comment() {
+            if (ModelState.IsValid) {
+
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
         }
     }
 }

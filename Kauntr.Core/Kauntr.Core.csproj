@@ -56,6 +56,7 @@
     <Compile Include="Entities\CountdownDisplayOrderType.cs" />
     <Compile Include="Entities\CountdownSubFilter.cs" />
     <Compile Include="Entities\CountdownFilter.cs" />
+    <Compile Include="Entities\Vote.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
     <Compile Include="Interfaces\ICommentRepository.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />
