@@ -1,7 +1,7 @@
-﻿using Kauntr.Core.Interfaces;
-using Kauntr.Ui.Web.Controllers;
+﻿using Moq;
 
-using Moq;
+using Kauntr.Core.Interfaces;
+using Kauntr.Ui.Web.Controllers;
 
 namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
     public class TestableAccountController : AccountController {

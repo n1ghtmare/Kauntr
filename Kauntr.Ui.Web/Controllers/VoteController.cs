@@ -36,7 +36,7 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = vote.Value}, JsonRequestBehavior.AllowGet);
+                return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = model.Value}, JsonRequestBehavior.AllowGet);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
