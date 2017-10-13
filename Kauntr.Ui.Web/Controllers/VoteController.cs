@@ -40,5 +40,29 @@ namespace Kauntr.Ui.Web.Controllers {
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
+
+        //        [Authorize] // TODO - Uncomment after Debug
+        [HttpPost]
+        public async Task<ActionResult> Countdown(CountdownVoteViewModel model) {
+            if (ModelState.IsValid) {
+                Vote existingVote = await _voteRepository.GetByCountdownIdAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
+                if (existingVote != null) {
+                    await _voteRepository.DeleteAsync(existingVote.Id);
+                    if (existingVote.Value == model.Value) {
+                        return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = 0}, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                var vote = new Vote {
+                    CountdownId = model.CountdownId,
+                    Value = model.Value,
+                    CastedByAccountId = (int) _contextService.CurrentUserAccountId,
+                    CastedOn = _systemClock.UtcNow
+                };
+                await _voteRepository.CreateAsync(vote);
+                return Json(new CountdownVoteViewModel { CountdownId = model.CountdownId, Value = model.Value}, JsonRequestBehavior.AllowGet);
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
     }
 }

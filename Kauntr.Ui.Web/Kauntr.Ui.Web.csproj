@@ -190,6 +190,7 @@
     <Compile Include="Models\CountdownListFilter.cs" />
     <Compile Include="Models\CountdownListViewModel.cs" />
     <Compile Include="Models\CountdownViewModel.cs" />
+    <Compile Include="Models\CountdownVoteViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\SharedContextViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

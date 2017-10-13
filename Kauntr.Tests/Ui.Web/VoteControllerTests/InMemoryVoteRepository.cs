@@ -14,6 +14,10 @@ namespace Kauntr.Tests.Ui.Web.VoteControllerTests {
             return Task.Run(() => Votes.FirstOrDefault(x => x.CommentId == commentId && x.CastedByAccountId == accountId));
         }
 
+        public Task<Vote> GetByCountdownIdAsync(long countdownId, int accountId) {
+            return Task.Run(() => Votes.FirstOrDefault(x => x.CountdownId == countdownId && x.CastedByAccountId == accountId));
+        }
+
         public Task DeleteAsync(Guid id) {
             return Task.Run(() => {
                 Votes = Votes.Where(x => x.Id != id).ToList();
