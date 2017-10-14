@@ -72,6 +72,7 @@
     <Compile Include="Repositories\AuthenticationTokenRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\CountdownRepository.cs" />
+    <Compile Include="Repositories\VoteRepository.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
   </ItemGroup>

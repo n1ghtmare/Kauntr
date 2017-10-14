@@ -30,7 +30,7 @@ namespace Kauntr.Core.Repositories {
 	                    IsAutoSetup
                     FROM Accounts
                     WHERE Email = @email";
-                return (await connection.QueryAsync<Account>(sql, new {email})).FirstOrDefault();
+                return await connection.QueryFirstOrDefaultAsync<Account>(sql, new {email});
             }
         }
 
