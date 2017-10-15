@@ -102,10 +102,9 @@
     <Compile Include="Ui.Web\CountdownControllerTests\Index.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\TestableSharedContextController.cs" />
-    <Compile Include="Ui.Web\VoteControllerTests\Comment.cs" />
-    <Compile Include="Ui.Web\VoteControllerTests\Countdown.cs" />
-    <Compile Include="Ui.Web\VoteControllerTests\InMemoryVoteRepository.cs" />
-    <Compile Include="Ui.Web\VoteControllerTests\TestableVoteController.cs" />
+    <Compile Include="Ui.Web\CommentControllerTests\Vote.cs" />
+    <Compile Include="Ui.Web\CountdownControllerTests\Vote.cs" />
+    <Compile Include="Ui.Web\Helpers\InMemoryVoteRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -10,6 +10,10 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
         public List<CommentAggregate> CommentAggregates { get; set; } = new List<CommentAggregate>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
+        public Task<Comment> GetAsync(long id) {
+            return Task.Run(() => Comments.SingleOrDefault(x => x.Id == id));
+        }
+
         public Task CreateAsync(Comment comment) {
             return Task.Run(() => Comments.Add(comment));
         }

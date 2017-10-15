@@ -18,6 +18,21 @@ namespace Kauntr.Core.Repositories {
             _connectionString = configurationService.DatabaseConnectionString;
         }
 
+        public async Task<Countdown> GetAsync(long id) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    Id,
+	                    Description,
+	                    EndsOn,
+	                    CreatedOn,
+	                    CreatedByAccountId
+                    FROM Countdowns
+                    WHERE Id = @id";
+                return await connection.QuerySingleOrDefaultAsync<Countdown>(sql, new {id});
+            }
+        }
+
         public async Task CreateAsync(Countdown countdown) {
             using (IDbConnection connection = Connection) {
                 const string sql =

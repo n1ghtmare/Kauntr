@@ -3,12 +3,14 @@ import * as classNames from "classnames";
 
 interface LoadingIndicatorProps {
     isActive: boolean;
+    isTiny?: boolean;
     className?: string;
 }
 
 export default class LoadingIndicator extends React.Component<LoadingIndicatorProps, any> {
     public static defaultProps: Partial<LoadingIndicatorProps> = {
-        className: "loader"
+        className: "loader",
+        isTiny: false
     };
 
     private loaderMessages: Array<string> = [
@@ -159,7 +161,7 @@ export default class LoadingIndicator extends React.Component<LoadingIndicatorPr
         "Help, I'm trapped in a loader!"
     ];
 
-    render() {
+    renderFullSize() {
         return (
             <div className={classNames(this.props.className, { "hidden": !this.props.isActive })}>
                 <img src="/Content/images/loader-pendulum.gif" />
@@ -168,5 +170,18 @@ export default class LoadingIndicator extends React.Component<LoadingIndicatorPr
                 </div>
             </div>
         );
+
+    }
+
+    renderTiny() {
+        return (
+            <div className={classNames({ "hidden": !this.props.isActive })}>
+                {this.loaderMessages[Math.floor(Math.random() * this.loaderMessages.length)]}
+            </div>
+        );
+    }
+
+    render() {
+        return this.props.isTiny ? this.renderTiny() : this.renderFullSize();
     }
 }

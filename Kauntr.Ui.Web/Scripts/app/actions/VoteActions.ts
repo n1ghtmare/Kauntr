@@ -13,11 +13,12 @@ export function submitCommentVote(commentId: number, value: number) {
 
             const data: string = JSON.stringify({ CommentId: commentId, Value: value });
 
-            return fetch("/vote/comment", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/comment/vote", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
                 .then(response => {
                     if (!response.ok) {
                         throw response;
                     }
+                    return response.json();
                 })
                 .then(json => dispatch(commentVoteCastSuccess(json)))
                 .catch((response: Response) => handleServerError(response, dispatch, commentVoteCastFailure));

@@ -30,7 +30,7 @@ namespace Kauntr.Core.Repositories {
 	                    CastedOn
                     FROM Votes
                     WHERE CommentId = @commentId
-                    AND CreatedByAccountId = @accountId";
+                    AND CastedByAccountId = @accountId";
                 return await connection.QueryFirstOrDefaultAsync<Vote>(sql, new {commentId, accountId});
             }
         }
@@ -47,7 +47,7 @@ namespace Kauntr.Core.Repositories {
 	                    CastedOn
                     FROM Votes
                     WHERE CountdownId = @countdownId
-                    AND CreatedByAccountId = @accountId";
+                    AND CastedByAccountId = @accountId";
                 return await connection.QueryFirstOrDefaultAsync<Vote>(sql, new {countdownId, accountId});
             }
         }

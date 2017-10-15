@@ -13,11 +13,13 @@ namespace Kauntr.Ui.Web.Controllers {
         private const int CountdownLimit = 10;
 
         private readonly ICountdownRepository _countdownRepository;
+        private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
 
-        public CountdownController(ICountdownRepository countdownRepository, IContextService contextService, ISystemClock systemClock) {
+        public CountdownController(ICountdownRepository countdownRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock) {
             _countdownRepository = countdownRepository;
+            _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
         }
@@ -117,6 +119,32 @@ namespace Kauntr.Ui.Web.Controllers {
                 CreatedByUserAccountId = filter.IsCreatedByCurrentUser ? _contextService.CurrentUserAccountId : null,
                 EndsAfter = filter.IsCurrentlyActive ? (DateTime?) _systemClock.UtcNow : null
             };
+        }
+
+        //        [Authorize] // TODO - Uncomment after Debug
+        [HttpPost]
+        public async Task<ActionResult> Vote(CountdownVoteViewModel model) {
+            Countdown countdown = await _countdownRepository.GetAsync(model.CountdownId);
+
+            if (ModelState.IsValid && countdown.CreatedByAccountId != _contextService.CurrentUserAccountId) {
+                Vote existingVote = await _voteRepository.GetByCountdownIdAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
+                if (existingVote != null) {
+                    await _voteRepository.DeleteAsync(existingVote.Id);
+                    if (existingVote.Value == model.Value) {
+                        return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = 0, ExistingValue = existingVote.Value}, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                var vote = new Vote {
+                    CountdownId = model.CountdownId,
+                    Value = model.Value,
+                    CastedByAccountId = (int) _contextService.CurrentUserAccountId,
+                    CastedOn = _systemClock.UtcNow
+                };
+                await _voteRepository.CreateAsync(vote);
+                return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = model.Value}, JsonRequestBehavior.AllowGet);
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
         }
     }
 }

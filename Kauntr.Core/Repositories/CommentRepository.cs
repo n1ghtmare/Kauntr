@@ -12,14 +12,29 @@ namespace Kauntr.Core.Repositories {
     public class CommentRepository : ICommentRepository {
         private readonly string _connectionString;
 
-        private IDbConnection Connnection => new SqlConnection(_connectionString);
+        private IDbConnection Connection => new SqlConnection(_connectionString);
 
         public CommentRepository(IConfigurationService configurationService) {
             _connectionString = configurationService.DatabaseConnectionString;
         }
 
+        public async Task<Comment> GetAsync(long id) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+                        Id,
+                        CountdownId,
+                        Text,
+                        CreatedByAccountId,
+                        CreatedOn
+                    FROM Comments
+                    WHERE Id = @id";
+                return await connection.QuerySingleOrDefaultAsync<Comment>(sql, new {id});
+            }
+        }
+
         public async Task CreateAsync(Comment comment) {
-            using (IDbConnection connection = Connnection) {
+            using (IDbConnection connection = Connection) {
                 const string sql =
                     @"INSERT INTO Comments (CountdownId, Text, CreatedByAccountId, CreatedOn)
                     OUTPUT INSERTED.Id
@@ -29,14 +44,14 @@ namespace Kauntr.Core.Repositories {
         }
 
         public async Task<int> GetTotalCountAsync(long countdownId) {
-            using (IDbConnection connection = Connnection) {
+            using (IDbConnection connection = Connection) {
                 const string sql = "SELECT COUNT(Id) FROM Comments WHERE CountdownId = @countdownId";
                 return await connection.ExecuteScalarAsync<int>(sql, new {countdownId});
             }
         }
 
         public async Task<IEnumerable<CommentAggregate>> GetAggregatesAsync(CommentFilter commentFilter) {
-            using (IDbConnection connection = Connnection) {
+            using (IDbConnection connection = Connection) {
                 string sql =
                     $@"SELECT TOP {commentFilter.Limit} Q.* FROM (
 	                    SELECT T.*, ROW_NUMBER() OVER ({BuildAggregateOrderBy(commentFilter.DisplayOrderType)}) AS RN FROM (

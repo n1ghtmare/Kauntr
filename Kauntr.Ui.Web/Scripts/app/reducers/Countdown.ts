@@ -153,11 +153,12 @@ function commentSubList(state: Array<CommentState> = [], action: CountdownAction
         case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
             return state.map(x => {
                 const value: number = parseInt(action.json.Value, 10);
+                const existingValue: number = action.json.ExistingValue !== null ? parseInt(action.json.ExistingValue, 10) : null;
                 return x.id === parseInt(action.json.CommentId, 10)
                     ? {
                         ...x,
                         isCastingVote: false,
-                        voteScore: x.voteScore + value,
+                        voteScore: (x.voteScore - (existingValue !== null ? existingValue : 0)) + value,
                         currentUserVote: value
                     }
                     : x;
@@ -182,7 +183,7 @@ function parseComments(comments: Array<any>): Array<CommentState> {
         createdByAccountId: x.CreatedByAccountId,
         createdByDisplayName: x.CreatedByDisplayName,
         createdOn: parseRawDate(x.CreatedOn),
-        currentUserVote: parseInt(x.CurrentUserVote, 10),
+        currentUserVote: x.CurrentUserVote !== null ? parseInt(x.CurrentUserVote, 10) : null,
         voteScore: parseInt(x.VoteScore, 10),
         createdByGravatarUrl: x.CreatedByGravatarUrl
     }) as CommentState);

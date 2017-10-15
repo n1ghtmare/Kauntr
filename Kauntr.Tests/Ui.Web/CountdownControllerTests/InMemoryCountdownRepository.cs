@@ -12,6 +12,10 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         public List<Countdown> Countdowns { get; set; } = new List<Countdown>();
         public List<CountdownAggregate> CountdownAggregates { get; set; }  = new List<CountdownAggregate>();
 
+        public Task<Countdown> GetAsync(long id) {
+            return Task.Run(() => Countdowns.SingleOrDefault(x => x.Id == id));
+        }
+
         public async Task CreateAsync(Countdown countdown) {
             countdown.Id = ++_fakeId;
             await Task.Run(() => Countdowns.Add(countdown));

@@ -12,11 +12,13 @@ namespace Kauntr.Ui.Web.Controllers {
         private const int CommentLimit = 10;
 
         private readonly ICommentRepository _commentRepository;
+        private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
 
-        public CommentController(ICommentRepository commentRepository, IContextService contextService, ISystemClock systemClock) {
+        public CommentController(ICommentRepository commentRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock) {
             _commentRepository = commentRepository;
+            _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
         }
@@ -60,6 +62,32 @@ namespace Kauntr.Ui.Web.Controllers {
 
                 await _commentRepository.CreateAsync(comment);
                 return new EmptyResult();
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
+        //        [Authorize] // TODO - Uncomment after Debug
+        [HttpPost]
+        public async Task<ActionResult> Vote(CommentVoteViewModel model) {
+            Comment comment = await _commentRepository.GetAsync(model.CommentId);
+
+            if (ModelState.IsValid && comment.CreatedByAccountId != _contextService.CurrentUserAccountId) {
+                Vote existingVote = await _voteRepository.GetByCommentIdAsync(model.CommentId, (int) _contextService.CurrentUserAccountId);
+                if (existingVote != null) {
+                    await _voteRepository.DeleteAsync(existingVote.Id);
+                    if (existingVote.Value == model.Value) {
+                        return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = 0, ExistingValue = existingVote.Value}, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                var vote = new Vote {
+                    CommentId = model.CommentId,
+                    Value = model.Value,
+                    CastedByAccountId = (int) _contextService.CurrentUserAccountId,
+                    CastedOn = _systemClock.UtcNow
+                };
+                await _voteRepository.CreateAsync(vote);
+                return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = model.Value, ExistingValue = existingVote?.Value}, JsonRequestBehavior.AllowGet);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }

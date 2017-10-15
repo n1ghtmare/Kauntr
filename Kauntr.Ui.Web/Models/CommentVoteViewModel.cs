@@ -8,5 +8,7 @@ namespace Kauntr.Ui.Web.Models {
         [Required]
         [Range(-1, 1)]
         public short Value { get; set; }
+
+        public short? ExistingValue { get; set; }
     }
 }

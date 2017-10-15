@@ -216,11 +216,11 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     margin: 0 51px;
 }
 
-.vote-up:hover {
+.vote-up:hover, .vote-up.active {
     color: #339900;
 }
 
-.vote-down:hover {
+.vote-down:hover, .vote-down.active {
     color: #f00;
 }
 
