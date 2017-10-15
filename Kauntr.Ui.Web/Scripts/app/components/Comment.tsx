@@ -23,12 +23,12 @@ export default class Comment extends React.Component<CommentStateExtended, any> 
     }
 
     renderScore() {
-        const { currentUserVote } = this.props;
+        const { currentUserVote, isCreatedByCurrentUser } = this.props;
         return (
             <div className="comment-score">
-                <a title="This is awesome" className={classNames("vote-up", { "active": currentUserVote === 1 })} href="#" onClick={this.handleUpVoteClick}>&#43;</a>
+                <a title="This is awesome" className={classNames("vote-up", { "hidden": isCreatedByCurrentUser, "active": currentUserVote === 1 })} href="#" onClick={this.handleUpVoteClick}>&#43;</a>
                 <span>{this.props.voteScore}</span>
-                <a title="I don't like it" className={classNames("vote-down", { "active": currentUserVote === -1 })} href="#" onClick={this.handleDownVoteClick}>&minus;</a>
+                <a title="I don't like it" className={classNames("vote-down", { "hidden": isCreatedByCurrentUser, "active": currentUserVote === -1 })} href="#" onClick={this.handleDownVoteClick}>&minus;</a>
             </div>
         );
     }

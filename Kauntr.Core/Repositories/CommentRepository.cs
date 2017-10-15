@@ -64,7 +64,8 @@ namespace Kauntr.Core.Repositories {
 			                    a.DisplayName AS CreatedByDisplayName,
 			                    a.Email AS CreatedByEmail,
 			                    ISNULL((SELECT SUM(Value) FROM Votes WHERE CommentId = c.Id), 0) AS VoteScore,
-			                    (SELECT VALUE FROM Votes WHERE CommentId = c.Id AND CastedByAccountId = @CurrentUserAccountId) AS CurrentUserVote
+			                    (SELECT VALUE FROM Votes WHERE CommentId = c.Id AND CastedByAccountId = @CurrentUserAccountId) AS CurrentUserVote,
+                                (CASE WHEN CreatedByAccountId = @currentUserAccountId THEN 1 ELSE 0 END) AS IsCreatedByCurrentUser
 		                    FROM Comments c
 		                    INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
                             WHERE c.CountdownId = @CountdownId

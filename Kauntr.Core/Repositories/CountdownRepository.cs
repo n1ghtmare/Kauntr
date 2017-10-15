@@ -56,7 +56,8 @@ namespace Kauntr.Core.Repositories {
                         a.Email AS CreatedByEmail,
                         ISNULL((SELECT SUM(Value) FROM Votes WHERE CountdownId = c.Id), 0) AS VoteScore,
                         (SELECT Value FROM Votes WHERE CountdownId = c.Id AND CastedByAccountId = @currentUserAccountId) AS CurrentUserVote,
-                        (SELECT COUNT(Id) FROM Comments WHERE CountdownId = c.Id) AS CommentsCount
+                        (SELECT COUNT(Id) FROM Comments WHERE CountdownId = c.Id) AS CommentsCount,
+                        (CASE WHEN CreatedByAccountId = @currentUserAccountId THEN 1 ELSE 0 END) AS IsCreatedByCurrentUser
                     FROM Countdowns c
                     INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
                     WHERE c.Id = @id";
@@ -96,7 +97,8 @@ namespace Kauntr.Core.Repositories {
 			                    a.Email AS CreatedByEmail,
 			                    ISNULL((SELECT SUM(Value) FROM Votes WHERE CountdownId = c.Id), 0) AS VoteScore,
 			                    (SELECT Value FROM Votes WHERE CountdownId = c.Id AND CastedByAccountId = @CurrentUserAccountId) AS CurrentUserVote,
-			                    (SELECT COUNT(Id) FROM Comments WHERE CountdownId = c.Id) AS CommentsCount
+			                    (SELECT COUNT(Id) FROM Comments WHERE CountdownId = c.Id) AS CommentsCount,
+                                (CASE WHEN CreatedByAccountId = @CurrentUserAccountId THEN 1 ELSE 0 END) AS IsCreatedByCurrentUser
 		                    FROM Countdowns c
 		                    INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
                             WHERE c.EndsOn >= ISNULL(@EndsAfter, EndsOn)

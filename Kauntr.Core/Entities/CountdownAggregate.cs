@@ -12,5 +12,6 @@ namespace Kauntr.Core.Entities {
         public string CreatedByEmail { get; set; }
         public int VoteScore { get; set; }
         public short? CurrentUserVote { get; set; }
+        public bool IsCreatedByCurrentUser { get; set; }
     }
 }

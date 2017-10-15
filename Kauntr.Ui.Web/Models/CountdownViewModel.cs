@@ -12,5 +12,6 @@ namespace Kauntr.Ui.Web.Models {
         public string CreatedByGravatarUrl { get; set; }
         public int VoteScore { get; set; }
         public short? CurrentUserVote { get; set; }
+        public bool IsCreatedByCurrentUser { get; set; }
     }
 }

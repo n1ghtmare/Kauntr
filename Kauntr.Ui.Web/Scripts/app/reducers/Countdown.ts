@@ -185,6 +185,7 @@ function parseComments(comments: Array<any>): Array<CommentState> {
         createdOn: parseRawDate(x.CreatedOn),
         currentUserVote: x.CurrentUserVote !== null ? parseInt(x.CurrentUserVote, 10) : null,
         voteScore: parseInt(x.VoteScore, 10),
-        createdByGravatarUrl: x.CreatedByGravatarUrl
+        createdByGravatarUrl: x.CreatedByGravatarUrl,
+        isCreatedByCurrentUser: x.IsCreatedByCurrentUser
     }) as CommentState);
 }

@@ -9,6 +9,7 @@ interface CommentState {
     createdByDisplayName: string;
     createdByGravatarUrl: string;
     voteScore: number;
+    isCreatedByCurrentUser: boolean;
     currentUserVote?: number;
 }
 
