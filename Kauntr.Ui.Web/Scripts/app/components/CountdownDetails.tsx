@@ -15,7 +15,8 @@ import {
 } from "../actions/CommentActions";
 
 import {
-    submitCommentVote
+    submitCommentVote,
+    submitCountdownVote
 } from "../actions/VoteActions";
 
 import AppState from "../interfaces/AppState";
@@ -63,12 +64,17 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         dispatch(submitCommentVote(commentId, value));
     }
 
+    private handleCountdownVoteCast = (countdownId: number, value: number): void => {
+        const { dispatch } = this.props;
+        dispatch(submitCountdownVote(countdownId, value));
+    }
+
     renderCountdown() {
         const { location } = this.props.router;
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <Countdown {...this.props} isExpanded={true} />
+                    <Countdown {...this.props} isExpanded={true} onVoteCast={this.handleCountdownVoteCast} />
                     <DiamondsSeparator />
                     <CommentList {...this.props.commentList}
                         onPageChange={this.handleCommentListPageChange}

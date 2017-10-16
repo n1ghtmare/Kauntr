@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import * as moment from "moment";
+import * as classNames from "classnames";
 
 import {
     pluralizeNaive
@@ -8,8 +9,14 @@ import {
 
 import CountdownState from "../interfaces/CountdownState";
 
-export default class Countdown extends React.Component<CountdownState, { remainingTime: string }> {
-    constructor(props: CountdownState) {
+import LoadingIndicator from "./LoadingIndicator";
+
+interface CountdownStateExtended extends CountdownState {
+    onVoteCast: (id: number, vote: number) => void;
+}
+
+export default class Countdown extends React.Component<CountdownStateExtended, { remainingTime: string }> {
+    constructor(props: CountdownStateExtended) {
         super(props);
 
         this.state = {
@@ -18,6 +25,16 @@ export default class Countdown extends React.Component<CountdownState, { remaini
     }
 
     private countdownIntervalId: number = null;
+
+    private handleUpVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onVoteCast(this.props.id, 1);
+    }
+
+    private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onVoteCast(this.props.id, -1);
+    }
 
     componentDidMount() {
         if (this.props.endsOn > moment()) {
@@ -92,8 +109,19 @@ export default class Countdown extends React.Component<CountdownState, { remaini
             : (<Link to={`/countdown/${this.props.id}`}>{commentsCount} {pluralizeNaive(commentsCount, "comment")}</Link>);
     }
 
+    renderScore() {
+        const { currentUserVote, isCreatedByCurrentUser } = this.props;
+        return (
+            <div className="text-medium countdown-score">
+                <a title="This is awesome" className={classNames("vote-up", { "hidden": isCreatedByCurrentUser, "active": currentUserVote === 1 })} onClick={this.handleUpVoteClick} href="#">&#43;</a>
+                <span>{this.props.voteScore}</span>
+                <a title="I don't like it" className={classNames("vote-down", { "hidden": isCreatedByCurrentUser, "active": currentUserVote === -1 })} onClick={this.handleDownVoteClick} href="#">&minus;</a>
+            </div>
+        );
+    }
+
     render() {
-        const { createdOn } = this.props;
+        const { createdOn, isCastingVote } = this.props;
         return (
             <div className="countdown">
                 {this.renderTitle()}
@@ -102,11 +130,7 @@ export default class Countdown extends React.Component<CountdownState, { remaini
                 <div className="avatar-image-container">
                     <img width="52" height="52" alt="Avatar Image" src={this.props.createdByGravatarUrl} />
                 </div>
-                <div className="text-medium countdown-score">
-                    <a title="This is awesome" className="vote-up" href="#">&#43;</a>
-                    <span>{this.props.voteScore}</span>
-                    <a title="I don't like it" className="vote-down" href="#">&minus;</a>
-                </div>
+                {isCastingVote ? <LoadingIndicator isActive={isCastingVote} isTiny={true} /> : this.renderScore()}
                 {this.renderCommentsCountLink()}
             </div>
         );

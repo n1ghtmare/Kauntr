@@ -124,6 +124,7 @@ namespace Kauntr.Ui.Web.Controllers {
         //        [Authorize] // TODO - Uncomment after Debug
         [HttpPost]
         public async Task<ActionResult> Vote(CountdownVoteViewModel model) {
+            await Task.Delay(2000);
             Countdown countdown = await _countdownRepository.GetAsync(model.CountdownId);
 
             if (ModelState.IsValid && countdown.CreatedByAccountId != _contextService.CurrentUserAccountId) {
@@ -142,7 +143,7 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = model.Value}, JsonRequestBehavior.AllowGet);
+                return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = model.Value, ExistingValue = existingVote?.Value}, JsonRequestBehavior.AllowGet);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }

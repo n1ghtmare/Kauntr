@@ -161,6 +161,10 @@ export default class LoadingIndicator extends React.Component<LoadingIndicatorPr
         "Help, I'm trapped in a loader!"
     ];
 
+    shouldComponentUpdate(nextProps: LoadingIndicatorProps, nextState: any) {
+        return this.props.isActive !== nextProps.isActive;
+    }
+
     renderFullSize() {
         return (
             <div className={classNames(this.props.className, { "hidden": !this.props.isActive })}>
@@ -170,12 +174,11 @@ export default class LoadingIndicator extends React.Component<LoadingIndicatorPr
                 </div>
             </div>
         );
-
     }
 
     renderTiny() {
         return (
-            <div className={classNames({ "hidden": !this.props.isActive })}>
+            <div className={classNames("loader-tiny", { "hidden": !this.props.isActive })}>
                 {this.loaderMessages[Math.floor(Math.random() * this.loaderMessages.length)]}
             </div>
         );

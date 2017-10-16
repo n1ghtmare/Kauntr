@@ -34,7 +34,7 @@ export default class Comment extends React.Component<CommentStateExtended, any> 
     }
 
     render() {
-        const { createdOn } = this.props;
+        const { createdOn, isCastingVote } = this.props;
         return (
             <div className="comment">
                 <div className="comment-avatar">
@@ -45,11 +45,7 @@ export default class Comment extends React.Component<CommentStateExtended, any> 
                     </div>
                 </div>
                 <div className="comment-text markdown-body" dangerouslySetInnerHTML={{ __html: marked(this.props.text) }} />
-                {
-                    this.props.isCastingVote
-                        ? <LoadingIndicator isActive={this.props.isCastingVote} isTiny={true} />
-                        : this.renderScore()
-                }
+                {isCastingVote ? <LoadingIndicator isActive={isCastingVote} isTiny={true} /> : this.renderScore()}
             </div>
         );
     }

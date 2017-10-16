@@ -10,6 +10,10 @@ import {
     toggleFilterMode
 } from "../actions/CountdownActions";
 
+import {
+    submitCountdownVote
+} from "../actions/VoteActions";
+
 import AppState from "../interfaces/AppState";
 import CountdownListState from "../interfaces/CountdownListState";
 import CountdownDisplayOrderType from "../interfaces/CountdownDisplayOrderType";
@@ -43,6 +47,11 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         dispatch(fetchCountdownsIfNeeded(1, displayOrderType, filters.query, filters.isCurrentlyActive, filters.isCreatedByCurrentUser));
     }
 
+    private handleCountdownVoteCast = (countdownId: number, value: number): void => {
+        const { dispatch } = this.props;
+        dispatch(submitCountdownVote(countdownId, value));
+    }
+
     private handleFilterChange = (query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean): void => {
         const { dispatch, displayOrderType } = this.props;
         dispatch(fetchCountdownsIfNeeded(1, displayOrderType, query, isCurrentlyActive, isCreatedByCurrentUser));
@@ -54,7 +63,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         const { total } = this.props;
         const statusTitle = total === 0 ? <h3>nope, nothing here ...</h3> : null;
         const countdowns = this.props.countdowns.map(x =>
-            <Countdown {...x} key={x.id} />
+            <Countdown {...x} key={x.id} onVoteCast={this.handleCountdownVoteCast} />
         );
 
         return (

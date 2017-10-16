@@ -28,6 +28,7 @@ export const initialState: CountdownState = {
     isCreatingNew: false,
     isLoadingData: false,
     isExpanded: false,
+    isCastingVote: false,
     createdOn: null,
     endsOn: null,
     commentList: initialCommentState
@@ -65,12 +66,33 @@ export default function countdown(state = initialState, action: CountdownAction)
                 createdByDisplayName: action.json.CreatedByDisplayName,
                 createdByGravatarUrl: action.json.CreatedByGravatarUrl,
                 voteScore: parseInt(action.json.VoteScore, 10),
-                currentUserVote: action.json.CurrentUserVote
+                currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null,
+                isCreatedByCurrentUser: action.json.IsCreatedByCurrentUser
             };
         case ActionTypes.LOAD_COUNTDOWN_DETAILS_FAILURE:
             return {
                 ...state,
                 isLoadingData: false
+            };
+        case ActionTypes.COUNTDOWN_VOTE_CAST:
+            return {
+                ...state,
+                isCastingVote: true
+            };
+        case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS: {
+            const value: number = parseInt(action.json.Value, 10);
+            const existingValue: number = action.json.ExistingValue !== null ? parseInt(action.json.ExistingValue, 10) : null;
+            return {
+                ...state,
+                isCastingVote: false,
+                voteScore: (state.voteScore - (existingValue !== null ? existingValue : 0)) + value,
+                currentUserVote: value
+            };
+        }
+        case ActionTypes.COUNTDOWN_VOTE_CAST_FAILURE:
+            return {
+                ...state,
+                isCastingVote: false
             };
         case ActionTypes.LOAD_COMMENTS:
         case ActionTypes.LOAD_COMMENTS_SUCCESS:

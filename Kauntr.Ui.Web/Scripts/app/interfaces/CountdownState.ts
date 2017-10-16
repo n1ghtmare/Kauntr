@@ -5,6 +5,7 @@ interface CountdownState {
     isCreatingNew: boolean;
     isLoadingData: boolean;
     isExpanded: boolean;
+    isCastingVote: boolean;
     id?: number;
     description?: string;
     endsOn?: Moment;
@@ -14,6 +15,7 @@ interface CountdownState {
     createdByDisplayName?: string;
     createdByGravatarUrl?: string;
     voteScore?: number;
+    isCreatedByCurrentUser?: boolean;
     currentUserVote?: number;
     commentList?: CommentListState;
     dispatch?: Function;

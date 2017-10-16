@@ -46,6 +46,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
             Assert.AreEqual(voteValue, model.Value);
+            Assert.IsNull(model.ExistingValue);
 
             Core.Entities.Vote vote = controller.VoteRepository.Votes.FirstOrDefault();
             Assert.IsNotNull(vote);
@@ -81,6 +82,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
             Assert.AreEqual(0, model.Value);
+            Assert.AreEqual(voteValue, model.ExistingValue);
             Assert.IsEmpty(controller.VoteRepository.Votes);
         }
 
@@ -113,6 +115,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
             Assert.AreEqual(voteValue, model.Value);
+            Assert.AreEqual(-1, model.ExistingValue);
 
             Core.Entities.Vote vote = controller.VoteRepository.Votes.FirstOrDefault();
             Assert.IsNotNull(vote);

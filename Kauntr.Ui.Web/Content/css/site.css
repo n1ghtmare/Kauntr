@@ -73,6 +73,10 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     padding: 15px 0;
 }
 
+.countdown .loader-tiny {
+    margin: 2.23em 0;
+}
+
 
 /* ################################################################ */
 
