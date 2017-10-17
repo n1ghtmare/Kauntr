@@ -11,6 +11,7 @@ interface CountdownListAction {
     type: string;
     token?: number;
     json?: any;
+    countdownId?: number;
 }
 
 export const initialFilterState: CountdownListFilterState = {
@@ -64,6 +65,47 @@ export default function countdownList(state = initialState, action: CountdownLis
                 ...state,
                 isInFilterMode: !state.isInFilterMode
             };
+        case ActionTypes.COUNTDOWN_VOTE_CAST:
+        case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS:
+        case ActionTypes.COUNTDOWN_VOTE_CAST_FAILURE:
+            return {
+                ...state,
+                countdowns: countdowns(state.countdowns, action)
+            };
+        default:
+            return state;
+    }
+}
+
+function countdowns(state: Array<CountdownState> = [], action: CountdownListAction): Array<CountdownState> {
+    switch (action.type) {
+        case ActionTypes.COUNTDOWN_VOTE_CAST:
+            return state.map(x => x.id === action.countdownId
+                ? {
+                    ...x,
+                    isCastingVote: true
+                }
+                : x);
+        case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS:
+            return state.map(x => {
+                const value: number = parseInt(action.json.Value, 10);
+                const existingValue: number = action.json.ExistingValue !== null ? parseInt(action.json.ExistingValue, 10) : null;
+                return x.id === parseInt(action.json.CountdownId, 10)
+                    ? {
+                        ...x,
+                        isCastingVote: false,
+                        voteScore: (x.voteScore - (existingValue !== null ? existingValue : 0)) + value,
+                        currentUserVote: value
+                    }
+                    : x;
+            });
+        case ActionTypes.COUNTDOWN_VOTE_CAST_FAILURE:
+            return state.map(x => x.id === action.countdownId
+                ? {
+                    ...x,
+                    isCastingVote: false
+                }
+                : x);
         default:
             return state;
     }
@@ -88,6 +130,7 @@ function parseCountdowns(countdowns: Array<any>): Array<CountdownState> {
         createdByDisplayName: x.CreatedByDisplayName,
         createdByGravatarUrl: x.CreatedByGravatarUrl,
         voteScore: parseInt(x.VoteScore, 10),
-        currentUserVote: parseInt(x.CurrentUserVote, 10)
+        currentUserVote: x.CurrentUserVote !== null ? parseInt(x.CurrentUserVote, 10) : null,
+        isCreatedByCurrentUser: x.IsCreatedByCurrentUser
     }) as CountdownState);
 }
