@@ -3,7 +3,7 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: [
-        "./Scripts/app/boot/App.tsx"
+        "./Scripts/app/boot/Boot.tsx"
     ],
     output: {
         path: path.join(__dirname, 'Scripts/dist'),

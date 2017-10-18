@@ -103,4 +103,4 @@ function mapStateToProps(state: AppState, ownProps: any): CountdownStateExtended
     };
 }
 
-export default connect(mapStateToProps)(CountdownDetails);
+export default connect(mapStateToProps, null)(CountdownDetails);

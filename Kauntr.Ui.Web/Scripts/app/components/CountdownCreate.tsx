@@ -48,4 +48,4 @@ function mapStateToProps(state: AppState, ownProps: any): CountdownState {
     return state.countdown;
 }
 
-export default connect(mapStateToProps)(CountdownCreate);
+export default connect(mapStateToProps, null)(CountdownCreate);

@@ -2,7 +2,7 @@
 var express = require('express');
 var webpack = require('webpack');
 var request = require("request");
-var config = require('./webpack.config');
+var config = require('./webpack.config.dev');
 var s = require("object-assign");
 
 var app = express();

@@ -27,4 +27,4 @@ function mapStateToProps(state: AppState, ownProps: any): AuthenticationState {
     return state.authentication;
 }
 
-export default connect(mapStateToProps)(Authenticator);
+export default connect(mapStateToProps, null)(Authenticator);

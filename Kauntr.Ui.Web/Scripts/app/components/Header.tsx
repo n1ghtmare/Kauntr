@@ -58,4 +58,4 @@ function mapStateToProps(state: AppState, ownProps: any): SharedContextState {
     return state.sharedContext;
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, null)(Header);

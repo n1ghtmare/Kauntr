@@ -22,4 +22,4 @@ function mapStateToProps(state: AppState, ownProps: any): ErrorState {
     return state.error;
 }
 
-export default connect(mapStateToProps)(ErrorContainer);
+export default connect(mapStateToProps, null)(ErrorContainer);

@@ -70,4 +70,4 @@ function mapStateToProps(state: AppState, ownProps: any): AccountState {
     };
 }
 
-export default connect(mapStateToProps)(AccountDetails);
+export default connect(mapStateToProps, null)(AccountDetails);

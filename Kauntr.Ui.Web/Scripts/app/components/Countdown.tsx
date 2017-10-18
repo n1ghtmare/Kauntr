@@ -41,7 +41,7 @@ export default class Countdown extends React.Component<CountdownStateExtended, {
             this.updateRemainingTime();
 
             if (this.countdownIntervalId === null) {
-                this.countdownIntervalId = setInterval(this.updateRemainingTime, 1000);
+                this.countdownIntervalId = window.setInterval(this.updateRemainingTime, 1000);
             }
         }
     }

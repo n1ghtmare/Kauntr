@@ -3,17 +3,19 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: [
+        "react-hot-loader/patch",
         "webpack-hot-middleware/client",
-        "./Scripts/app/boot/App.tsx"
+        "./Scripts/app/boot/Boot.tsx"
     ],
     output: {
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, "Scripts/dist"),
         filename: "bundle.js",
         publicPath: "/static/"
     },
 
     // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
+//    devtool: "source-map",
+    devtool: "eval",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
@@ -30,21 +32,15 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loaders: ["react-hot-loader", "ts-loader"],
+                loaders: ["react-hot-loader/webpack", "ts-loader"],
+                exclude: path.resolve(__dirname, "node_modules"),
                 include: path.join(__dirname, "Scripts/app")
             },
             {
-                test: /\.js$/, enforce: "pre", loader: "source-map-loader"
+                test: /\.js$/,
+                enforce: "pre",
+                loader: "source-map-loader"
             }
-        ],
-    },
-
-    // When importing a module whose path matches one of the following, just
-    // assume a corresponding global variable exists and use that instead.
-    // This is important because it allows us to avoid bundling all of our
-    // dependencies, which allows browsers to cache those libraries between builds.
-    //externals: {
-    //    "react": "React",
-    //    "react-dom": "ReactDOM"
-    //}
+        ]
+    }
 };

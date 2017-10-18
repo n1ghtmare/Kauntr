@@ -1,14 +1,6 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Router, Route, Redirect, hashHistory } from "react-router";
-
-import { createStore, applyMiddleware } from "redux";
-
-import thunkMiddleware from "redux-thunk";
-import createLogger from "redux-logger";
-import { Provider } from "react-redux";
-
-import rootReducer from "../reducers/Root";
+import { Router, Route, Redirect, HistoryBase } from "react-router";
+import { Provider, Store } from "react-redux";
 
 import App from "../components/App";
 import CountdownList from "../components/CountdownList";
@@ -23,16 +15,14 @@ import Logout from "../components/Logout";
 import ErrorContainer from "../components/ErrorContainer";
 import ErrorNotFound from "../components/ErrorNotFound";
 
-// Redux Setup
-const createStoreWithMiddleware = applyMiddleware(
-    thunkMiddleware,
-    createLogger
-)(createStore);
-const store = createStoreWithMiddleware(rootReducer);
+interface RootProps {
+    store: Store<any>;
+    history: HistoryBase;
+}
 
-const routes = (
-    <Provider store={store}>
-        <Router history={hashHistory}>
+const Root = (props: RootProps) => (
+    <Provider store={props.store}>
+        <Router history={props.history}>
             <Route component={App}>
                 <Route component={AuthorizationContainer}>
                     <Route component={CountdownList} path="/countdowns/mine" />
@@ -57,4 +47,4 @@ const routes = (
     </Provider>
 );
 
-ReactDOM.render(routes, document.getElementById("app-container"));
+export default Root;

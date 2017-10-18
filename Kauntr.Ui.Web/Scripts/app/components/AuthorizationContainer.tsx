@@ -29,4 +29,4 @@ function mapStateToProps(state: AppState, ownProps: any): SharedContextState {
     };
 };
 
-export default connect(mapStateToProps)(AuthorizationContainer);
+export default connect(mapStateToProps, null)(AuthorizationContainer);

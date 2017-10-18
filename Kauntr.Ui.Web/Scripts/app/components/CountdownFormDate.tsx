@@ -79,7 +79,7 @@ export default class CountdownFormDate extends React.Component<CountdownFormDate
         this.props.onChange(day, month, year, hour, minute, isValid);
 
         if (this.validationIntervalId === null) {
-            this.validationIntervalId = setInterval(() => this.validateDate(), 1000);
+            this.validationIntervalId = window.setInterval(() => this.validateDate(), 1000);
         }
     }
 
