@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using Kauntr.Core.Entities;
 using Kauntr.Core.Interfaces;
 using Kauntr.Ui.Web.Helpers;
+using Kauntr.Ui.Web.Hubs;
 using Kauntr.Ui.Web.Models;
+using Microsoft.AspNet.SignalR;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class CountdownController : Controller {
@@ -124,8 +126,16 @@ namespace Kauntr.Ui.Web.Controllers {
         //        [Authorize] // TODO - Uncomment after Debug
         [HttpPost]
         public async Task<ActionResult> Vote(CountdownVoteViewModel model) {
+
+
+
             await Task.Delay(2000);
             Countdown countdown = await _countdownRepository.GetAsync(model.CountdownId);
+
+
+            IHubContext notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            notificationHub.Clients.All.broadcastMessage("This is a message from the SERVER!!!!!!!!!!");
+
 
             if (ModelState.IsValid && countdown.CreatedByAccountId != _contextService.CurrentUserAccountId) {
                 Vote existingVote = await _voteRepository.GetByCountdownIdAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);

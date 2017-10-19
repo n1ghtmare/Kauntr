@@ -36,3 +36,11 @@ if (module.hot) {
         );
     });
 }
+
+$(() => {
+    // Example - SignalR boot setup
+    const connection: SignalR = $.connection;
+    const hubProxy: SignalR.Hub.Proxy = connection.hub.createHubProxy("notificationHub");
+    hubProxy.on("broadcastMessage", (message: string) => console.log(message));
+    connection.hub.start();
+});

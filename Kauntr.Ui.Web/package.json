@@ -18,18 +18,20 @@
     "react-redux": "^5.0.6",
     "react-router": "^3.0.0",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "signalr": "^2.2.2"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
     "@types/jquery": "^3.2.15",
     "@types/marked": "^0.3.0",
-    "@types/react": "^16.0.13",
-    "@types/react-dom": "^16.0.1",
+    "@types/react": "^16.0.15",
+    "@types/react-dom": "^16.0.2",
     "@types/react-hot-loader": "^3.0.4",
     "@types/react-redux": "^5.0.10",
     "@types/react-router": "^2.0.51",
     "@types/redux-logger": "^3.0.3",
+    "@types/signalr": "^2.2.35",
     "@types/webpack-env": "^1.13.2",
     "express": "^4.16.2",
     "object-assign": "^4.1.1",
