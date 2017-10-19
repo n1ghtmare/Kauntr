@@ -27,10 +27,10 @@ ReactDOM.render(
 
 if (module.hot) {
     module.hot.accept("./Root", () => {
-        const NextApp = require<{ default: typeof Root }>("./Root").default;
+        const NextRoot = require<{ default: typeof Root }>("./Root").default;
         ReactDOM.render(
             <AppContainer>
-                <Root store={store} history={hashHistory} />
+                <NextRoot store={store} history={hashHistory} />
             </AppContainer>,
             container
         );
