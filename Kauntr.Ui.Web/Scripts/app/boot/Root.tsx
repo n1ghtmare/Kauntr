@@ -20,31 +20,36 @@ interface RootProps {
     history: HistoryBase;
 }
 
+
 export default class Root extends React.Component<RootProps, any> {
+    private routes: JSX.Element[] = [
+        <Route component={App}>
+            <Route component={AuthorizationContainer}>
+                <Route component={CountdownList} path="/countdowns/mine" />
+                <Route component={CountdownCreate} path="/countdown/create" />
+                <Route component={AccountDetails} path="/account" />
+                <Route component={NotificationList} path="/notifications" />
+            </Route>
+            <Redirect from="/" to="countdowns" />
+            <Route component={CountdownList} path="/countdowns" />
+            <Route component={CountdownList} path="/countdowns/:category" />
+            <Route component={CountdownDetails} path="/countdown/:id" />
+            <Route component={Login} path="/login" />
+            <Route component={AccountDetails} path="/account/:id" />
+        </Route>,
+        <Route component={Authenticator} path="/authenticate/account/:accountId/token/:authenticationToken" />,
+        <Route component={AuthorizationContainer}>
+            <Route component={Logout} path="/logout" />
+        </Route>,
+        <Route component={ErrorContainer} path="error" />,
+        <Route component={ErrorNotFound} path="*" />
+    ];
+
     render() {
         return (
             <Provider store={this.props.store}>
                 <Router history={this.props.history}>
-                    <Route component={App}>
-                        <Route component={AuthorizationContainer}>
-                            <Route component={CountdownList} path="/countdowns/mine" />
-                            <Route component={CountdownCreate} path="/countdown/create" />
-                            <Route component={AccountDetails} path="/account" />
-                            <Route component={NotificationList} path="/notifications" />
-                        </Route>
-                        <Redirect from="/" to="countdowns" />
-                        <Route component={CountdownList} path="/countdowns" />
-                        <Route component={CountdownList} path="/countdowns/:category" />
-                        <Route component={CountdownDetails} path="/countdown/:id" />
-                        <Route component={Login} path="/login" />
-                        <Route component={AccountDetails} path="/account/:id" />
-                    </Route>
-                    <Route component={Authenticator} path="/authenticate/account/:accountId/token/:authenticationToken" />
-                    <Route component={AuthorizationContainer}>
-                        <Route component={Logout} path="/logout" />
-                    </Route>
-                    <Route component={ErrorContainer} path="error" />
-                    <Route component={ErrorNotFound} path="*" />
+                    {this.routes}
                 </Router>
             </Provider>
         );
