@@ -30,7 +30,9 @@ export class Login extends React.Component<AuthenticationState, FormState> {
 
     componentDidMount() {
         if (this.props.isAuthenticated) {
-            this.props.router.push("/");
+            const { router } = this.props;
+            const { returnUrl } = router.location.query;
+            router.push(returnUrl ? returnUrl : "/");
         }
         this.props.dispatch(updateSharedContextTitle("login"));
     }

@@ -29,7 +29,7 @@ import DiamondsSeparator from "./DiamondsSeparator";
 import CommentList from "./CommentList";
 
 interface CountdownStateExtended extends CountdownState {
-    isAuthenticated?: boolean;
+    isAuthenticated: boolean;
 }
 
 export class CountdownDetails extends React.Component<CountdownStateExtended, any> {
@@ -82,6 +82,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
                         onCommentCreation={this.handleCommentCreation}
                         onCommentVoteCast={this.handleCommentVoteCast}
                         isAuthenticated={this.props.isAuthenticated}
+                        countdownId={this.props.id}
                         returnUrl={location.pathname} />
                 </div>
             </div>

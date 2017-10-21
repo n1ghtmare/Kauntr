@@ -9,17 +9,38 @@ import LoadingIndicator from "./LoadingIndicator";
 
 interface CommentStateExtended extends CommentState {
     onVoteCast: (id: number, vote: number) => void;
+    countdownId: number;
+    isAuthenticated: boolean;
 }
 
-export default class Comment extends React.Component<CommentStateExtended, any> {
+export default class Comment extends React.Component<CommentStateExtended, { isDisplayingVoteAuthMessage: boolean }> {
+    constructor(props: CommentStateExtended) {
+        super(props);
+
+        this.state = {
+            isDisplayingVoteAuthMessage: false
+        };
+    }
+
+    private voteCast = (value: number): void => {
+        if (this.props.isAuthenticated) {
+            this.props.onVoteCast(this.props.id, value);
+        }
+        else {
+            this.setState({
+                isDisplayingVoteAuthMessage: true
+            });
+        }
+    }
+
     private handleUpVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        this.props.onVoteCast(this.props.id, 1);
+        this.voteCast(1);
     }
 
     private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        this.props.onVoteCast(this.props.id, -1);
+        this.voteCast(-11);
     }
 
     renderScore() {
@@ -31,6 +52,13 @@ export default class Comment extends React.Component<CommentStateExtended, any> 
                 <a title="I don't like it" className={classNames("vote-down", { "hidden": isCreatedByCurrentUser, "active": currentUserVote === -1 })} href="#" onClick={this.handleDownVoteClick}>&minus;</a>
             </div>
         );
+    }
+
+
+    renderVoteAuthMessage() {
+        return this.state.isDisplayingVoteAuthMessage
+            ? (<div className="vote-auth-message animated shake">You have to <Link to={`/login?returnUrl=/countdown/${this.props.countdownId}`}>login</Link> first in order to vote</div>)
+            : null;
     }
 
     render() {
@@ -46,6 +74,7 @@ export default class Comment extends React.Component<CommentStateExtended, any> 
                 </div>
                 <div className="comment-text markdown-body" dangerouslySetInnerHTML={{ __html: marked(this.props.text) }} />
                 {isCastingVote ? <LoadingIndicator isActive={isCastingVote} isTiny={true} /> : this.renderScore()}
+                {this.renderVoteAuthMessage()}
             </div>
         );
     }

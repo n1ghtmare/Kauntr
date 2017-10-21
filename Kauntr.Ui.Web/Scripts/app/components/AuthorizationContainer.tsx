@@ -27,6 +27,6 @@ function mapStateToProps(state: AppState, ownProps: any): SharedContextState {
         ...state.sharedContext,
         returnUrl: ownProps.location.pathname
     };
-};
+}
 
 export default connect(mapStateToProps, null)(AuthorizationContainer);

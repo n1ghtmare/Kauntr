@@ -14,7 +14,8 @@ import Pagination from "./Pagination";
 import LoadingIndicator from "./LoadingIndicator";
 
 interface CommentListStateExtended extends CommentListState {
-    isAuthenticated?: boolean;
+    countdownId: number;
+    isAuthenticated: boolean;
     returnUrl?: string;
     onPageChange: (page: number) => void;
     onDisplayOrderChange: (displayOrder: CommentDisplayOrderType) => void;
@@ -24,14 +25,14 @@ interface CommentListStateExtended extends CommentListState {
 
 export default class CommentList extends React.Component<CommentListStateExtended, any> {
     renderList() {
-        const { total } = this.props;
+        const { total, isAuthenticated } = this.props;
         const comments = this.props.comments.map(x =>
-            <Comment {...x} key={x.id} onVoteCast={this.props.onCommentVoteCast} />
+            <Comment {...x} key={x.id} onVoteCast={this.props.onCommentVoteCast} isAuthenticated={isAuthenticated} countdownId={this.props.countdownId} />
         );
 
         return (
             <div className="animated fadeIn">
-                <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={this.props.isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
+                <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
                 <h4>{total} {pluralizeNaive(total, "comment")} {total === 0 ? "... yet" : null}</h4>
                 <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                 <div className="comments">

@@ -25,7 +25,7 @@ import Pagination from "./Pagination";
 import LoadingIndicator from "./LoadingIndicator";
 
 interface CountdownListStateExtended extends CountdownListState {
-    isAuthenticated?: boolean;
+    isAuthenticated: boolean;
 }
 
 export class CountdownList extends React.Component<CountdownListStateExtended, any> {
@@ -60,16 +60,16 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
     private handleFilterModeToggle = (): void => this.props.dispatch(toggleFilterMode());
 
     renderList() {
-        const { total } = this.props;
+        const { total, isAuthenticated } = this.props;
         const statusTitle = total === 0 ? <h3>nope, nothing here ...</h3> : null;
         const countdowns = this.props.countdowns.map(x =>
-            <Countdown {...x} key={x.id} onVoteCast={this.handleCountdownVoteCast} />
+            <Countdown {...x} key={x.id} onVoteCast={this.handleCountdownVoteCast} isAuthenticated={isAuthenticated} />
         );
 
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={this.props.isAuthenticated} onFilterChange={this.handleFilterChange} />
+                    <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={isAuthenticated} onFilterChange={this.handleFilterChange} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     {statusTitle}
                     <div className="countdowns">

@@ -13,27 +13,45 @@ import LoadingIndicator from "./LoadingIndicator";
 
 interface CountdownStateExtended extends CountdownState {
     onVoteCast: (id: number, vote: number) => void;
+    isAuthenticated: boolean;
 }
 
-export default class Countdown extends React.Component<CountdownStateExtended, { remainingTime: string }> {
+interface CountdownLocalState {
+    remainingTime: string;
+    isDisplayingVoteAuthMessage: boolean;
+}
+
+export default class Countdown extends React.Component<CountdownStateExtended, CountdownLocalState> {
     constructor(props: CountdownStateExtended) {
         super(props);
 
         this.state = {
-            remainingTime: ""
+            remainingTime: "",
+            isDisplayingVoteAuthMessage: false
         };
     }
 
     private countdownIntervalId: number = null;
 
+    private voteCast = (value: number): void => {
+        if (this.props.isAuthenticated) {
+            this.props.onVoteCast(this.props.id, value);
+        }
+        else {
+            this.setState({
+                isDisplayingVoteAuthMessage: true
+            });
+        }
+    }
+
     private handleUpVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        this.props.onVoteCast(this.props.id, 1);
+        this.voteCast(1);
     }
 
     private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        this.props.onVoteCast(this.props.id, -1);
+        this.voteCast(-1);
     }
 
     componentDidMount() {
@@ -120,6 +138,12 @@ export default class Countdown extends React.Component<CountdownStateExtended, {
         );
     }
 
+    renderVoteAuthMessage() {
+        return this.state.isDisplayingVoteAuthMessage
+            ? (<div className="vote-auth-message animated shake">You have to <Link to={`/login?returnUrl=/countdown/${this.props.id}`}>login</Link> first in order to vote</div>)
+            : null;
+    }
+
     render() {
         const { createdOn, isCastingVote } = this.props;
         return (
@@ -131,6 +155,7 @@ export default class Countdown extends React.Component<CountdownStateExtended, {
                     <img width="52" height="52" alt="Avatar Image" src={this.props.createdByGravatarUrl} />
                 </div>
                 {isCastingVote ? <LoadingIndicator isActive={isCastingVote} isTiny={true} /> : this.renderScore()}
+                {this.renderVoteAuthMessage()}
                 {this.renderCommentsCountLink()}
             </div>
         );
