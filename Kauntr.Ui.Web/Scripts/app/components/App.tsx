@@ -28,6 +28,10 @@ export class App extends React.Component<SharedContextState, any> {
         } else if (isLoggingOut) {
             // do any kind of cleanup or post-logout redirection here
         }
+
+        if (prevProps.title !== this.props.title) {
+            window.document.title = `kauntr // ${this.props.title}`;
+        }
     }
 
     renderContent(): any {
