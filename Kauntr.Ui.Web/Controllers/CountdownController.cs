@@ -8,7 +8,6 @@ using Kauntr.Core.Interfaces;
 using Kauntr.Ui.Web.Helpers;
 using Kauntr.Ui.Web.Hubs;
 using Kauntr.Ui.Web.Models;
-using Microsoft.AspNet.SignalR;
 
 namespace Kauntr.Ui.Web.Controllers {
     public class CountdownController : Controller {
@@ -18,12 +17,14 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
+        private readonly INotificationHub _notificationHub;
 
-        public CountdownController(ICountdownRepository countdownRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock) {
+        public CountdownController(ICountdownRepository countdownRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationHub notificationHub) {
             _countdownRepository = countdownRepository;
             _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
+            _notificationHub = notificationHub;
         }
 
 //        [Authorize] // TODO - Uncomment after Debug
@@ -126,23 +127,15 @@ namespace Kauntr.Ui.Web.Controllers {
         //        [Authorize] // TODO - Uncomment after Debug
         [HttpPost]
         public async Task<ActionResult> Vote(CountdownVoteViewModel model) {
-
-
-
-            await Task.Delay(2000);
+//            await Task.Delay(2000);
             Countdown countdown = await _countdownRepository.GetAsync(model.CountdownId);
-
-
-            IHubContext notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            notificationHub.Clients.All.broadcastMessage("This is a message from the SERVER!!!!!!!!!!");
-
 
             if (ModelState.IsValid && countdown.CreatedByAccountId != _contextService.CurrentUserAccountId) {
                 Vote existingVote = await _voteRepository.GetByCountdownIdAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
                 if (existingVote != null) {
                     await _voteRepository.DeleteAsync(existingVote.Id);
                     if (existingVote.Value == model.Value) {
-                        return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = 0, ExistingValue = existingVote.Value}, JsonRequestBehavior.AllowGet);
+                        return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
                     }
                 }
 
@@ -153,9 +146,21 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return Json(new CountdownVoteViewModel {CountdownId = model.CountdownId, Value = model.Value, ExistingValue = existingVote?.Value}, JsonRequestBehavior.AllowGet);
+                return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int)_contextService.CurrentUserAccountId);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
+        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId) {
+            CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, currentUserAccountId);
+            _notificationHub.NotifyConnectedClients(countdownAggregate, currentUserAccountId);
+
+            var model = new CountdownVoteViewModel {
+                CountdownId = countdownId,
+                VoteScore = countdownAggregate.VoteScore,
+                CurrentUserVote = countdownAggregate.CurrentUserVote
+            };
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

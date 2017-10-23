@@ -18,6 +18,10 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             return Task.Run(() => Comments.Add(comment));
         }
 
+        public Task<CommentAggregate> GetAggregateAsync(long id, int? currentUserAccountId = null) {
+            return Task.Run(() => CommentAggregates.FirstOrDefault(x => x.Id == id));
+        }
+
         public Task<int> GetTotalCountAsync(long countdownId) {
             return Task.Run(() => CommentAggregates.Count);
         }

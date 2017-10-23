@@ -40,7 +40,7 @@ export default class Comment extends React.Component<CommentStateExtended, { isD
 
     private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        this.voteCast(-11);
+        this.voteCast(-1);
     }
 
     renderScore() {

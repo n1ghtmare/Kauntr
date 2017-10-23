@@ -9,6 +9,7 @@ namespace Kauntr.Ui.Web.Models {
         [Range(-1, 1)]
         public short Value { get; set; }
 
-        public short? ExistingValue { get; set; }
+        public int VoteScore { get; set; }
+        public int? CurrentUserVote { get; set; }
     }
 }

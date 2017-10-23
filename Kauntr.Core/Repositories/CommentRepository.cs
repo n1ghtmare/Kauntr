@@ -43,6 +43,27 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
+        public async Task<CommentAggregate> GetAggregateAsync(long id, int? currentUserAccountId = null) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+		                c.Id,
+		                c.CountdownId,
+		                c.Text,
+		                c.CreatedByAccountId,
+		                c.CreatedOn,
+		                a.DisplayName AS CreatedByDisplayName,
+		                a.Email AS CreatedByEmail,
+		                ISNULL((SELECT SUM(Value) FROM Votes WHERE CommentId = c.Id), 0) AS VoteScore,
+		                (SELECT VALUE FROM Votes WHERE CommentId = c.Id AND CastedByAccountId = @CurrentUserAccountId) AS CurrentUserVote,
+                        (CASE WHEN CreatedByAccountId = @currentUserAccountId THEN 1 ELSE 0 END) AS IsCreatedByCurrentUser
+	                FROM Comments c
+	                INNER JOIN Accounts a ON c.CreatedByAccountId = a.Id
+                    WHERE c.Id = @id";
+                return await connection.QueryFirstOrDefaultAsync<CommentAggregate>(sql, new {id, currentUserAccountId});
+            }
+        }
+
         public async Task<int> GetTotalCountAsync(long countdownId) {
             using (IDbConnection connection = Connection) {
                 const string sql = "SELECT COUNT(Id) FROM Comments WHERE CountdownId = @countdownId";

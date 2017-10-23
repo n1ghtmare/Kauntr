@@ -7,6 +7,7 @@ using Kauntr.Core.Helpers;
 using Kauntr.Core.Interfaces;
 using Kauntr.Core.Repositories;
 using Kauntr.Core.Services;
+using Kauntr.Ui.Web.Hubs;
 using Kauntr.Ui.Web.Services;
 
 namespace Kauntr.Ui.Web {
@@ -14,6 +15,7 @@ namespace Kauntr.Ui.Web {
         public static void Register() {
             var autofacBuilder = new ContainerBuilder();
 
+            autofacBuilder.RegisterType<NotificationHub>().As<INotificationHub>().ExternallyOwned();
             autofacBuilder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<CountdownRepository>().As<ICountdownRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<CommentRepository>().As<ICommentRepository>().InstancePerRequest();

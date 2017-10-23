@@ -59,6 +59,7 @@
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
     <Compile Include="Interfaces\ICommentRepository.cs" />
+    <Compile Include="Interfaces\INotificationHub.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />
     <Compile Include="Interfaces\IAccountRepository.cs" />
     <Compile Include="Interfaces\IAuthenticationTokenRepository.cs" />

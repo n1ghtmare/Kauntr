@@ -79,16 +79,13 @@ export default function countdown(state = initialState, action: CountdownAction)
                 ...state,
                 isCastingVote: true
             };
-        case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS: {
-            const value: number = parseInt(action.json.Value, 10);
-            const existingValue: number = action.json.ExistingValue !== null ? parseInt(action.json.ExistingValue, 10) : null;
+        case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS:
             return {
                 ...state,
                 isCastingVote: false,
-                voteScore: (state.voteScore - (existingValue !== null ? existingValue : 0)) + value,
-                currentUserVote: value
+                voteScore: parseInt(action.json.VoteScore, 10),
+                currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
             };
-        }
         case ActionTypes.COUNTDOWN_VOTE_CAST_FAILURE:
             return {
                 ...state,
@@ -174,14 +171,12 @@ function commentSubList(state: Array<CommentState> = [], action: CountdownAction
                 : x);
         case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
             return state.map(x => {
-                const value: number = parseInt(action.json.Value, 10);
-                const existingValue: number = action.json.ExistingValue !== null ? parseInt(action.json.ExistingValue, 10) : null;
                 return x.id === parseInt(action.json.CommentId, 10)
                     ? {
                         ...x,
                         isCastingVote: false,
-                        voteScore: (x.voteScore - (existingValue !== null ? existingValue : 0)) + value,
-                        currentUserVote: value
+                        voteScore: parseInt(action.json.VoteScore, 10),
+                        currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
                     }
                     : x;
             });

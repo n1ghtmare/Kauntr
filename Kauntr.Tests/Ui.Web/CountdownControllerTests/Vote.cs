@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 using NUnit.Framework;
+using Moq;
 
 using Kauntr.Core.Entities;
 using Kauntr.Ui.Web.Models;
@@ -39,14 +40,19 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
                 new Countdown {Id = countdownId, CreatedByAccountId = 9}
             };
 
+            controller.CountdownRepository.CountdownAggregates = new List<CountdownAggregate> {
+                new CountdownAggregate { Id = countdownId, CreatedByAccountId = 9, VoteScore = 3, CurrentUserVote = voteValue}
+            };
+
             JsonResult result = await controller.Vote(new CountdownVoteViewModel {CountdownId = countdownId, Value = voteValue}) as JsonResult;
             Assert.IsNotNull(result);
 
             CountdownVoteViewModel model = result.Data as CountdownVoteViewModel;
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
-            Assert.AreEqual(voteValue, model.Value);
-            Assert.IsNull(model.ExistingValue);
+            Assert.AreEqual(0, model.Value);
+            Assert.AreEqual(3, model.VoteScore);
+            Assert.AreEqual(voteValue, model.CurrentUserVote);
 
             Core.Entities.Vote vote = controller.VoteRepository.Votes.FirstOrDefault();
             Assert.IsNotNull(vote);
@@ -54,6 +60,32 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             Assert.AreEqual(voteValue, vote.Value);
             Assert.AreEqual(accountId, vote.CastedByAccountId);
             Assert.AreEqual(systemTime, vote.CastedOn);
+        }
+
+        [Test]
+        public async Task PostFromAnAuthenticatedUser_NotifiesConnectedHubClients() {
+            const int voteValue = 1;
+            const int accountId = 7;
+            const long countdownId = 3;
+            var systemTime = new DateTime(2017, 10, 22, 7, 31, 53);
+
+            TestableCountdownController controller = TestableCountdownController.Create();
+            controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(accountId);
+            controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
+
+            controller.CountdownRepository.Countdowns = new List<Countdown> {
+                new Countdown {Id = countdownId, CreatedByAccountId = 9}
+            };
+
+            controller.CountdownRepository.CountdownAggregates = new List<CountdownAggregate> {
+                new CountdownAggregate {Id = countdownId, CreatedByAccountId = 9, VoteScore = 3, CurrentUserVote = voteValue}
+            };
+
+            await controller.Vote(new CountdownVoteViewModel {CountdownId = countdownId, Value = voteValue});
+
+            controller.MockNotificationHub
+                .Verify(x => x.NotifyConnectedClients(It.Is<CountdownAggregate>(c => c.Id == countdownId), accountId),
+                    Times.Once());
         }
 
         [Test]
@@ -75,6 +107,10 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
                 new Countdown {Id = countdownId, CreatedByAccountId = 9}
             };
 
+            controller.CountdownRepository.CountdownAggregates = new List<CountdownAggregate> {
+                new CountdownAggregate { Id = countdownId, CreatedByAccountId = 9, VoteScore = 3, CurrentUserVote = null}
+            };
+
             JsonResult result = await controller.Vote(new CountdownVoteViewModel { CountdownId = countdownId, Value = voteValue}) as JsonResult;
             Assert.IsNotNull(result);
 
@@ -82,7 +118,8 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
             Assert.AreEqual(0, model.Value);
-            Assert.AreEqual(voteValue, model.ExistingValue);
+            Assert.AreEqual(3, model.VoteScore);
+            Assert.IsNull(model.CurrentUserVote);
             Assert.IsEmpty(controller.VoteRepository.Votes);
         }
 
@@ -101,6 +138,10 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
                 new Countdown {Id = countdownId, CreatedByAccountId = 9}
             };
 
+            controller.CountdownRepository.CountdownAggregates = new List<CountdownAggregate> {
+                new CountdownAggregate { Id = countdownId, CreatedByAccountId = 9, VoteScore = 3, CurrentUserVote = voteValue}
+            };
+
             controller.VoteRepository.Votes.Add(new Core.Entities.Vote {
                 CountdownId = countdownId,
                 CastedByAccountId = accountId,
@@ -114,8 +155,8 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
             CountdownVoteViewModel model = result.Data as CountdownVoteViewModel;
             Assert.IsNotNull(model);
             Assert.AreEqual(countdownId, model.CountdownId);
-            Assert.AreEqual(voteValue, model.Value);
-            Assert.AreEqual(-1, model.ExistingValue);
+            Assert.AreEqual(3, model.VoteScore);
+            Assert.AreEqual(voteValue, model.CurrentUserVote);
 
             Core.Entities.Vote vote = controller.VoteRepository.Votes.FirstOrDefault();
             Assert.IsNotNull(vote);
@@ -126,7 +167,7 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         }
 
         [Test]
-        public async Task PostFromAnAuthenticatedUserForACommentCreatedByCurrentUserId_ReturnsHttpStatusCode400BadRequest() {
+        public async Task PostFromAnAuthenticatedUserForACountdownCreatedByCurrentUserId_ReturnsHttpStatusCode400BadRequest() {
             const int accountId = 7;
             const long countdownId = 3;
 

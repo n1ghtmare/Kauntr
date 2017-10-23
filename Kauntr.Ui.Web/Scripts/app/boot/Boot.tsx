@@ -41,6 +41,18 @@ $(() => {
     // Example - SignalR boot setup
     const connection: SignalR = $.connection;
     const hubProxy: SignalR.Hub.Proxy = connection.hub.createHubProxy("notificationHub");
-    hubProxy.on("broadcastMessage", (message: string) => console.log(message));
+
+    hubProxy.on("broadcastCountdownUpdate", (countdown: any, triggeredByUserAccountId: number) => {
+        // TODO - Trigger an action creator to update the store accordingly
+        console.log(countdown);
+        console.log(triggeredByUserAccountId);
+    });
+
+    hubProxy.on("broadcastCommentUpdate", (comment: any, triggeredByUserAccountId: number) => {
+        // TODO - Trigger an action creator to update the store accordingly
+        console.log(comment);
+        console.log(triggeredByUserAccountId);
+    });
+
     connection.hub.start();
 });

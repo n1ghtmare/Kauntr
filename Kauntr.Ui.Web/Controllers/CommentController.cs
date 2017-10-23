@@ -15,12 +15,14 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
+        private readonly INotificationHub _notificationHub;
 
-        public CommentController(ICommentRepository commentRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock) {
+        public CommentController(ICommentRepository commentRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationHub notificationHub) {
             _commentRepository = commentRepository;
             _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
+            _notificationHub = notificationHub;
         }
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
@@ -76,7 +78,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 if (existingVote != null) {
                     await _voteRepository.DeleteAsync(existingVote.Id);
                     if (existingVote.Value == model.Value) {
-                        return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = 0, ExistingValue = existingVote.Value}, JsonRequestBehavior.AllowGet);
+                        return await NotifyClientsAndGenerateVoteResultAsync(model.CommentId, (int) _contextService.CurrentUserAccountId);
                     }
                 }
 
@@ -87,9 +89,21 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return Json(new CommentVoteViewModel {CommentId = model.CommentId, Value = model.Value, ExistingValue = existingVote?.Value}, JsonRequestBehavior.AllowGet);
+                return await NotifyClientsAndGenerateVoteResultAsync(model.CommentId, (int)_contextService.CurrentUserAccountId);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
+        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long commentId, int currentUserAccountId) {
+            CommentAggregate commentAggregate = await _commentRepository.GetAggregateAsync(commentId, currentUserAccountId);
+            _notificationHub.NotifyConnectedClients(commentAggregate, currentUserAccountId);
+
+            var model = new CommentVoteViewModel {
+                CommentId = commentId,
+                VoteScore = commentAggregate.VoteScore,
+                CurrentUserVote = commentAggregate.CurrentUserVote
+            };
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -10,16 +10,18 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
         public InMemoryVoteRepository VoteRepository { get; set; }
         public Mock<IContextService> MockContextService { get; set; }
         public Mock<ISystemClock> MockSystemClock { get; set; }
+        public Mock<INotificationHub> MockNotificationHub { get; set; }
 
-        public TestableCommentController(InMemoryCommentRepository commentRepository, InMemoryVoteRepository voteRepository, Mock<IContextService> mockContextService, Mock<ISystemClock> mockSystemClock) : base(commentRepository, voteRepository, mockContextService.Object, mockSystemClock.Object) {
+        public TestableCommentController(InMemoryCommentRepository commentRepository, InMemoryVoteRepository voteRepository, Mock<IContextService> mockContextService, Mock<ISystemClock> mockSystemClock, Mock<INotificationHub> mockNotificationHub) : base(commentRepository, voteRepository, mockContextService.Object, mockSystemClock.Object, mockNotificationHub.Object) {
             CommentRepository = commentRepository;
             VoteRepository = voteRepository;
             MockContextService = mockContextService;
             MockSystemClock = mockSystemClock;
+            MockNotificationHub = mockNotificationHub;
         }
 
         public static TestableCommentController Create() {
-            return new TestableCommentController(new InMemoryCommentRepository(), new InMemoryVoteRepository(), new Mock<IContextService>(), new Mock<ISystemClock>());
+            return new TestableCommentController(new InMemoryCommentRepository(), new InMemoryVoteRepository(), new Mock<IContextService>(), new Mock<ISystemClock>(), new Mock<INotificationHub>());
         }
     }
 }
