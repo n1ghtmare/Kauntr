@@ -16,6 +16,11 @@ export default function startSignalRHub(store: Store<any>) {
         }
     });
 
+    // hubProxy.on("broadcastCommentUpdate", (comment: any, triggeredByUserAccountId: number) => {
+    //     if (shouldUpdateCountdown(store.getState(), triggeredByUserAccountId)) {
+    //         store.dispatch(updateCountdownAfterVote(countdown));
+    //     }
+    // });
     connection.hub.start();
 }
 
