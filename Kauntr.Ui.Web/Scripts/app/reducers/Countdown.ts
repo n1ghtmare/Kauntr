@@ -91,6 +91,12 @@ export default function countdown(state = initialState, action: CountdownAction)
                 ...state,
                 isCastingVote: false
             };
+        case ActionTypes.COUNTDOWN_UPDATE_AFTER_VOTE:
+            return parseInt(action.json.Id, 10) !== state.id ? state : {
+                ...state,
+                voteScore: parseInt(action.json.VoteScore, 10),
+                currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
+            };
         case ActionTypes.LOAD_COMMENTS:
         case ActionTypes.LOAD_COMMENTS_SUCCESS:
         case ActionTypes.LOAD_COMMENTS_FAILURE:

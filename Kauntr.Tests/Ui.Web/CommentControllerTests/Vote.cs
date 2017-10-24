@@ -76,7 +76,7 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             controller.MockSystemClock.Setup(x => x.UtcNow).Returns(systemTime);
 
             controller.CommentRepository.Comments = new List<Comment> {
-                new Comment { Id = commentId, CreatedByAccountId = 9}
+                new Comment {Id = commentId, CreatedByAccountId = 9}
             };
 
             controller.CommentRepository.CommentAggregates = new List<CommentAggregate> {
@@ -86,8 +86,8 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
             await controller.Vote(new CommentVoteViewModel {CommentId = commentId, Value = voteValue});
 
             controller.MockNotificationHub
-    .Verify(x => x.NotifyConnectedClients(It.Is<CommentAggregate>(c => c.Id == commentId), accountId),
-        Times.Once());
+                .Verify(x => x.NotifyConnectedClients(It.Is<CommentAggregate>(c => c.Id == commentId), accountId),
+                    Times.Once());
         }
 
         [Test]

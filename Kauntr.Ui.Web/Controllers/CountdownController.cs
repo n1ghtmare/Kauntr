@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Kauntr.Core.Entities;
 using Kauntr.Core.Interfaces;
 using Kauntr.Ui.Web.Helpers;
-using Kauntr.Ui.Web.Hubs;
 using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Ui.Web.Controllers {

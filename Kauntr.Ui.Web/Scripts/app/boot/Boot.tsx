@@ -9,12 +9,14 @@ import { AppContainer } from "react-hot-loader";
 import rootReducer from "../reducers/Root";
 
 import Root from "./Root";
+import startSignalRHub from "./SignalRBoot";
 
 const createStoreWithMiddleware = applyMiddleware(
     thunkMiddleware,
     createLogger
 )(createStore);
 const store = createStoreWithMiddleware(rootReducer);
+
 
 const container: HTMLElement = document.getElementById("app-container");
 
@@ -37,22 +39,5 @@ if (module.hot) {
     });
 }
 
-$(() => {
-    // Example - SignalR boot setup
-    const connection: SignalR = $.connection;
-    const hubProxy: SignalR.Hub.Proxy = connection.hub.createHubProxy("notificationHub");
-
-    hubProxy.on("broadcastCountdownUpdate", (countdown: any, triggeredByUserAccountId: number) => {
-        // TODO - Trigger an action creator to update the store accordingly
-        console.log(countdown);
-        console.log(triggeredByUserAccountId);
-    });
-
-    hubProxy.on("broadcastCommentUpdate", (comment: any, triggeredByUserAccountId: number) => {
-        // TODO - Trigger an action creator to update the store accordingly
-        console.log(comment);
-        console.log(triggeredByUserAccountId);
-    });
-
-    connection.hub.start();
-});
+// TODO - Refactor (not the most idiomatic way right now)
+$(() => startSignalRHub(store));
