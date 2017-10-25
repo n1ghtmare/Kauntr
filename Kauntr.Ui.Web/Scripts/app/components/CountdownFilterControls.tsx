@@ -12,7 +12,8 @@ interface CountdownFilterControlsProps {
     isInFilterMode: boolean;
     onFilterModeToggle: Function;
     onFilterChange: (query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean) => void;
-    isAuthenticated?: boolean;
+    isAuthenticated: boolean;
+    totalCreationsFromServer: number;
 }
 
 interface CountdownFilterControlsState {
@@ -44,6 +45,11 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
     private handleCurrentlyActiveChange = (e: React.ChangeEvent<HTMLInputElement>): void => this.setState({ isCurrentlyActive: e.target.checked });
 
     private handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+        this.props.onFilterChange(this.state.query, this.state.isCurrentlyActive, this.state.isCreatedByCurrentUser);
+    }
+
+    private handleRefreshClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
         this.props.onFilterChange(this.state.query, this.state.isCurrentlyActive, this.state.isCreatedByCurrentUser);
     }
@@ -90,6 +96,19 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
         );
     }
 
+    renderUpdatesIndicator() {
+        const { totalCreationsFromServer } = this.props;
+        return totalCreationsFromServer === 0
+            ? null
+            : (
+                <span className="muted">
+                    - <a href="#" onClick={this.handleRefreshClick} title="refresh">
+                        (has {totalCreationsFromServer} {pluralizeNaive(totalCreationsFromServer, "update")})
+                    </a>
+                </span>
+            );
+    }
+
     render() {
         const { totalCount, isInFilterMode } = this.props;
         const toggleLink = (
@@ -100,7 +119,7 @@ export default class CountdownFilterControls extends React.Component<CountdownFi
 
         return (
             <div>
-                <h3>{totalCount} {pluralizeNaive(totalCount, "countdown")} ({toggleLink})</h3>
+                <h3>{totalCount} {pluralizeNaive(totalCount, "countdown")} ({toggleLink}) {this.renderUpdatesIndicator()}</h3>
                 {this.renderFiltersForm()}
             </div>
         );

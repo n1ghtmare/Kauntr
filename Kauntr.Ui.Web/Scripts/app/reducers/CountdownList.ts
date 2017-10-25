@@ -28,7 +28,8 @@ export const initialState: CountdownListState = {
     displayOrderType: CountdownDisplayOrderType.Trending,
     filters: initialFilterState,
     token: null,
-    total: 0
+    total: 0,
+    totalCreationsFromServer: 0
 };
 
 export default function countdownList(state = initialState, action: CountdownListAction): CountdownListState {
@@ -37,6 +38,7 @@ export default function countdownList(state = initialState, action: CountdownLis
             return {
                 ...state,
                 isLoadingData: true,
+                totalCreationsFromServer: 0,
                 token: action.token
             };
         case ActionTypes.LOAD_COUNTDOWNS_SUCCESS:
@@ -64,6 +66,11 @@ export default function countdownList(state = initialState, action: CountdownLis
             return {
                 ...state,
                 isInFilterMode: !state.isInFilterMode
+            };
+        case ActionTypes.COUNTDOWNS_UPDATE_AFTER_CREATE:
+            return {
+                ...state,
+                totalCreationsFromServer: state.totalCreationsFromServer + 1
             };
         case ActionTypes.COUNTDOWN_VOTE_CAST:
         case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS:

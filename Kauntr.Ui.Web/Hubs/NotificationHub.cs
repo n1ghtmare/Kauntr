@@ -5,14 +5,12 @@ using Kauntr.Core.Interfaces;
 
 namespace Kauntr.Ui.Web.Hubs {
     public class NotificationHub : Hub, INotificationHub {
-        public void NotifyConnectedClients(CountdownAggregate countdownAggregate, int triggeredByUserAccountId) {
-            IHubContext notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            notificationHub.Clients.All.broadcastCountdownUpdate(countdownAggregate, triggeredByUserAccountId);
-        }
+        private static IHubContext Hub => GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
 
-        public void NotifyConnectedClients(CommentAggregate commentAggregate, int triggeredByUserAccountId) {
-            IHubContext notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            notificationHub.Clients.All.broadcastCommentUpdate(commentAggregate, triggeredByUserAccountId);
-        }
+        public void UpdateClientsAfterVote(CountdownAggregate countdownAggregate) => Hub.Clients.All.broadcastCountdownUpdate(countdownAggregate);
+
+        public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => Hub.Clients.All.broadcastCommentUpdate(commentAggregate);
+
+        public void UpdateClientsAfterCreate(Countdown countdown) => Hub.Clients.All.broadcastCountdownCreate(countdown);
     }
 }

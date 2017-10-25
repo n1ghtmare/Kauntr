@@ -11,6 +11,7 @@ interface CountdownListState {
     page: number;
     displayOrderType: CountdownDisplayOrderType;
     filters: CountdownListFilterState;
+    totalCreationsFromServer: number;
     token?: number;
     dispatch?: Function;
     router?: any;

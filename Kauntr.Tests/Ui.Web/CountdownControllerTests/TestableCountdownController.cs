@@ -10,18 +10,18 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
         public InMemoryVoteRepository VoteRepository { get; set; }
         public Mock<IContextService> MockContextService { get; set; }
         public Mock<ISystemClock> MockSystemClock { get; set; }
-        public Mock<INotificationHub> MockNotificationHub { get; set; }
+        public Mock<INotificationService> MockNotificationService { get; set; }
 
-        public TestableCountdownController(InMemoryCountdownRepository countdownRepository, InMemoryVoteRepository voteRepository, Mock<IContextService> mockContextService, Mock<ISystemClock> mockSystemClock, Mock<INotificationHub> mockNotificationHub) : base(countdownRepository, voteRepository, mockContextService.Object, mockSystemClock.Object, mockNotificationHub.Object) {
+        public TestableCountdownController(InMemoryCountdownRepository countdownRepository, InMemoryVoteRepository voteRepository, Mock<IContextService> mockContextService, Mock<ISystemClock> mockSystemClock, Mock<INotificationService> mockNotificationService) : base(countdownRepository, voteRepository, mockContextService.Object, mockSystemClock.Object, mockNotificationService.Object) {
             CountdownRepository = countdownRepository;
             VoteRepository = voteRepository;
             MockSystemClock = mockSystemClock;
             MockContextService = mockContextService;
-            MockNotificationHub = mockNotificationHub;
+            MockNotificationService = mockNotificationService;
         }
 
         public static TestableCountdownController Create() {
-            return new TestableCountdownController(new InMemoryCountdownRepository(), new InMemoryVoteRepository(), new Mock<IContextService>(), new Mock<ISystemClock>(), new Mock<INotificationHub>());
+            return new TestableCountdownController(new InMemoryCountdownRepository(), new InMemoryVoteRepository(), new Mock<IContextService>(), new Mock<ISystemClock>(), new Mock<INotificationService>());
         }
     }
 }

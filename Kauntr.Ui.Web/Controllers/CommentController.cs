@@ -15,14 +15,14 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
-        private readonly INotificationHub _notificationHub;
+        private readonly INotificationService _notificationService;
 
-        public CommentController(ICommentRepository commentRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationHub notificationHub) {
+        public CommentController(ICommentRepository commentRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationService notificationService) {
             _commentRepository = commentRepository;
             _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
-            _notificationHub = notificationHub;
+            _notificationService = notificationService;
         }
 
         public async Task<ActionResult> Index(CommentListViewModel model) {
@@ -96,7 +96,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
         private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long commentId, int currentUserAccountId) {
             CommentAggregate commentAggregate = await _commentRepository.GetAggregateAsync(commentId, currentUserAccountId);
-            _notificationHub.NotifyConnectedClients(commentAggregate, currentUserAccountId);
+            _notificationService.UpdateClientsAfterVote(commentAggregate);
 
             var model = new CommentVoteViewModel {
                 CommentId = commentId,

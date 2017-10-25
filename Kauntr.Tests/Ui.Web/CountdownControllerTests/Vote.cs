@@ -83,8 +83,8 @@ namespace Kauntr.Tests.Ui.Web.CountdownControllerTests {
 
             await controller.Vote(new CountdownVoteViewModel {CountdownId = countdownId, Value = voteValue});
 
-            controller.MockNotificationHub
-                .Verify(x => x.NotifyConnectedClients(It.Is<CountdownAggregate>(c => c.Id == countdownId), accountId),
+            controller.MockNotificationService
+                .Verify(x => x.UpdateClientsAfterVote(It.Is<CountdownAggregate>(c => c.Id == countdownId)),
                     Times.Once());
         }
 

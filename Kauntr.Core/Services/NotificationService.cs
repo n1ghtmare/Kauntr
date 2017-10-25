@@ -7,6 +7,12 @@ using Kauntr.Core.Interfaces;
 
 namespace Kauntr.Core.Services {
     public class NotificationService : INotificationService {
+        private readonly INotificationHub _notificationHub;
+
+        public NotificationService(INotificationHub notificationHub) {
+            _notificationHub = notificationHub;
+        }
+
         // TODO - Refactor and add proper unit tests here
         public async Task SendAuthenticationEmailAsync(Account account, AuthenticationToken authenticationToken) {
             var smtpClient = new SmtpClient {
@@ -27,5 +33,11 @@ namespace Kauntr.Core.Services {
                     <p>In case this request wasn't made by you, please contact us on support@kauntr.com</p>"
             });
         }
+
+        public void UpdateClientsAfterVote(CountdownAggregate countdownAggregate) => _notificationHub.UpdateClientsAfterVote(countdownAggregate);
+
+        public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => _notificationHub.UpdateClientsAfterVote(commentAggregate);
+
+        public void UpdateClientsAfterCreate(Countdown countdown) => _notificationHub.UpdateClientsAfterCreate(countdown);
     }
 }

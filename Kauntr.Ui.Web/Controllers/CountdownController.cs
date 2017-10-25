@@ -16,14 +16,14 @@ namespace Kauntr.Ui.Web.Controllers {
         private readonly IVoteRepository _voteRepository;
         private readonly IContextService _contextService;
         private readonly ISystemClock _systemClock;
-        private readonly INotificationHub _notificationHub;
+        private readonly INotificationService _notificationService;
 
-        public CountdownController(ICountdownRepository countdownRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationHub notificationHub) {
+        public CountdownController(ICountdownRepository countdownRepository, IVoteRepository voteRepository, IContextService contextService, ISystemClock systemClock, INotificationService notificationService) {
             _countdownRepository = countdownRepository;
             _voteRepository = voteRepository;
             _contextService = contextService;
             _systemClock = systemClock;
-            _notificationHub = notificationHub;
+            _notificationService = notificationService;
         }
 
 //        [Authorize] // TODO - Uncomment after Debug
@@ -43,6 +43,8 @@ namespace Kauntr.Ui.Web.Controllers {
                     EndsOn =  endsOnDate
                 };
                 await _countdownRepository.CreateAsync(countdown);
+                _notificationService.UpdateClientsAfterCreate(countdown);
+
                 return Json(new {countdown.Id});
             }
             return new HttpStatusCodeResult(400, "Bad Request");
@@ -152,7 +154,7 @@ namespace Kauntr.Ui.Web.Controllers {
 
         private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId) {
             CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, currentUserAccountId);
-            _notificationHub.NotifyConnectedClients(countdownAggregate, currentUserAccountId);
+            _notificationService.UpdateClientsAfterVote(countdownAggregate);
 
             var model = new CountdownVoteViewModel {
                 CountdownId = countdownId,

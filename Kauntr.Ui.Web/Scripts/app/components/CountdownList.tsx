@@ -69,7 +69,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={isAuthenticated} onFilterChange={this.handleFilterChange} />
+                    <CountdownFilterControls {...this.props.filters} totalCount={total} onFilterModeToggle={this.handleFilterModeToggle} isInFilterMode={this.props.isInFilterMode} isAuthenticated={isAuthenticated} onFilterChange={this.handleFilterChange} totalCreationsFromServer={this.props.totalCreationsFromServer} />
                     <CountdownOrderControls onChange={this.handleDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                     {statusTitle}
                     <div className="countdowns">

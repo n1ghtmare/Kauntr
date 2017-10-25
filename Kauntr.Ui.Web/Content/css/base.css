@@ -148,6 +148,10 @@ img {
     border-radius: 3px;
 }
 
+.muted, .muted a {
+    color: #888 !important;
+}
+
 a {
     color: #3b3b3b;
     text-decoration: none;
@@ -157,7 +161,7 @@ a {
 }
 
 a:hover {
-    color: #FF6600;
+    color: #FF6600 !important;
     cursor: pointer;
 }
 

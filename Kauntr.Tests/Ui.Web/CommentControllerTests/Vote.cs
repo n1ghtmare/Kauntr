@@ -85,8 +85,8 @@ namespace Kauntr.Tests.Ui.Web.CommentControllerTests {
 
             await controller.Vote(new CommentVoteViewModel {CommentId = commentId, Value = voteValue});
 
-            controller.MockNotificationHub
-                .Verify(x => x.NotifyConnectedClients(It.Is<CommentAggregate>(c => c.Id == commentId), accountId),
+            controller.MockNotificationService
+                .Verify(x => x.UpdateClientsAfterVote(It.Is<CommentAggregate>(c => c.Id == commentId)),
                     Times.Once());
         }
 

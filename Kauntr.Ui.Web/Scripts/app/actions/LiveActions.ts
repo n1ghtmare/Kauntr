@@ -17,3 +17,10 @@ export function updateCommentAfterVote(json: any) {
         json
     };
 }
+
+export function updateCountdownListAfterCreate(json: any) {
+    return {
+        type: ActionTypes.COUNTDOWNS_UPDATE_AFTER_CREATE,
+        json
+    };
+}
