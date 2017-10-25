@@ -10,3 +10,10 @@ export function updateCountdownAfterVote(json: any) {
         json
     };
 }
+
+export function updateCommentAfterVote(json: any) {
+    return {
+        type: ActionTypes.COMMENT_UPDATE_AFTER_VOTE,
+        json
+    };
+}

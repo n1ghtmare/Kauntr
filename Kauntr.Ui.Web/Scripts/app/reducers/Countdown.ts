@@ -106,6 +106,7 @@ export default function countdown(state = initialState, action: CountdownAction)
         case ActionTypes.COMMENT_VOTE_CAST:
         case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
         case ActionTypes.COMMENT_VOTE_CAST_FAILURE:
+        case ActionTypes.COMMENT_UPDATE_AFTER_VOTE:
             return {
                 ...state,
                 commentList: commentList(state.commentList, action)
@@ -157,6 +158,7 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
         case ActionTypes.COMMENT_VOTE_CAST:
         case ActionTypes.COMMENT_VOTE_CAST_SUCCESS:
         case ActionTypes.COMMENT_VOTE_CAST_FAILURE:
+        case ActionTypes.COMMENT_UPDATE_AFTER_VOTE:
             return {
                 ...state,
                 comments: commentSubList(state.comments, action)
@@ -191,6 +193,14 @@ function commentSubList(state: Array<CommentState> = [], action: CountdownAction
                 ? {
                     ...x,
                     isCastingVote: false
+                }
+                : x);
+        case ActionTypes.COMMENT_UPDATE_AFTER_VOTE:
+            return state.map(x => x.id === parseInt(action.json.Id, 10)
+                ? {
+                    ...x,
+                    voteScore: parseInt(action.json.VoteScore, 10),
+                    currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
                 }
                 : x);
         default:
