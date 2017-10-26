@@ -9,6 +9,7 @@ interface CommentListState {
     total: number;
     page: number;
     displayOrderType: CommentDisplayOrderType;
+    totalCreationsFromServer: number;
     token?: number;
 }
 

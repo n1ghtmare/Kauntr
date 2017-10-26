@@ -76,6 +76,7 @@ export default function countdownList(state = initialState, action: CountdownLis
         case ActionTypes.COUNTDOWN_VOTE_CAST_SUCCESS:
         case ActionTypes.COUNTDOWN_VOTE_CAST_FAILURE:
         case ActionTypes.COUNTDOWN_UPDATE_AFTER_VOTE:
+        case ActionTypes.COMMENTS_UPDATE_AFTER_CREATE:
             return {
                 ...state,
                 countdowns: countdowns(state.countdowns, action)
@@ -118,6 +119,13 @@ function countdowns(state: Array<CountdownState> = [], action: CountdownListActi
                     ...x,
                     voteScore: parseInt(action.json.VoteScore, 10),
                     currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
+                }
+                : x);
+        case ActionTypes.COMMENTS_UPDATE_AFTER_CREATE:
+            return state.map(x => x.id === parseInt(action.json.CountdownId, 10)
+                ? {
+                    ...x,
+                    commentsCount: x.commentsCount + 1
                 }
                 : x);
         default:

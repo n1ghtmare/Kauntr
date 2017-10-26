@@ -24,3 +24,10 @@ export function updateCountdownListAfterCreate(json: any) {
         json
     };
 }
+
+export function updateCommentListAfterCreate(json: any) {
+    return {
+        type: ActionTypes.COMMENTS_UPDATE_AFTER_CREATE,
+        json
+    };
+}

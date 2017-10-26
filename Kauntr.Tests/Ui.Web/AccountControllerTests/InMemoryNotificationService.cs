@@ -24,5 +24,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public void UpdateClientsAfterCreate(Countdown countdown) {
             throw new System.NotImplementedException();
         }
+
+        public void UpdateClientsAfterCreate(Comment comment) {
+            throw new System.NotImplementedException();
+        }
     }
 }

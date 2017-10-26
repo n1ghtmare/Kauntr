@@ -21,9 +21,28 @@ interface CommentListStateExtended extends CommentListState {
     onDisplayOrderChange: (displayOrder: CommentDisplayOrderType) => void;
     onCommentCreation: (text: string) => void;
     onCommentVoteCast: (commentId: number, value: number) => void;
+    onRefresh: () => void;
 }
 
 export default class CommentList extends React.Component<CommentListStateExtended, any> {
+    private handleRefreshClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        this.props.onRefresh();
+    }
+
+    renderUpdatesIndicator() {
+        const { totalCreationsFromServer } = this.props;
+        return totalCreationsFromServer === 0
+            ? null
+            : (
+                <span className="muted">
+                    - <a href="#" onClick={this.handleRefreshClick} title="refresh">
+                        (has {totalCreationsFromServer} {pluralizeNaive(totalCreationsFromServer, "update")})
+                    </a>
+                </span>
+            );
+    }
+
     renderList() {
         const { total, isAuthenticated } = this.props;
         const comments = this.props.comments.map(x =>
@@ -33,7 +52,7 @@ export default class CommentList extends React.Component<CommentListStateExtende
         return (
             <div className="animated fadeIn">
                 <CommentForm isActive={this.props.isLoadingData || this.props.isCreatingNew} isAuthenticated={isAuthenticated} onSubmit={this.props.onCommentCreation} returnUrl={this.props.returnUrl} />
-                <h4>{total} {pluralizeNaive(total, "comment")} {total === 0 ? "... yet" : null}</h4>
+                <h4>{total} {pluralizeNaive(total, "comment")} {total === 0 ? "... yet" : null} {this.renderUpdatesIndicator()}</h4>
                 <CommentOrderControls onChange={this.props.onDisplayOrderChange} displayOrderType={this.props.displayOrderType} itemsTotalCount={total} />
                 <div className="comments">
                     {comments}

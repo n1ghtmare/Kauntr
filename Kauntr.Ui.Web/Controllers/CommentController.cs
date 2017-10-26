@@ -63,6 +63,8 @@ namespace Kauntr.Ui.Web.Controllers {
                 };
 
                 await _commentRepository.CreateAsync(comment);
+                _notificationService.UpdateClientsAfterCreate(comment);
+
                 return new EmptyResult();
             }
             return new HttpStatusCodeResult(400, "Bad Request");

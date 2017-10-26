@@ -48,6 +48,11 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         dispatch(fetchCommentsIfNeeded(router.params.id, page, commentList.displayOrderType));
     }
 
+    private handleCommentListRefresh = (): void => {
+        const { dispatch, router, commentList } = this.props;
+        dispatch(fetchCommentsIfNeeded(router.params.id, 1, commentList.displayOrderType));
+    }
+
     private handleCommentDisplayOrderChange = (displayOrderType: CommentDisplayOrderType): void => {
         const { dispatch, router } = this.props;
         dispatch(fetchCommentsIfNeeded(router.params.id, 1, displayOrderType));
@@ -78,6 +83,7 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
                     <DiamondsSeparator />
                     <CommentList {...this.props.commentList}
                         onPageChange={this.handleCommentListPageChange}
+                        onRefresh={this.handleCommentListRefresh}
                         onDisplayOrderChange={this.handleCommentDisplayOrderChange}
                         onCommentCreation={this.handleCommentCreation}
                         onCommentVoteCast={this.handleCommentVoteCast}

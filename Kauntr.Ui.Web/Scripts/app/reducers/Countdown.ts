@@ -21,7 +21,8 @@ export const initialCommentState: CommentListState = {
     page: 1,
     displayOrderType: CommentDisplayOrderType.Latest,
     token: null,
-    total: 0
+    total: 0,
+    totalCreationsFromServer: 0
 };
 
 export const initialState: CountdownState = {
@@ -97,6 +98,11 @@ export default function countdown(state = initialState, action: CountdownAction)
                 voteScore: parseInt(action.json.VoteScore, 10),
                 currentUserVote: action.json.CurrentUserVote !== null ? parseInt(action.json.CurrentUserVote, 10) : null
             };
+        case ActionTypes.COMMENTS_UPDATE_AFTER_CREATE:
+            return parseInt(action.json.CountdownId, 10) !== state.id ? state : {
+                ...state,
+                commentList: commentList(state.commentList, action)
+            };
         case ActionTypes.LOAD_COMMENTS:
         case ActionTypes.LOAD_COMMENTS_SUCCESS:
         case ActionTypes.LOAD_COMMENTS_FAILURE:
@@ -122,7 +128,8 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
             return {
                 ...state,
                 isLoadingData: true,
-                token: action.token
+                token: action.token,
+                totalCreationsFromServer: 0
             };
         case ActionTypes.LOAD_COMMENTS_SUCCESS:
             return {
@@ -162,6 +169,11 @@ function commentList(state = initialCommentState, action: CountdownAction): Comm
             return {
                 ...state,
                 comments: commentSubList(state.comments, action)
+            };
+        case ActionTypes.COMMENTS_UPDATE_AFTER_CREATE:
+            return {
+                ...state,
+                totalCreationsFromServer: state.totalCreationsFromServer + 1
             };
         default:
             return state;

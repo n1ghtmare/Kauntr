@@ -5,7 +5,8 @@ import AppState from "../interfaces/AppState";
 import {
     updateCountdownAfterVote,
     updateCommentAfterVote,
-    updateCountdownListAfterCreate
+    updateCountdownListAfterCreate,
+    updateCommentListAfterCreate
 } from "../actions/LiveActions";
 
 export default function startSignalRHub(store: Store<any>) {
@@ -17,6 +18,8 @@ export default function startSignalRHub(store: Store<any>) {
     hubProxy.on("broadcastCommentUpdate", (comment: any) => store.dispatch(updateCommentAfterVote(comment)));
 
     hubProxy.on("broadcastCountdownCreate", (countdown: any) => store.dispatch(updateCountdownListAfterCreate(countdown)));
+
+    hubProxy.on("broadcastCommentCreate", (comment: any) => store.dispatch(updateCommentListAfterCreate(comment)));
 
     connection.hub.start();
 }

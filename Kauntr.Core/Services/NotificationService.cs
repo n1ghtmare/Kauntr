@@ -39,5 +39,7 @@ namespace Kauntr.Core.Services {
         public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => _notificationHub.UpdateClientsAfterVote(commentAggregate);
 
         public void UpdateClientsAfterCreate(Countdown countdown) => _notificationHub.UpdateClientsAfterCreate(countdown);
+
+        public void UpdateClientsAfterCreate(Comment comment) => _notificationHub.UpdateClientsAfterCreate(comment);
     }
 }
