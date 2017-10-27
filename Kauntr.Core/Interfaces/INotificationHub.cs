@@ -6,5 +6,6 @@ namespace Kauntr.Core.Interfaces {
         void UpdateClientsAfterVote(CommentAggregate commentAggregate);
         void UpdateClientsAfterCreate(Countdown countdown);
         void UpdateClientsAfterCreate(Comment comment);
+        void UpdateClientsAfterNotificationsChange(int ownedByAccountId, int totalCount);
     }
 }

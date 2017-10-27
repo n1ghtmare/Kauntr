@@ -8,9 +8,13 @@ using Kauntr.Core.Interfaces;
 namespace Kauntr.Core.Services {
     public class NotificationService : INotificationService {
         private readonly INotificationHub _notificationHub;
+        private readonly INotificationRepository _notificationRepository;
+        private readonly ICountdownRepository _countdownRepository;
 
-        public NotificationService(INotificationHub notificationHub) {
+        public NotificationService(INotificationHub notificationHub, INotificationRepository notificationRepository, ICountdownRepository countdownRepository) {
             _notificationHub = notificationHub;
+            _notificationRepository = notificationRepository;
+            _countdownRepository = countdownRepository;
         }
 
         // TODO - Refactor and add proper unit tests here
@@ -41,5 +45,28 @@ namespace Kauntr.Core.Services {
         public void UpdateClientsAfterCreate(Countdown countdown) => _notificationHub.UpdateClientsAfterCreate(countdown);
 
         public void UpdateClientsAfterCreate(Comment comment) => _notificationHub.UpdateClientsAfterCreate(comment);
+
+        public async Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange) {
+            Countdown countdown = await _countdownRepository.GetAsync(countdownId);
+            Notification notification = await CreateCountdownNotificationAsync(countdown);
+            notificationChange.NotificationId = notification.Id;
+
+            await _notificationRepository.CreateAsync(notificationChange);
+
+            int totalCount = await _notificationRepository.GetTotalCountAsync(notification.OwnedByAccountId);
+            _notificationHub.UpdateClientsAfterNotificationsChange(notification.OwnedByAccountId, totalCount);
+        }
+
+        private async Task<Notification> CreateCountdownNotificationAsync(Countdown countdown) {
+            Notification notification = await _notificationRepository.GetByCountdownIdAsync(countdown.Id, countdown.CreatedByAccountId);
+            if (notification == null) {
+                notification = new Notification {
+                    CountdownId = countdown.Id,
+                    OwnedByAccountId = countdown.CreatedByAccountId
+                };
+                await _notificationRepository.CreateAsync(notification);
+            }
+            return notification;
+        }
     }
 }

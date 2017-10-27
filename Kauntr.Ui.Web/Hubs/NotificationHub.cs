@@ -11,5 +11,6 @@ namespace Kauntr.Ui.Web.Hubs {
         public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => Hub.Clients.All.broadcastCommentUpdate(commentAggregate);
         public void UpdateClientsAfterCreate(Countdown countdown) => Hub.Clients.All.broadcastCountdownCreate(countdown);
         public void UpdateClientsAfterCreate(Comment comment) => Hub.Clients.All.broadcastCommentCreate(comment);
+        public void UpdateClientsAfterNotificationsChange(int ownedByAccountId, int totalCount) => Hub.Clients.All.broadcastNotificationsCountChange(ownedByAccountId, totalCount);
     }
 }

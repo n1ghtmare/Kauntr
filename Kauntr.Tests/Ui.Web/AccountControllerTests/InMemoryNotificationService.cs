@@ -28,5 +28,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public void UpdateClientsAfterCreate(Comment comment) {
             throw new System.NotImplementedException();
         }
+
+        public Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange) {
+            throw new System.NotImplementedException();
+        }
     }
 }

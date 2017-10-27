@@ -56,10 +56,14 @@
     <Compile Include="Entities\CountdownDisplayOrderType.cs" />
     <Compile Include="Entities\CountdownSubFilter.cs" />
     <Compile Include="Entities\CountdownFilter.cs" />
+    <Compile Include="Entities\Notification.cs" />
+    <Compile Include="Entities\NotificationChange.cs" />
+    <Compile Include="Entities\NotificationActionType.cs" />
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="Helpers\SystemClock.cs" />
     <Compile Include="Interfaces\ICommentRepository.cs" />
     <Compile Include="Interfaces\INotificationHub.cs" />
+    <Compile Include="Interfaces\INotificationRepository.cs" />
     <Compile Include="Interfaces\ISystemClock.cs" />
     <Compile Include="Interfaces\IAccountRepository.cs" />
     <Compile Include="Interfaces\IAuthenticationTokenRepository.cs" />
@@ -73,6 +77,7 @@
     <Compile Include="Repositories\AuthenticationTokenRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\CountdownRepository.cs" />
+    <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\VoteRepository.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\NotificationService.cs" />

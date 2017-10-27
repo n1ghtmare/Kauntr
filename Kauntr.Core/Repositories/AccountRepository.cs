@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Dapper;
@@ -40,7 +39,7 @@ namespace Kauntr.Core.Repositories {
                     @"INSERT Accounts (DisplayName, Email, CreatedOn, Reputation, IsAutoSetup)
                     OUTPUT INSERTED.Id
                     VALUES (@DisplayName, @Email, @CreatedOn, @Reputation, @IsAutoSetup)";
-                account.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, account);
+                account.Id = await connection.QuerySingleOrDefaultAsync<int>(sql, account);
             }
         }
 

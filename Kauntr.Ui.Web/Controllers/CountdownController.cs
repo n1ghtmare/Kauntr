@@ -136,7 +136,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 if (existingVote != null) {
                     await _voteRepository.DeleteAsync(existingVote.Id);
                     if (existingVote.Value == model.Value) {
-                        return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
+                        return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId, model.Value);
                     }
                 }
 
@@ -147,14 +147,20 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int)_contextService.CurrentUserAccountId);
+                return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int)_contextService.CurrentUserAccountId, model.Value);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
-        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId) {
+        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId, short voteValue) {
             CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, currentUserAccountId);
             _notificationService.UpdateClientsAfterVote(countdownAggregate);
+
+            await _notificationService.NotifyCountdownOwnerAsync(countdownId, new NotificationChange {
+                CreatedByAccountId = currentUserAccountId,
+                CreatedOn = _systemClock.UtcNow,
+                NotificationActionType = voteValue > 0 ? NotificationActionType.Upvoted : NotificationActionType.Downvoted
+            });
 
             var model = new CountdownVoteViewModel {
                 CountdownId = countdownId,

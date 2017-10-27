@@ -21,5 +21,12 @@ export default function startSignalRHub(store: Store<any>) {
 
     hubProxy.on("broadcastCommentCreate", (comment: any) => store.dispatch(updateCommentListAfterCreate(comment)));
 
+    hubProxy.on("broadcastNotificationsCountChange", (ownedByAccountId: number, totalCount: number) =>
+        // store.dispatch(updateCommentListAfterCreate(comment))
+        console.log("OwnerAccountId: " + ownedByAccountId + " Notifications: " + totalCount)
+    );
+
+
+
     connection.hub.start();
 }

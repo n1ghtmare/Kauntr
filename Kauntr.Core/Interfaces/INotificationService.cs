@@ -9,5 +9,6 @@ namespace Kauntr.Core.Interfaces {
         void UpdateClientsAfterVote(CommentAggregate commentAggregate);
         void UpdateClientsAfterCreate(Countdown countdown);
         void UpdateClientsAfterCreate(Comment comment);
+        Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange);
     }
 }
