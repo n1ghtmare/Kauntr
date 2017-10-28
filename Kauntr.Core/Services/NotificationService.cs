@@ -1,4 +1,6 @@
-﻿using System.Net.Mail;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,13 +40,13 @@ namespace Kauntr.Core.Services {
             });
         }
 
-        public void UpdateClientsAfterVote(CountdownAggregate countdownAggregate) => _notificationHub.UpdateClientsAfterVote(countdownAggregate);
+        public void UpdateClientsAfterVote(CountdownAggregate countdownAggregate) => _notificationHub.BroadcastCountdownUpdate(countdownAggregate);
 
-        public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => _notificationHub.UpdateClientsAfterVote(commentAggregate);
+        public void UpdateClientsAfterVote(CommentAggregate commentAggregate) => _notificationHub.BroadcastCountdownUpdate(commentAggregate);
 
-        public void UpdateClientsAfterCreate(Countdown countdown) => _notificationHub.UpdateClientsAfterCreate(countdown);
+        public void UpdateClientsAfterCreate(Countdown countdown) => _notificationHub.BroadcastCountdownCreate(countdown);
 
-        public void UpdateClientsAfterCreate(Comment comment) => _notificationHub.UpdateClientsAfterCreate(comment);
+        public void UpdateClientsAfterCreate(Comment comment) => _notificationHub.BroadcastCountdownCreate(comment);
 
         public async Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange) {
             Countdown countdown = await _countdownRepository.GetAsync(countdownId);
@@ -53,8 +55,30 @@ namespace Kauntr.Core.Services {
 
             await _notificationRepository.CreateAsync(notificationChange);
 
-            int totalCount = await _notificationRepository.GetTotalCountAsync(notification.OwnedByAccountId);
-            _notificationHub.UpdateClientsAfterNotificationsChange(notification.OwnedByAccountId, totalCount);
+//            int totalCount = await _notificationRepository.GetTotalCountAsync(notification.OwnedByAccountId);
+//            _notificationHub.UpdateClientsAfterNotificationsChange(notification.OwnedByAccountId, totalCount);
+        }
+
+        public async Task ClearCountdownVoteNotificationsAsync(long countdownId, int ownedByAccountId, int createdByAccountId) {
+            Notification notification = await _notificationRepository.GetByCountdownIdAsync(countdownId, ownedByAccountId);
+            if (notification != null) {
+                List<NotificationChange> changes = (await _notificationRepository.GetNotificationChangesAsync(notification.Id)).ToList();
+                List<NotificationChange> changesCreatedByAccount = changes
+                    .Where(x => x.CreatedByAccountId == createdByAccountId
+                                && (x.NotificationActionType == NotificationActionType.Downvoted || x.NotificationActionType == NotificationActionType.Upvoted))
+                    .ToList();
+
+                await _notificationRepository.DeleteNotificationChangesAsync(changesCreatedByAccount.Select(x => x.Id));
+
+                if (changes.Count == changesCreatedByAccount.Count) {
+                    await _notificationRepository.DeleteAsync(notification.Id);
+                    _notificationHub.BroadcastNotificationDelete(notification);
+                }
+                else {
+                    // Update clients with the new summary of the Notification ...
+//                    _notificationHub.BroadcastNotificationUpdate()
+                }
+            }
         }
 
         private async Task<Notification> CreateCountdownNotificationAsync(Countdown countdown) {

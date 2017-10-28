@@ -1,7 +1,7 @@
 ﻿namespace Kauntr.Core.Entities {
     public enum NotificationActionType : short {
-        Upvoted,
-        Downvoted,
-        Commented
+        Upvoted = 1,
+        Downvoted = 2,
+        Commented = 3
     }
 }

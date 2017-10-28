@@ -2,10 +2,11 @@
 
 namespace Kauntr.Core.Interfaces {
     public interface INotificationHub {
-        void UpdateClientsAfterVote(CountdownAggregate countdownAggregate);
-        void UpdateClientsAfterVote(CommentAggregate commentAggregate);
-        void UpdateClientsAfterCreate(Countdown countdown);
-        void UpdateClientsAfterCreate(Comment comment);
-        void UpdateClientsAfterNotificationsChange(int ownedByAccountId, int totalCount);
+        void BroadcastCountdownUpdate(CountdownAggregate countdownAggregate);
+        void BroadcastCountdownUpdate(CommentAggregate commentAggregate);
+        void BroadcastCountdownCreate(Countdown countdown);
+        void BroadcastCountdownCreate(Comment comment);
+        void BroadcastNotificationDelete(Notification notification);
+//        void BroadcastNotificationCreate(Notification notification, string summary);
     }
 }

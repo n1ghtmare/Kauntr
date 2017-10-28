@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace Kauntr.Core.Repositories {
                 const string sql =
                     @"INSERT INTO Notifications (OwnedByAccountId, ViewedOn, CountdownId, CommentId)
                     OUTPUT INSERTED.Id
-                    VALUES (@OwnedByAccountId, ViewedOn, CountdownId, CommentId)";
+                    VALUES (@OwnedByAccountId, @ViewedOn, @CountdownId, @CommentId)";
                 notification.Id = await connection.QuerySingleOrDefaultAsync<long>(sql, notification);
             }
         }
@@ -64,6 +64,37 @@ namespace Kauntr.Core.Repositories {
                     WHERE ViewedOn IS NULL
                     AND OwnedByAccountId = @ownedByAccountId";
                 return await connection.ExecuteScalarAsync<int>(sql, new {ownedByAccountId});
+            }
+        }
+
+        public async Task<IEnumerable<NotificationChange>> GetNotificationChangesAsync(long notificationId) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    NC.Id,
+	                    NC.NotificationId,
+	                    NC.CreatedByAccountId,
+	                    NC.CreatedOn,
+	                    NC.NotificationActionTypeId [NotificationActionType]
+                    FROM NotificationChanges NC
+                    INNER JOIN Notifications N ON NC.NotificationId = N.Id
+                    WHERE NC.NotificationId = @notificationId
+                    AND N.ViewedOn IS NULL";
+                return await connection.QueryAsync<NotificationChange>(sql, new {notificationId});
+            }
+        }
+
+        public async Task DeleteNotificationChangesAsync(IEnumerable<long> ids) {
+            using (IDbConnection connection = Connection) {
+                const string sql = "DELETE FROM NotificationChanges WHERE Id IN @ids";
+                await connection.ExecuteAsync(sql, new {ids});
+            }
+        }
+
+        public async Task DeleteAsync(long id) {
+            using (IDbConnection connection = Connection) {
+                const string sql = "DELETE FROM Notifications WHERE Id = @id";
+                await connection.ExecuteAsync(sql, new {id});
             }
         }
     }

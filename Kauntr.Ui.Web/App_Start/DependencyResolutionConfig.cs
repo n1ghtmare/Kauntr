@@ -16,6 +16,7 @@ namespace Kauntr.Ui.Web {
             var autofacBuilder = new ContainerBuilder();
 
             autofacBuilder.RegisterType<NotificationHub>().As<INotificationHub>().ExternallyOwned();
+            autofacBuilder.RegisterType<NotificationRepository>().As<INotificationRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<CountdownRepository>().As<ICountdownRepository>().InstancePerRequest();
             autofacBuilder.RegisterType<CommentRepository>().As<ICommentRepository>().InstancePerRequest();

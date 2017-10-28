@@ -136,7 +136,7 @@ namespace Kauntr.Ui.Web.Controllers {
                 if (existingVote != null) {
                     await _voteRepository.DeleteAsync(existingVote.Id);
                     if (existingVote.Value == model.Value) {
-                        return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId, model.Value);
+                        return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int) _contextService.CurrentUserAccountId);
                     }
                 }
 
@@ -147,20 +147,24 @@ namespace Kauntr.Ui.Web.Controllers {
                     CastedOn = _systemClock.UtcNow
                 };
                 await _voteRepository.CreateAsync(vote);
-                return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int)_contextService.CurrentUserAccountId, model.Value);
+                return await NotifyClientsAndGenerateVoteResultAsync(model.CountdownId, (int)_contextService.CurrentUserAccountId);
             }
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
-        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId, short voteValue) {
+        private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long countdownId, int currentUserAccountId) {
             CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, currentUserAccountId);
-            _notificationService.UpdateClientsAfterVote(countdownAggregate);
 
-            await _notificationService.NotifyCountdownOwnerAsync(countdownId, new NotificationChange {
-                CreatedByAccountId = currentUserAccountId,
-                CreatedOn = _systemClock.UtcNow,
-                NotificationActionType = voteValue > 0 ? NotificationActionType.Upvoted : NotificationActionType.Downvoted
-            });
+            await _notificationService.ClearCountdownVoteNotificationsAsync(countdownId, countdownAggregate.CreatedByAccountId, currentUserAccountId);
+            if (countdownAggregate.CurrentUserVote != 0) {
+                await _notificationService.NotifyCountdownOwnerAsync(countdownId, new NotificationChange {
+                    CreatedByAccountId = currentUserAccountId,
+                    CreatedOn = _systemClock.UtcNow,
+                    NotificationActionType = countdownAggregate.CurrentUserVote > 0 ? NotificationActionType.Upvoted : NotificationActionType.Downvoted
+                });
+            }
+
+            _notificationService.UpdateClientsAfterVote(countdownAggregate);
 
             var model = new CountdownVoteViewModel {
                 CountdownId = countdownId,
