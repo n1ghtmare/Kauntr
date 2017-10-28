@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Kauntr.Ui.Web.Helpers {
-    public class SignalRConnectionMapping<T> {
+    public class ConnectionMapping<T> {
         private readonly Dictionary<T, HashSet<string>> _connections = new Dictionary<T, HashSet<string>>();
 
         public int Count => _connections.Count;
