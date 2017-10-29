@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="Helpers\AutoMapperHelper.cs" />
     <Compile Include="Helpers\AvatarHelpers.cs" />
+    <Compile Include="Helpers\ConnectionMapping.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Models\AccountUpdateViewModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />

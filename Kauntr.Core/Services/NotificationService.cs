@@ -72,6 +72,7 @@ namespace Kauntr.Core.Services {
 
                 if (changes.Count == changesCreatedByAccount.Count) {
                     await _notificationRepository.DeleteAsync(notification.Id);
+
                     _notificationHub.BroadcastNotificationDelete(notification);
                 }
                 else {
