@@ -24,9 +24,12 @@ namespace Kauntr.Ui.Web.Hubs {
         public void BroadcastCountdownCreate(Comment comment) => Hub.Clients.All.broadcastCommentCreate(comment);
 
         public void BroadcastNotificationDelete(Notification notification) {
-            foreach (string connectionId in _connections.GetConnections(notification.OwnedByAccountId.ToString())) {
-                Hub.Clients.Client(connectionId).broadcastNotificationDelete(notification);
-            }
+            // TODO - Remove after debug/dev (should be broadcasted to the owner of the notification only)
+            Hub.Clients.All.broadcastNotificationDelete(notification);
+
+//            foreach (string connectionId in _connections.GetConnections(notification.OwnedByAccountId.ToString())) {
+//                Hub.Clients.Client(connectionId).broadcastNotificationDelete(notification);
+//            }
         }
 
         public override Task OnConnected() {

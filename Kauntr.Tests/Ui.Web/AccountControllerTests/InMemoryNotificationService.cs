@@ -32,5 +32,9 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
         public Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange) {
             throw new System.NotImplementedException();
         }
+
+        public Task ClearCountdownVoteNotificationsAsync(long countdownId, int ownedByAccountId, int createdByAccountId) {
+            throw new System.NotImplementedException();
+        }
     }
 }

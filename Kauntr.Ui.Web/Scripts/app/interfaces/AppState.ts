@@ -12,6 +12,6 @@ interface AppState {
     countdown: CountdownState;
     countdownList: CountdownListState;
     error: ErrorState;
-};
+}
 
 export default AppState;

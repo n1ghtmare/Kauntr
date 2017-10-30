@@ -57,6 +57,7 @@
     <Compile Include="Entities\CountdownSubFilter.cs" />
     <Compile Include="Entities\CountdownFilter.cs" />
     <Compile Include="Entities\Notification.cs" />
+    <Compile Include="Entities\NotificationAggregate.cs" />
     <Compile Include="Entities\NotificationChange.cs" />
     <Compile Include="Entities\NotificationActionType.cs" />
     <Compile Include="Entities\Vote.cs" />

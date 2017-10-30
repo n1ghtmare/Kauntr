@@ -97,5 +97,23 @@ namespace Kauntr.Core.Repositories {
                 await connection.ExecuteAsync(sql, new {id});
             }
         }
+
+        public async Task<IEnumerable<NotificationAggregate>> GetAggregatesAsync(int ownedByAccountId) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    N.Id,
+	                    N.OwnedByAccountId,
+	                    (SELECT TOP 1 CreatedOn FROM NotificationChanges WHERE NotificationId = N.Id ORDER BY CreatedOn DESC) LastChangedOn,
+	                    N.CountdownId,
+	                    N.CommentId,
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 1) UpvoteActions,
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 2) DownvoteActions,
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 3) CommentActions
+                    FROM Notifications N
+                    WHERE N.OwnedByAccountId = @ownedByAccountId";
+                return await connection.QueryAsync<NotificationAggregate>(sql, new {ownedByAccountId});
+            }
+        }
     }
 }
