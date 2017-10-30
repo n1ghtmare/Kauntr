@@ -5,6 +5,7 @@ import authentication from "./Authentication";
 import account from "./Account";
 import countdown from "./Countdown";
 import countdownList from "./CountdownList";
+import notificationList from "./NotificationList";
 import error from "./Error";
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     account,
     countdown,
     countdownList,
+    notificationList,
     error
 });
 

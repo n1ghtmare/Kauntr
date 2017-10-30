@@ -4,6 +4,7 @@ import AccountState from "./AccountState";
 import ErrorState from "./ErrorState";
 import CountdownState from "./CountdownState";
 import CountdownListState from "./CountdownListState";
+import NotificationListState from "./NotificationListState";
 
 interface AppState {
     sharedContext: SharedContextState;
@@ -11,6 +12,7 @@ interface AppState {
     account: AccountState;
     countdown: CountdownState;
     countdownList: CountdownListState;
+    notificationList: NotificationListState;
     error: ErrorState;
 }
 

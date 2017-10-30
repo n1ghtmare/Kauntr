@@ -4,7 +4,7 @@ namespace Kauntr.Core.Entities {
     public class NotificationAggregate {
         public long Id { get; set; }
         public int OwnedByAccountId { get; set; }
-        public DateTime? LastChangeOn { get; set; }
+        public DateTime? LastChangedOn { get; set; }
         public long? CountdownId { get; set; }
         public long? CommentId { get; set; }
 
