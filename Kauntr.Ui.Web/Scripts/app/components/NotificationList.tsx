@@ -24,7 +24,7 @@ export class NotificationList extends React.Component<NotificationListState, any
 
     renderList() {
         const notifications = this.props.notifications.map(x =>
-            <div key={x.id}>{x.summary} - notification yo</div>
+            <div key={x.id}>notification - TODO (generate summary)</div>
         );
         return (
             <div className="animated fadeIn">

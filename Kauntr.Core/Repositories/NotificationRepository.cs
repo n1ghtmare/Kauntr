@@ -107,10 +107,14 @@ namespace Kauntr.Core.Repositories {
 	                    (SELECT TOP 1 CreatedOn FROM NotificationChanges WHERE NotificationId = N.Id ORDER BY CreatedOn DESC) LastChangedOn,
 	                    N.CountdownId,
 	                    N.CommentId,
-	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 1) UpvoteActions,
-	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 2) DownvoteActions,
-	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 3) CommentActions
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 1) UpvotesActions,
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 2) DownvotesActions,
+	                    (SELECT COUNT(Id) FROM NotificationChanges WHERE NotificationId = N.Id AND NotificationActionTypeId = 3) CommentActions,
+	                    CM.Text [CommentContent],
+	                    C.Description [CountdownContent]
                     FROM Notifications N
+                    LEFT OUTER JOIN Countdowns C ON N.CountdownId = C.Id
+                    LEFT OUTER JOIN Comments CM ON N.CommentId = CM.Id
                     WHERE N.OwnedByAccountId = @ownedByAccountId";
                 return await connection.QueryAsync<NotificationAggregate>(sql, new {ownedByAccountId});
             }

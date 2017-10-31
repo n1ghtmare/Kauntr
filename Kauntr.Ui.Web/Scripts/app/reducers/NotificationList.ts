@@ -57,6 +57,7 @@ function parseNotifications(notifications: Array<any>): Array<NotificationState>
         countdownId: x.CountdownId !== null ? parseInt(x.CountdownId, 10) : null,
         ownedByAccountId: parseInt(x.OwnedByAccountId, 10),
         lastChangedOn: parseRawDate(x.LastChangedOn),
-        summary: x.Summary
+        commentContent: x.CommentContent,
+        countdownContent: x.CountdownContent
     }) as NotificationState);
 }

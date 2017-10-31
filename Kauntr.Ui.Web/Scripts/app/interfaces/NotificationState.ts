@@ -9,7 +9,8 @@ interface NotificationState {
     upvoteActions: number;
     downvoteActions: number;
     commentActions: number;
-    summary: string;
+    commentContent: string;
+    countdownContent: string;
 }
 
 export default NotificationState;
