@@ -104,6 +104,7 @@
     <Compile Include="Ui.Web\CountdownControllerTests\InMemoryCountdownRepository.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\TestableCountdownController.cs" />
     <Compile Include="Ui.Web\CountdownControllerTests\Index.cs" />
+    <Compile Include="Ui.Web\Helpers\InMemoryNotificationRepository.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\Index.cs" />
     <Compile Include="Ui.Web\SharedContextControllerTests\TestableSharedContextController.cs" />
     <Compile Include="Ui.Web\CommentControllerTests\Vote.cs" />

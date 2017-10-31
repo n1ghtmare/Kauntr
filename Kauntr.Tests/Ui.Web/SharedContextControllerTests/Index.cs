@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 using NUnit.Framework;
 
+using Kauntr.Core.Entities;
 using Kauntr.Ui.Web.Models;
 
 namespace Kauntr.Tests.Ui.Web.SharedContextControllerTests {
@@ -28,6 +29,9 @@ namespace Kauntr.Tests.Ui.Web.SharedContextControllerTests {
             const int accountId = 2;
 
             controller.MockContextService.Setup(x => x.CurrentUserAccountId).Returns(accountId);
+            controller.NotificationRepository.NotificationAggregates.Add(new NotificationAggregate());
+            controller.NotificationRepository.NotificationAggregates.Add(new NotificationAggregate());
+            controller.NotificationRepository.NotificationAggregates.Add(new NotificationAggregate());
 
             JsonResult result = await controller.Index(token);
             SharedContextViewModel model = result.Data as SharedContextViewModel;
@@ -35,7 +39,7 @@ namespace Kauntr.Tests.Ui.Web.SharedContextControllerTests {
             Assert.IsNotNull(model);
             Assert.AreEqual(accountId, model.CurrentUserAccountId);
             Assert.AreEqual(token, model.Token);
-            // TODO - Check if notifications count is correct
+            Assert.AreEqual(3, model.NotificationsCount);
         }
     }
 }

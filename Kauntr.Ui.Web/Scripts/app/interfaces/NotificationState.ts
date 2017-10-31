@@ -6,6 +6,9 @@ interface NotificationState {
     lastChangedOn: Moment;
     countdownId?: number;
     commentId?: number;
+    upvoteActions: number;
+    downvoteActions: number;
+    commentActions: number;
     summary: string;
 }
 

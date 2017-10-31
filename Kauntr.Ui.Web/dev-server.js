@@ -37,6 +37,7 @@ app.get("/Account/*", forwardRequestFunc);
 app.get("/Countdown/*", forwardRequestFunc);
 app.get("/Comment/*", forwardRequestFunc);
 app.get("/Vote/*", forwardRequestFunc);
+app.get("/Notification/*", forwardRequestFunc);
 app.get("/signalr/*", forwardRequestFunc);
 
 // HTTP POST
@@ -44,6 +45,7 @@ app.post("/Account/*", forwardRequestFunc);
 app.post("/Countdown/*", forwardRequestFunc);
 app.post("/Comment/*", forwardRequestFunc);
 app.post("/Vote/*", forwardRequestFunc);
+app.post("/Notification/*", forwardRequestFunc);
 app.post("/signalr/*", forwardRequestFunc);
 
 app.use("/Content", express.static(__dirname + "/Content"));

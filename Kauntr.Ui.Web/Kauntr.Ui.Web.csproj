@@ -187,6 +187,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CountdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\SharedContextController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -207,6 +208,7 @@
     <Compile Include="Models\CountdownViewModel.cs" />
     <Compile Include="Models\CountdownVoteViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\NotificationListViewModel.cs" />
     <Compile Include="Models\SharedContextViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContextService.cs" />
@@ -280,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
