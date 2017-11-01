@@ -2,6 +2,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import {
+    pluralizeNaive
+} from "../helpers/StringHelpers";
+
+import {
     updateSharedContextTitle
 } from "../actions/SharedContextActions";
 
@@ -12,6 +16,7 @@ import {
 import AppState from "../interfaces/AppState";
 import NotificationListState from "../interfaces/NotificationListState";
 
+import Notification from "./Notification";
 import LoadingIndicator from "./LoadingIndicator";
 
 export class NotificationList extends React.Component<NotificationListState, any> {
@@ -22,14 +27,31 @@ export class NotificationList extends React.Component<NotificationListState, any
         dispatch(fetchNotificationsIfNeeded(1));
     }
 
+    private handleDismissAllClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        console.log("DISMISS ALL");
+    }
+
     renderList() {
+        const { total } = this.props;
+
+        const statusTitle = total === 0
+            ? <h3>nope, nothing here ...</h3>
+            : null;
+
+        const dismissAllLink = total > 1
+            ? <span>(<a href="#" title="Dismiss All" onClick={this.handleDismissAllClick}>dismiss all</a>)</span>
+            : null;
+
         const notifications = this.props.notifications.map(x =>
-            <div key={x.id}>notification - TODO (generate summary)</div>
+            <Notification {...x} key={x.id} />
         );
+
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <h3>3 notifications</h3>
+                    <h3>{total} {pluralizeNaive(total, "notification")} {dismissAllLink}</h3>
+                    {statusTitle}
                     <div className="notifications">
                         {notifications}
                     </div>

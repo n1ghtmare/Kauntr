@@ -58,6 +58,9 @@ function parseNotifications(notifications: Array<any>): Array<NotificationState>
         ownedByAccountId: parseInt(x.OwnedByAccountId, 10),
         lastChangedOn: parseRawDate(x.LastChangedOn),
         commentContent: x.CommentContent,
-        countdownContent: x.CountdownContent
+        countdownContent: x.CountdownContent,
+        commentActions: x.CommentActions,
+        downvoteActions: x.DownvoteActions,
+        upvoteActions: x.UpvoteActions
     }) as NotificationState);
 }
