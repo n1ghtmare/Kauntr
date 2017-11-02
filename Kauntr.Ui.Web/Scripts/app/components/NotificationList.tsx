@@ -32,6 +32,10 @@ export class NotificationList extends React.Component<NotificationListState, any
         console.log("DISMISS ALL");
     }
 
+    private handleDismiss = (id: number): void => {
+        console.log("DISMISS");
+    }
+
     renderList() {
         const { total } = this.props;
 
@@ -44,7 +48,7 @@ export class NotificationList extends React.Component<NotificationListState, any
             : null;
 
         const notifications = this.props.notifications.map(x =>
-            <Notification {...x} key={x.id} />
+            <Notification {...x} key={x.id} onDismiss={this.handleDismiss} />
         );
 
         return (

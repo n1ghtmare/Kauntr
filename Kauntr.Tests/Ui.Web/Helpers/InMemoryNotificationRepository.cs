@@ -9,7 +9,7 @@ namespace Kauntr.Tests.Ui.Web.Helpers {
     public class InMemoryNotificationRepository : INotificationRepository {
         public List<NotificationAggregate> NotificationAggregates { get; set; } = new List<NotificationAggregate>();
 
-        public Task CreateAsync(Notification notification) {
+        public Task CreateAsync(Notification notification, NotificationChange notificationChange) {
             throw new NotImplementedException();
         }
 

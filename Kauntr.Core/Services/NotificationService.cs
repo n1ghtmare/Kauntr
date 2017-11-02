@@ -50,10 +50,7 @@ namespace Kauntr.Core.Services {
 
         public async Task NotifyCountdownOwnerAsync(long countdownId, NotificationChange notificationChange) {
             Countdown countdown = await _countdownRepository.GetAsync(countdownId);
-            Notification notification = await CreateCountdownNotificationAsync(countdown);
-            notificationChange.NotificationId = notification.Id;
-
-            await _notificationRepository.CreateAsync(notificationChange);
+            Notification notification = await CreateCountdownNotificationAsync(countdown, notificationChange);
 
 //            int totalCount = await _notificationRepository.GetTotalCountAsync(notification.OwnedByAccountId);
 //            _notificationHub.UpdateClientsAfterNotificationsChange(notification.OwnedByAccountId, totalCount);
@@ -82,14 +79,18 @@ namespace Kauntr.Core.Services {
             }
         }
 
-        private async Task<Notification> CreateCountdownNotificationAsync(Countdown countdown) {
+        private async Task<Notification> CreateCountdownNotificationAsync(Countdown countdown, NotificationChange notificationChange) {
             Notification notification = await _notificationRepository.GetByCountdownIdAsync(countdown.Id, countdown.CreatedByAccountId);
             if (notification == null) {
                 notification = new Notification {
                     CountdownId = countdown.Id,
                     OwnedByAccountId = countdown.CreatedByAccountId
                 };
-                await _notificationRepository.CreateAsync(notification);
+                await _notificationRepository.CreateAsync(notification, notificationChange);
+            }
+            else {
+                notificationChange.NotificationId = notification.Id;
+                await _notificationRepository.CreateAsync(notificationChange);
             }
             return notification;
         }

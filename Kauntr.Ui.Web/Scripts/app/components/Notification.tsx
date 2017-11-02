@@ -8,7 +8,16 @@ import {
 
 import NotificationState from "../interfaces/NotificationState";
 
-export default class Notification extends React.Component<NotificationState, any> {
+interface NotificationStateExtended extends NotificationState {
+    onDismiss: (id: number) => void;
+}
+
+export default class Notification extends React.Component<NotificationStateExtended, any> {
+    private handleDismissClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onDismiss(this.props.id);
+    }
+
     generateActionsString(): string {
         const { upvoteActions, downvoteActions, commentActions } = this.props;
         const a: Array<string> = [];
@@ -34,7 +43,7 @@ export default class Notification extends React.Component<NotificationState, any
             <div className="notification">
                 <div>You have received {this.generateActionsString()} on your {commentId !== null ? "comment" : "countdown"} - <Link to={`/countdown/${countdownId}`}>{this.props.countdownContent}</Link></div>
                 <div>last changed {this.props.lastChangedOn.fromNow()}</div>
-                <div><a href="#" onClick={e => e.preventDefault()}>dismiss</a></div>
+                <div><a href="#" onClick={this.handleDismissClick}>dismiss</a></div>
             </div>
         );
     }

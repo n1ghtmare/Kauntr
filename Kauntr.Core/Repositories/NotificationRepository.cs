@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Transactions;
 
 using Dapper;
 
@@ -18,13 +19,25 @@ namespace Kauntr.Core.Repositories {
             _connectionString = configurationService.DatabaseConnectionString;
         }
 
-        public async Task CreateAsync(Notification notification) {
-            using (IDbConnection connection = Connection) {
-                const string sql =
+        public async Task CreateAsync(Notification notification, NotificationChange notificationChange) {
+            using (IDbConnection connection = Connection)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
+                const string sqlNc =
+                    @"INSERT INTO NotificationChanges (NotificationId, CreatedByAccountId, CreatedOn, NotificationActionTypeId)
+                    OUTPUT INSERTED.Id
+                    VALUES (@NotificationId, @CreatedByAccountId, @CreatedOn, @NotificationActionType)";
+
+                const string sqlN =
                     @"INSERT INTO Notifications (OwnedByAccountId, ViewedOn, CountdownId, CommentId)
                     OUTPUT INSERTED.Id
                     VALUES (@OwnedByAccountId, @ViewedOn, @CountdownId, @CommentId)";
-                notification.Id = await connection.QuerySingleOrDefaultAsync<long>(sql, notification);
+
+                notification.Id = await connection.QuerySingleOrDefaultAsync<long>(sqlN, notification);
+
+                notificationChange.NotificationId = notification.Id;
+                notificationChange.Id = await connection.QuerySingleOrDefaultAsync<long>(sqlNc, notificationChange);
+
+                transactionScope.Complete();
             }
         }
 
@@ -60,9 +73,12 @@ namespace Kauntr.Core.Repositories {
                 const string sql =
                     @"SELECT
 	                    COUNT(Id)
-                    FROM Notifications
+                    FROM Notifications N
                     WHERE ViewedOn IS NULL
-                    AND OwnedByAccountId = @ownedByAccountId";
+                    AND OwnedByAccountId = @ownedByAccountId
+                    AND EXISTS (
+	                    SELECT TOP 1 NotificationId FROM NotificationChanges NC WHERE NC.NotificationId = N.Id
+                    )";
                 return await connection.ExecuteScalarAsync<int>(sql, new {ownedByAccountId});
             }
         }
@@ -115,7 +131,10 @@ namespace Kauntr.Core.Repositories {
                     FROM Notifications N
                     LEFT OUTER JOIN Countdowns C ON N.CountdownId = C.Id
                     LEFT OUTER JOIN Comments CM ON N.CommentId = CM.Id
-                    WHERE N.OwnedByAccountId = @ownedByAccountId";
+                    WHERE N.OwnedByAccountId = @ownedByAccountId
+                    AND EXISTS (
+	                    SELECT TOP 1 NotificationId FROM NotificationChanges NC WHERE NC.NotificationId = N.Id
+                    )";
                 return await connection.QueryAsync<NotificationAggregate>(sql, new {ownedByAccountId});
             }
         }
