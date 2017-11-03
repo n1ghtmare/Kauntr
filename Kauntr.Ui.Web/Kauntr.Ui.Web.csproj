@@ -220,8 +220,6 @@
     <Content Include="Content\css\errors.css" />
     <Content Include="Content\css\grid1140\1140.css" />
     <Content Include="Content\css\grid1140\ie.css" />
-    <Content Include="Content\css\plugins\fineuploader.css" />
-    <Content Include="Content\css\plugins\reveal.css" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\css\_ColorScheme.txt" />
     <Content Include="Content\css\font-awesome.css" />
@@ -264,7 +262,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
