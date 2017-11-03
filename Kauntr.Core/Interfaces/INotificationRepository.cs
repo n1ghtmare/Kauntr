@@ -8,6 +8,7 @@ namespace Kauntr.Core.Interfaces {
         Task CreateAsync(Notification notification, NotificationChange notificationChange);
         Task CreateAsync(NotificationChange notificationChange);
         Task<Notification> GetByCountdownIdAsync(long countdownId, int ownedByAccountId);
+        Task<Notification> GetByCommentIdAsync(long commentId, int ownedByAccountId);
         Task<int> GetTotalCountAsync(int ownedByAccountId);
         Task<IEnumerable<NotificationChange>> GetNotificationChangesAsync(long notificationId);
         Task DeleteNotificationChangesAsync(IEnumerable<long> ids);

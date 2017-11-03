@@ -68,6 +68,23 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
+        public async Task<Notification> GetByCommentIdAsync(long commentId, int ownedByAccountId) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    Id,
+	                    OwnedByAccountId,
+	                    ViewedOn,
+	                    CountdownId,
+	                    CommentId
+                    FROM Notifications
+                    WHERE ViewedOn IS NULL
+                    AND CountdownId = @commentId
+                    AND OwnedByAccountId = @ownedByAccountId";
+                return await connection.QuerySingleOrDefaultAsync<Notification>(sql, new {commentId, ownedByAccountId});
+            }
+        }
+
         public async Task<int> GetTotalCountAsync(int ownedByAccountId) {
             using (IDbConnection connection = Connection) {
                 const string sql =

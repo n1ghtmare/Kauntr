@@ -21,6 +21,10 @@ namespace Kauntr.Tests.Ui.Web.Helpers {
             throw new NotImplementedException();
         }
 
+        public Task<Notification> GetByCommentIdAsync(long commentId, int ownedByAccountId) {
+            throw new NotImplementedException();
+        }
+
         public Task<int> GetTotalCountAsync(int ownedByAccountId) {
             return Task.Run(() => NotificationAggregates.Count);
         }

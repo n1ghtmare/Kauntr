@@ -98,6 +98,18 @@ namespace Kauntr.Ui.Web.Controllers {
 
         private async Task<JsonResult> NotifyClientsAndGenerateVoteResultAsync(long commentId, int currentUserAccountId) {
             CommentAggregate commentAggregate = await _commentRepository.GetAggregateAsync(commentId, currentUserAccountId);
+
+            await _notificationService.ClearCommentVoteNotificationsAsync(commentId, commentAggregate.CreatedByAccountId, currentUserAccountId);
+
+            if (commentAggregate.CurrentUserVote != 0) {
+                var notificationChange = new NotificationChange {
+                    CreatedByAccountId = currentUserAccountId,
+                    CreatedOn = _systemClock.UtcNow,
+                    NotificationActionType = commentAggregate.CurrentUserVote > 0 ? NotificationActionType.Upvoted : NotificationActionType.Downvoted
+                };
+                await _notificationService.NotifyCommentOwnerAsync(commentId, notificationChange);
+            }
+
             _notificationService.UpdateClientsAfterVote(commentAggregate);
 
             var model = new CommentVoteViewModel {

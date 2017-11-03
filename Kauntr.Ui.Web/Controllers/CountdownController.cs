@@ -156,12 +156,14 @@ namespace Kauntr.Ui.Web.Controllers {
             CountdownAggregate countdownAggregate = await _countdownRepository.GetAggregateAsync(countdownId, currentUserAccountId);
 
             await _notificationService.ClearCountdownVoteNotificationsAsync(countdownId, countdownAggregate.CreatedByAccountId, currentUserAccountId);
+
             if (countdownAggregate.CurrentUserVote != 0) {
-                await _notificationService.NotifyCountdownOwnerAsync(countdownId, new NotificationChange {
+                var notificationChange = new NotificationChange {
                     CreatedByAccountId = currentUserAccountId,
                     CreatedOn = _systemClock.UtcNow,
                     NotificationActionType = countdownAggregate.CurrentUserVote > 0 ? NotificationActionType.Upvoted : NotificationActionType.Downvoted
-                });
+                };
+                await _notificationService.NotifyCountdownOwnerAsync(countdownId, notificationChange);
             }
 
             _notificationService.UpdateClientsAfterVote(countdownAggregate);

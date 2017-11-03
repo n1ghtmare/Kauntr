@@ -32,6 +32,22 @@ namespace Kauntr.Ui.Web.Hubs {
 //            }
         }
 
+        public void BroadcastNotificationUpdate(Notification notification) {
+            // TODO - Remove after debug/dev (should be broadcasted to the owner of the notification only)
+            Hub.Clients.All.broadcastNotificationUpdate(notification);
+            //            foreach (string connectionId in _connections.GetConnections(notification.OwnedByAccountId.ToString())) {
+            //                Hub.Clients.Client(connectionId).broadcastNotificationUpdate(notification);
+            //            }
+        }
+
+        public void BroadcastNotificationCreate(Notification notification) {
+            // TODO - Remove after debug/dev (should be broadcasted to the owner of the notification only)
+            Hub.Clients.All.broadcastNotificationCreate(notification);
+            //            foreach (string connectionId in _connections.GetConnections(notification.OwnedByAccountId.ToString())) {
+            //                Hub.Clients.Client(connectionId).broadcastNotificationCreate(notification);
+            //            }
+        }
+
         public override Task OnConnected() {
             if (_contextService.CurrentUserAccountId != null) {
                 _connections.Add(_contextService.CurrentUserAccountId.ToString(), Context.ConnectionId);

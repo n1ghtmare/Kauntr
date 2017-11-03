@@ -33,7 +33,15 @@ namespace Kauntr.Tests.Ui.Web.AccountControllerTests {
             throw new System.NotImplementedException();
         }
 
+        public Task NotifyCommentOwnerAsync(long commentId, NotificationChange notificationChange) {
+            throw new System.NotImplementedException();
+        }
+
         public Task ClearCountdownVoteNotificationsAsync(long countdownId, int ownedByAccountId, int createdByAccountId) {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ClearCommentVoteNotificationsAsync(long commentId, int ownedByAccountId, int createdByAccountId) {
             throw new System.NotImplementedException();
         }
     }
