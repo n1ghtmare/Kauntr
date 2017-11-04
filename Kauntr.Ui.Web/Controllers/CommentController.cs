@@ -61,9 +61,16 @@ namespace Kauntr.Ui.Web.Controllers {
                     CreatedOn = _systemClock.UtcNow,
                     CreatedByAccountId = (int) _contextService.CurrentUserAccountId
                 };
-
                 await _commentRepository.CreateAsync(comment);
+
                 _notificationService.UpdateClientsAfterCreate(comment);
+
+                var notificationChange = new NotificationChange {
+                    CreatedByAccountId = (int) _contextService.CurrentUserAccountId,
+                    CreatedOn = _systemClock.UtcNow,
+                    NotificationActionType = NotificationActionType.Commented
+                };
+                await _notificationService.NotifyCountdownOwnerAsync(comment.CountdownId, notificationChange);
 
                 return new EmptyResult();
             }
