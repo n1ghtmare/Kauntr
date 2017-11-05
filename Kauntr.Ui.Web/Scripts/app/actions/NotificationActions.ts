@@ -53,3 +53,25 @@ function loadNotificationsFailure() {
         type: ActionTypes.LOAD_NOTIFICATIONS_FAILURE
     };
 }
+
+export function dismissNotificationIfNeeded(id: number) {
+    // TODO - dismiss server side
+}
+
+function dismissNotification() {
+    return {
+        type: ActionTypes.DISMISS_NOTIFICATION
+    };
+}
+
+function dismissNotificationSuccess() {
+    return {
+        type: ActionTypes.DISMISS_NOTIFICATION_SUCCESS
+    };
+}
+
+function dismissNotificationFailure() {
+    return {
+        type: ActionTypes.DISMISS_NOTIFICATION_FAILURE
+    };
+}
