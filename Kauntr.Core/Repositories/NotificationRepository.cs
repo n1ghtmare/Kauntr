@@ -155,5 +155,9 @@ namespace Kauntr.Core.Repositories {
                 return await connection.QueryAsync<NotificationAggregate>(sql, new {ownedByAccountId});
             }
         }
+
+        public Task<Notification> GetAsync(long id) {
+            throw new System.NotImplementedException();
+        }
     }
 }

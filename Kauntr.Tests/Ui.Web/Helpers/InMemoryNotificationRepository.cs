@@ -44,5 +44,9 @@ namespace Kauntr.Tests.Ui.Web.Helpers {
         public Task<IEnumerable<NotificationAggregate>> GetAggregatesAsync(int ownedByAccountId) {
             throw new NotImplementedException();
         }
+
+        public Task<Notification> GetAsync(long id) {
+            throw new NotImplementedException();
+        }
     }
 }

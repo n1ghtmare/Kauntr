@@ -34,5 +34,18 @@ namespace Kauntr.Ui.Web.Controllers {
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Dismiss(long id) {
+            Notification notification = await _notificationRepository.GetAsync(id);
+            if (notification == null) {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+
+            if (notification.OwnedByAccountId == _contextService.CurrentUserAccountId) {
+                // TODO - dismiss (Mark as read), the notification here
+            }
+            return new HttpStatusCodeResult(403, "Forbidden");
+        }
     }
 }

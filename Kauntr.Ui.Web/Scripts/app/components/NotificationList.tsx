@@ -10,7 +10,9 @@ import {
 } from "../actions/SharedContextActions";
 
 import {
-    fetchNotificationsIfNeeded
+    fetchNotificationsIfNeeded,
+    dismissNotification,
+    dismissNotificationsAll
 } from "../actions/NotificationActions";
 
 import AppState from "../interfaces/AppState";
@@ -29,11 +31,13 @@ export class NotificationList extends React.Component<NotificationListState, any
 
     private handleDismissAllClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
-        console.log("DISMISS ALL");
+        const { dispatch } = this.props;
+        dispatch(dismissNotificationsAll());
     }
 
     private handleDismiss = (id: number): void => {
-        console.log("DISMISS");
+        const { dispatch } = this.props;
+        dispatch(dismissNotification(id));
     }
 
     renderList() {
