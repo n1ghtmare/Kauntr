@@ -15,5 +15,6 @@ namespace Kauntr.Core.Interfaces {
         Task DeleteAsync(long id);
         Task<IEnumerable<NotificationAggregate>> GetAggregatesAsync(int ownedByAccountId);
         Task<Notification> GetAsync(long id);
+        Task UpdateAsync(Notification notification);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -13,10 +14,12 @@ namespace Kauntr.Ui.Web.Controllers {
     public class NotificationController : Controller {
         private readonly INotificationRepository _notificationRepository;
         private readonly IContextService _contextService;
+        private readonly ISystemClock _systemClock;
 
-        public NotificationController(INotificationRepository notificationRepository, IContextService contextService) {
+        public NotificationController(INotificationRepository notificationRepository, IContextService contextService, ISystemClock systemClock) {
             _notificationRepository = notificationRepository;
             _contextService = contextService;
+            _systemClock = systemClock;
         }
 
         [HttpGet]
@@ -44,6 +47,8 @@ namespace Kauntr.Ui.Web.Controllers {
 
             if (notification.OwnedByAccountId == _contextService.CurrentUserAccountId) {
                 // TODO - dismiss (Mark as read), the notification here
+                notification.ViewedOn = _systemClock.UtcNow;
+                await _notificationRepository.UpdateAsync(notification);
             }
             return new HttpStatusCodeResult(403, "Forbidden");
         }
