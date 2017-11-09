@@ -156,8 +156,18 @@ namespace Kauntr.Core.Repositories {
             }
         }
 
-        public Task<Notification> GetAsync(long id) {
-            throw new System.NotImplementedException();
+        public async Task<Notification> GetAsync(long id) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"SELECT
+	                    Id,
+	                    OwnedByAccountId,
+	                    ViewedOn,
+	                    CountdownId,
+	                    CommentId
+                    FROM Notifications";
+                return await connection.QuerySingleOrDefaultAsync<Notification>(sql, new {id});
+            }
         }
 
         public async Task UpdateAsync(Notification notification) {
