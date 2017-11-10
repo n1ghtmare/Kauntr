@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Kauntr.Core.Entities;
@@ -16,5 +17,6 @@ namespace Kauntr.Core.Interfaces {
         Task<IEnumerable<NotificationAggregate>> GetAggregatesAsync(int ownedByAccountId);
         Task<Notification> GetAsync(long id);
         Task UpdateAsync(Notification notification);
+        Task UpdateAsync(DateTime viewedOn, int ownedByAccountId);
     }
 }

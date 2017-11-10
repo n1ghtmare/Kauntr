@@ -48,5 +48,13 @@ namespace Kauntr.Tests.Ui.Web.Helpers {
         public Task<Notification> GetAsync(long id) {
             throw new NotImplementedException();
         }
+
+        public Task UpdateAsync(Notification notification) {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(DateTime viewedOn, int ownedByAccountId) {
+            throw new NotImplementedException();
+        }
     }
 }

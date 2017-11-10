@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -180,6 +181,16 @@ namespace Kauntr.Core.Repositories {
 	                    CommentId = @CommentId
                     WHERE Id = @Id";
                 await connection.ExecuteAsync(sql, notification);
+            }
+        }
+
+        public async Task UpdateAsync(DateTime viewedOn, int ownedByAccountId) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"UPDATE Notifications SET
+                        ViewedOn = @viewedON
+                    WHERE OwnedByAccountId = @ownedByAccountId";
+                await connection.ExecuteAsync(sql, new {viewedOn, ownedByAccountId});
             }
         }
     }
