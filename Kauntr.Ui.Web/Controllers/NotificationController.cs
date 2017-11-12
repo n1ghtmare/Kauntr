@@ -45,7 +45,6 @@ namespace Kauntr.Ui.Web.Controllers {
             }
 
             if (notification.OwnedByAccountId == _contextService.CurrentUserAccountId) {
-                // TODO - dismiss (Mark as read), the notification here
                 notification.ViewedOn = _systemClock.UtcNow;
                 await _notificationRepository.UpdateAsync(notification);
                 return Json(notification);

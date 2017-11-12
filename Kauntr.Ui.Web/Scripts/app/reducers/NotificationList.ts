@@ -37,14 +37,15 @@ export default function notificationList(state = initialState, action: Notificat
                 notifications: parseNotifications(action.json.Notifications)
             };
         case ActionTypes.LOAD_NOTIFICATIONS_FAILURE:
+            return initialState;
+        case ActionTypes.DISMISS_NOTIFICATIONS_ALL:
             return {
                 ...state,
-                isLoadingData: false,
-                page: 1,
-                total: 0,
-                token: null,
-                notifications: []
+                isLoadingData: true
             };
+        case ActionTypes.DISMISS_NOTIFICATIONS_ALL_SUCCESS:
+        case ActionTypes.DISMISS_NOTIFICATIONS_ALL_FAILURE:
+            return initialState;
         default:
             return state;
     }
