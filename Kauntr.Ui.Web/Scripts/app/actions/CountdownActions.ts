@@ -37,7 +37,7 @@ function createCountdownFromData(data: string) {
         if (shouldCreateCountdown(getState())) {
             dispatch(createCountdown());
 
-            return fetch("/countdown/create", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/countdown/create", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) })
                 .then(response => {
                     if (!response.ok) {
                         throw response;

@@ -14,7 +14,7 @@ export function submitCommentVote(commentId: number, value: number) {
 
             const data: string = JSON.stringify({ CommentId: commentId, Value: value });
 
-            return fetch("/comment/vote", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/comment/vote", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) })
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -65,7 +65,7 @@ export function submitCountdownVote(countdownId: number, value: number) {
 
             const data: string = JSON.stringify({ CountdownId: countdownId, Value: value });
 
-            return fetch("/countdown/vote", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/countdown/vote", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) })
                 .then(response => {
                     if (!response.ok) {
                         throw response;
@@ -80,7 +80,6 @@ export function submitCountdownVote(countdownId: number, value: number) {
 
 function shouldSubmitCountdownVote(countdownId: number, state: AppState): boolean {
     const { countdown } = state;
-    console.log(countdown);
     if (countdown.id !== null && countdown.id === countdownId) {
         return !countdown.isCastingVote;
     }

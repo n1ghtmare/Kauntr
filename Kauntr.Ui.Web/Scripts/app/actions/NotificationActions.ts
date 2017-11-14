@@ -58,26 +58,25 @@ export function dismissNotificationsAll() {
     return async (dispatch: Function, getState: Function) => {
         dispatch({ type: ActionTypes.DISMISS_NOTIFICATIONS_ALL });
 
-        const response: Response = await fetch("/notifications/dismissall", { method: "post", headers: { "Content-Type": "application/json" } });
+        const response: Response = await fetch("/notification/dismissall", { method: "post", headers: new Headers({ "Content-Type": "application/json" }) });
         if (response.ok) {
-            const json = await response.json();
-            dispatch(dismissNotificationSuccess(json));
+            dispatch(dismissNotificationsAllSuccess());
         }
         else {
-            handleServerError(response, dispatch, loadNotifications);
+            handleServerError(response, dispatch, dismissNotificationsAllFailure);
         }
     };
 }
 
 function dismissNotificationsAllSuccess() {
     return {
-        type: ActionTypes.DISMISS_NOTIFICATION_SUCCESS
+        type: ActionTypes.DISMISS_NOTIFICATIONS_ALL_SUCCESS
     };
 }
 
 function dismissNotificationsAllFailure() {
     return {
-        type: ActionTypes.DISMISS_NOTIFICATION_FAILURE
+        type: ActionTypes.DISMISS_NOTIFICATIONS_ALL_FAILURE
     };
 }
 
@@ -86,13 +85,13 @@ export function dismissNotification(id: number) {
         dispatch({ type: ActionTypes.DISMISS_NOTIFICATION });
 
         const data: string = JSON.stringify({ id });
-        const response: Response = await fetch("/notifications/dismiss", { method: "post", body: data, headers: { "Content-Type": "application/json" } });
+        const response: Response = await fetch("/notification/dismiss", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) });
         if (response.ok) {
             const json = await response.json();
             dispatch(dismissNotificationSuccess(json));
         }
         else {
-            handleServerError(response, dispatch, loadNotifications);
+            handleServerError(response, dispatch, dismissNotificationFailure);
         }
     };
 }

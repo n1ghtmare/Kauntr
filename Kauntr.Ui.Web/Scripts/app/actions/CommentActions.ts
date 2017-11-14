@@ -67,7 +67,7 @@ export function submitComment(countdownId: number, text: string) {
 
             const data: string = JSON.stringify({ CountdownId: countdownId, Text: text });
 
-            return fetch("/comment/create", { method: "post", body: data, headers: { "Content-Type": "application/json" } })
+            return fetch("/comment/create", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) })
                 .then(response => {
                     if (!response.ok) {
                         throw response;

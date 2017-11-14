@@ -50,6 +50,16 @@ export default function sharedContext(state = initialState, action: SharedContex
                 ...state,
                 title: action.title
             };
+        case ActionTypes.DISMISS_NOTIFICATION_SUCCESS:
+            return {
+                ...state,
+                notificationsCount: state.notificationsCount - 1
+            };
+        case ActionTypes.DISMISS_NOTIFICATIONS_ALL_SUCCESS:
+            return {
+                ...state,
+                notificationsCount: 0
+            };
         default:
             return state;
     }

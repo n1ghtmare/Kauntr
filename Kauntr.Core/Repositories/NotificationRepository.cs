@@ -152,7 +152,8 @@ namespace Kauntr.Core.Repositories {
                     WHERE N.OwnedByAccountId = @ownedByAccountId
                     AND EXISTS (
 	                    SELECT TOP 1 NotificationId FROM NotificationChanges NC WHERE NC.NotificationId = N.Id
-                    )";
+                    )
+                    AND N.ViewedOn IS NULL";
                 return await connection.QueryAsync<NotificationAggregate>(sql, new {ownedByAccountId});
             }
         }
@@ -166,7 +167,8 @@ namespace Kauntr.Core.Repositories {
 	                    ViewedOn,
 	                    CountdownId,
 	                    CommentId
-                    FROM Notifications";
+                    FROM Notifications
+                    WHERE Id = @id";
                 return await connection.QuerySingleOrDefaultAsync<Notification>(sql, new {id});
             }
         }

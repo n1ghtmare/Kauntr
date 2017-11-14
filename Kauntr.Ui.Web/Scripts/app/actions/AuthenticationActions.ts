@@ -12,7 +12,7 @@ export function loginUserAccount(accountId: number, authenticationToken: string,
         const fetchUrl: string = "/account/authenticate";
 
         dispatch(login());
-        return fetch(fetchUrl, { method: "post", body: JSON.stringify({ AccountId: accountId, AuthenticationToken: authenticationToken }), headers: { "Content-Type": "application/json" } })
+        return fetch(fetchUrl, { method: "post", body: JSON.stringify({ AccountId: accountId, AuthenticationToken: authenticationToken }), headers: new Headers({ "Content-Type": "application/json" }) })
             .then(response => {
                 if (!response.ok) {
                     throw response;
@@ -52,7 +52,7 @@ export function requestAuthenticationTokenIfNeeded(email: string, returnUrl: str
             const fetchUrl: string = "/account/login";
 
             dispatch(requestAuthenticationToken(token));
-            return fetch(fetchUrl, { method: "post", body: JSON.stringify({ Token: token, Email: email, ReturnUrl: returnUrl }), headers: { "Content-Type": "application/json" } })
+            return fetch(fetchUrl, { method: "post", body: JSON.stringify({ Token: token, Email: email, ReturnUrl: returnUrl }), headers: new Headers({ "Content-Type": "application/json" }) })
                 .then(response => {
                     if (!response.ok) {
                         throw Error(response.status.toString());
@@ -107,7 +107,7 @@ export function logoutUserAccount(router: any) {
             })
             .catch((response: Response) => handleServerError(response, dispatch, logoutFailure, "For some reason we can't log you out. Try again later perhaps."));
 
-    }
+    };
 }
 
 function logout() {

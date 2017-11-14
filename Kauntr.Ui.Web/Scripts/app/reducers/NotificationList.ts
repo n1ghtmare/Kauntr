@@ -55,6 +55,7 @@ export default function notificationList(state = initialState, action: Notificat
             return {
                 ...state,
                 isLoadingData: false,
+                total: state.total - 1,
                 notifications: state.notifications.filter(x => x.id !== parseInt(action.json.Id))
             };
         case ActionTypes.DISMISS_NOTIFICATION_FAILURE:
