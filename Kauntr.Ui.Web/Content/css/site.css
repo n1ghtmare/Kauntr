@@ -26,7 +26,7 @@ input[type=text],input[type=email], input[type=password], input.text, input.titl
     color: #F00000;
 }
 
-.vote-auth-message {
+.text-segment-m {
     margin: 1.3em 0;
 }
 

@@ -138,9 +138,16 @@ export default class Countdown extends React.Component<CountdownStateExtended, C
         );
     }
 
+    renderDeleteControl() {
+        const { isCreatedByCurrentUser } = this.props;
+        return isCreatedByCurrentUser
+            ? (<div className="text-segment-m"><a title="Delete your countdown" href="#">delete</a></div>)
+            : null;
+    }
+
     renderVoteAuthMessage() {
         return this.state.isDisplayingVoteAuthMessage
-            ? (<div className="vote-auth-message animated shake">You have to <Link to={`/login?returnUrl=/countdown/${this.props.id}`}>login</Link> first in order to vote</div>)
+            ? (<div className="text-segment-m animated shake">You have to <Link to={`/login?returnUrl=/countdown/${this.props.id}`}>login</Link> first in order to vote</div>)
             : null;
     }
 
@@ -157,6 +164,7 @@ export default class Countdown extends React.Component<CountdownStateExtended, C
                 {isCastingVote ? <LoadingIndicator isActive={isCastingVote} isTiny={true} /> : this.renderScore()}
                 {this.renderVoteAuthMessage()}
                 {this.renderCommentsCountLink()}
+                {this.renderDeleteControl()}
             </div>
         );
     }
