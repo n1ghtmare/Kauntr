@@ -52,6 +52,10 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         dispatch(submitCountdownVote(countdownId, value));
     }
 
+    private handleCountdownDelete = (countdownId: number): void => {
+        console.log("WILL DELETE COUNTDOWN: " + countdownId);
+    }
+
     private handleFilterChange = (query: string, isCurrentlyActive: boolean, isCreatedByCurrentUser: boolean): void => {
         const { dispatch, displayOrderType } = this.props;
         dispatch(fetchCountdownsIfNeeded(1, displayOrderType, query, isCurrentlyActive, isCreatedByCurrentUser));
@@ -63,7 +67,7 @@ export class CountdownList extends React.Component<CountdownListStateExtended, a
         const { total, isAuthenticated } = this.props;
         const statusTitle = total === 0 ? <h3>nope, nothing here ...</h3> : null;
         const countdowns = this.props.countdowns.map(x =>
-            <Countdown {...x} key={x.id} onVoteCast={this.handleCountdownVoteCast} isAuthenticated={isAuthenticated} />
+            <Countdown {...x} key={x.id} onVoteCast={this.handleCountdownVoteCast} onDelete={this.handleCountdownDelete} isAuthenticated={isAuthenticated} />
         );
 
         return (

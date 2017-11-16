@@ -13,6 +13,7 @@ import LoadingIndicator from "./LoadingIndicator";
 
 interface CountdownStateExtended extends CountdownState {
     onVoteCast: (id: number, vote: number) => void;
+    onDelete: (id: number) => void;
     isAuthenticated: boolean;
 }
 
@@ -52,6 +53,11 @@ export default class Countdown extends React.Component<CountdownStateExtended, C
     private handleDownVoteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
         this.voteCast(-1);
+    }
+
+    private handleDeleteClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+        e.preventDefault();
+        this.props.onDelete(this.props.id);
     }
 
     componentDidMount() {
@@ -139,8 +145,8 @@ export default class Countdown extends React.Component<CountdownStateExtended, C
     }
 
     renderDeleteControl() {
-        const { isCreatedByCurrentUser } = this.props;
-        return isCreatedByCurrentUser
+        const { isCreatedByCurrentUser, isAuthenticated } = this.props;
+        return isCreatedByCurrentUser && isAuthenticated
             ? (<div className="text-segment-m"><a title="Delete your countdown" href="#">delete</a></div>)
             : null;
     }

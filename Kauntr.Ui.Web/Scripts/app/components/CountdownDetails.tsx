@@ -74,12 +74,16 @@ export class CountdownDetails extends React.Component<CountdownStateExtended, an
         dispatch(submitCountdownVote(countdownId, value));
     }
 
+    private handleCountdownDelete = (countdownId: number): void => {
+        console.log("WILL DELETE COUNTDOWN: " + countdownId);
+    }
+
     renderCountdown() {
         const { location } = this.props.router;
         return (
             <div className="animated fadeIn">
                 <div className="row">
-                    <Countdown {...this.props} isExpanded={true} onVoteCast={this.handleCountdownVoteCast} />
+                    <Countdown {...this.props} isExpanded={true} onVoteCast={this.handleCountdownVoteCast} onDelete={this.handleCountdownDelete} />
                     <DiamondsSeparator />
                     <CommentList {...this.props.commentList}
                         onPageChange={this.handleCommentListPageChange}
