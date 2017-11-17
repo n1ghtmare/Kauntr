@@ -75,6 +75,48 @@ function createCountdownFailure() {
     };
 }
 
+function deleteCountdownIfNeeded(countdownId: number) {
+    return (dispatch: Function, getState: Function): Promise<void> => {
+        if (shouldDeleteCountdown(getState())) {
+            dispatch(deleteCountdown());
+
+            const data: string = JSON.stringify({ id: countdownId });
+            return fetch("/countdown/delete", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) })
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    return response.json();
+                })
+                .then(json => dispatch(deleteCountdownSuccess(json)))
+                .catch((response: Response) => handleServerError(response, dispatch, deleteCountdownFailure));
+        }
+    };
+}
+
+function shouldDeleteCountdown(state: AppState): boolean {
+    return !state.countdownList.isLoadingData && !state.countdown.isLoadingData;
+}
+
+function deleteCountdown() {
+    return {
+        type: ActionTypes.DELETE_COUNTDOWN
+    };
+}
+
+function deleteCountdownSuccess(json: any) {
+    return {
+        type: ActionTypes.DELETE_COUNTDOWN_SUCCESS,
+        json
+    };
+}
+
+function deleteCountdownFailure() {
+    return {
+        type: ActionTypes.DELETE_COUNTDOWN_FAILURE
+    };
+}
+
 export function fetchCountdownDetailsIfNeeded(countdownId: number) {
     return (dispatch: Function, getState: Function): Promise<void> => {
         if (shouldFetchCountdownDetails(getState())) {

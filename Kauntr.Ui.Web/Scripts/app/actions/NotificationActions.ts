@@ -80,11 +80,11 @@ function dismissNotificationsAllFailure() {
     };
 }
 
-export function dismissNotification(id: number) {
+export function dismissNotification(notificationId: number) {
     return async (dispatch: Function, getState: Function) => {
         dispatch({ type: ActionTypes.DISMISS_NOTIFICATION });
 
-        const data: string = JSON.stringify({ id });
+        const data: string = JSON.stringify({ id: notificationId });
         const response: Response = await fetch("/notification/dismiss", { method: "post", body: data, headers: new Headers({ "Content-Type": "application/json" }) });
         if (response.ok) {
             const json = await response.json();
