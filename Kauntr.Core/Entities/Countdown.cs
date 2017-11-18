@@ -7,5 +7,6 @@ namespace Kauntr.Core.Entities {
         public DateTime EndsOn { get; set; }
         public DateTime CreatedOn { get; set; }
         public int CreatedByAccountId { get; set; }
+        public DateTime? DeletedOn { get; set; }
     }
 }

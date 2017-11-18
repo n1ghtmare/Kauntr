@@ -26,7 +26,8 @@ namespace Kauntr.Core.Repositories {
 	                    Description,
 	                    EndsOn,
 	                    CreatedOn,
-	                    CreatedByAccountId
+	                    CreatedByAccountId,
+                        DeletedOn
                     FROM Countdowns
                     WHERE Id = @id";
                 return await connection.QuerySingleOrDefaultAsync<Countdown>(sql, new {id});
@@ -52,6 +53,7 @@ namespace Kauntr.Core.Repositories {
                         c.CreatedByAccountId,
                         c.CreatedOn,
                         c.EndsOn,
+                        c.DeletedOn,
                         a.DisplayName AS CreatedByDisplayName,
                         a.Email AS CreatedByEmail,
                         ISNULL((SELECT SUM(Value) FROM Votes WHERE CountdownId = c.Id), 0) AS VoteScore,
@@ -126,6 +128,20 @@ namespace Kauntr.Core.Repositories {
                     return "ORDER BY T.EndsOn ASC";
                 default: // Latest
                     return "ORDER BY T.CreatedON DESC";
+            }
+        }
+
+        public async Task UpdateAsync(Countdown countdown) {
+            using (IDbConnection connection = Connection) {
+                const string sql =
+                    @"UPDATE Countdowns SET
+	                    Description = @Description,
+	                    EndsOn = @EndsOn,
+	                    CreatedOn = @CreatedOn,
+	                    CreatedByAccountId = @CreatedByAccountId,
+                        DeletedOn = @DeletedOn
+                    WHERE Id = @Id";
+                await connection.ExecuteAsync(sql, countdown);
             }
         }
     }

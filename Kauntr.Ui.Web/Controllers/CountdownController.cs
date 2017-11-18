@@ -175,5 +175,21 @@ namespace Kauntr.Ui.Web.Controllers {
             };
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
+        //        [Authorize] // TODO - Uncomment after Debug
+        [HttpPost]
+        public async Task<ActionResult> Delete(long id) {
+            Countdown countdown = await _countdownRepository.GetAsync(id);
+            if (countdown == null) {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+
+            if (countdown.CreatedByAccountId == _contextService.CurrentUserAccountId) {
+                countdown.DeletedOn = _systemClock.UtcNow;
+                await _countdownRepository.UpdateAsync(countdown);
+                return Json(countdown);
+            }
+            return new HttpStatusCodeResult(403, "Fobidden");
+        }
     }
 }

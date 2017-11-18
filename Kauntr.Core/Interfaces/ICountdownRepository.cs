@@ -10,5 +10,6 @@ namespace Kauntr.Core.Interfaces {
         Task<CountdownAggregate> GetAggregateAsync(long id, int? currentUserAccountId = null);
         Task<int> GetTotalCountAsync(CountdownSubFilter subFilter);
         Task<IEnumerable<CountdownAggregate>> GetAggregatesAsync(CountdownFilter filter);
+        Task UpdateAsync(Countdown countdown);
     }
 }
