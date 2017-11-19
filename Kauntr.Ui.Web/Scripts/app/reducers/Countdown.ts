@@ -30,6 +30,7 @@ export const initialState: CountdownState = {
     isLoadingData: false,
     isExpanded: false,
     isCastingVote: false,
+    isDeleting: false,
     createdOn: null,
     endsOn: null,
     commentList: initialCommentState

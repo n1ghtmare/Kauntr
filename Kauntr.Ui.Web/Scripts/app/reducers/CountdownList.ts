@@ -81,6 +81,10 @@ export default function countdownList(state = initialState, action: CountdownLis
                 ...state,
                 countdowns: countdowns(state.countdowns, action)
             };
+        // TODO - Handle state for Countdown deletion
+        // case ActionTypes.DELETE_COUNTDOWN:
+        // case ActionTypes.DELETE_COUNTDOWN_SUCCESS:
+        // case ActionTypes.DELETE_COUNTDOWN_FAILURE:
         default:
             return state;
     }
